@@ -20,7 +20,3 @@ backups/
 # FreeCAD
 *.FCBak
 *.ini
-
-# Generated plots/outputs
-*.html
-*.png
