@@ -1,0 +1,26 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# IDEs
+.claude/
+.idea/
+.vscode/
+
+# KiCad backups
+*-backups/
+backups/
+
+# OpenEMS / EMERGE results
+*.EMResults/
+
+# FreeCAD
+*.FCBak
+*.ini
+
+# Generated plots/outputs
+*.html
+*.png
