@@ -1,0 +1,3 @@
+[submodule "Antenna/simulation/patchLineArray"]
+	path = Antenna/simulation/patchLineArray
+	url = https://github.com/olddudealex/patch_antenna_openems.git
