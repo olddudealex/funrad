@@ -112,8 +112,8 @@ def find_optimal_phase_rotation(measured, simulated, min_freq_ghz=5.3):
 
 def main():
     # Load the two files
-    measured_file = "SN00003_2026-02-07_22-26-34.s1p"
-    simulated_file = "emerge 0.15 lambda.s1p"
+    measured_file = "SN00003_R&S_ZNB20_VNA.s1p"
+    simulated_file = "openEms 20th lambda cell er=2.95.s1p"
 
     print(f"Loading measurement: {measured_file}")
     ntwk_measured = rf.Network(measured_file)

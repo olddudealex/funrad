@@ -77,8 +77,11 @@ def main():
     # Configure phase corrections for specific files (in degrees)
     # Default is 0 (no correction). Add entries for files that need correction.
     PHASE_CORRECTIONS = {
-        "openEms 20th lambda cell": 163.8,
-        "emerge 0.15 lambda": 129.44
+        "openEms 20th lambda cell": -71.64,
+        "openEms 20th lambda cell er=2.95": -109.71,
+        "emerge, er=3.0, 0.6mm copper mesh": -134.23,
+        "emerge, er=2.95, 0.6mm copper mesh": -170.79,
+        "SN00003_LiteVNA_2026-03-29_20-31-41": -171.56
     }
 
     # Load all networks and apply phase corrections
@@ -89,7 +92,7 @@ def main():
         # Check if this file needs phase correction
         phase_correction = 0.0  # Default: no correction
         for pattern, correction in PHASE_CORRECTIONS.items():
-            if pattern == file.rstrip('.s1p'):
+            if pattern == file.removesuffix('.s1p'):
                 phase_correction = correction
                 break
 
