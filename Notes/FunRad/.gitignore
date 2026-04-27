@@ -1,0 +1,15 @@
+# Obsidian workspace & cache (personal/local, not needed by others)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+
+# If you don't want to share plugins/themes (optional — many people DO commit these)
+# .obsidian/plugins/
+# .obsidian/themes/
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# If you use Obsidian Sync
+.trash/

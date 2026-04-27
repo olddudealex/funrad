@@ -1,0 +1,4 @@
+# Quartz — installed locally, not tracked (see QUARTZ_SETUP.md)
+quartz/
+
+# docs/ lives at repo root (../docs), not here — committed for GitHub Pages
