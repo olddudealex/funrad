@@ -6,23 +6,23 @@
       <description>Last 10 notes on FunRad</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>TX Path</title>
+    <link>https://quartz.jzhao.xyz/TX-Path</link>
+    <guid>https://quartz.jzhao.xyz/TX-Path</guid>
+    <description><![CDATA[ Introduction The transmit path could be done using two main different approaches: Using synthesizer IC. ]]></description>
+    <pubDate>Tue, 05 May 2026 21:39:14 GMT</pubDate>
+  </item><item>
     <title>TxPathWithPLL.excalidraw</title>
     <link>https://quartz.jzhao.xyz/Excalidraw/TxPathWithPLL.excalidraw</link>
     <guid>https://quartz.jzhao.xyz/Excalidraw/TxPathWithPLL.excalidraw</guid>
     <description><![CDATA[ ⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ]]></description>
-    <pubDate>Tue, 05 May 2026 20:56:18 GMT</pubDate>
+    <pubDate>Tue, 05 May 2026 21:38:55 GMT</pubDate>
   </item><item>
     <title>TxPathWithDAC.excalidraw</title>
     <link>https://quartz.jzhao.xyz/Excalidraw/TxPathWithDAC.excalidraw</link>
     <guid>https://quartz.jzhao.xyz/Excalidraw/TxPathWithDAC.excalidraw</guid>
     <description><![CDATA[ ⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ]]></description>
-    <pubDate>Tue, 05 May 2026 20:56:07 GMT</pubDate>
-  </item><item>
-    <title>TX Path</title>
-    <link>https://quartz.jzhao.xyz/TX-Path</link>
-    <guid>https://quartz.jzhao.xyz/TX-Path</guid>
-    <description><![CDATA[ Introduction The transmit path could be done using two main different approaches: Using synthesizer IC. ]]></description>
-    <pubDate>Tue, 05 May 2026 20:33:06 GMT</pubDate>
+    <pubDate>Tue, 05 May 2026 21:38:44 GMT</pubDate>
   </item><item>
     <title>Frontend Description</title>
     <link>https://quartz.jzhao.xyz/Frontend-Description</link>

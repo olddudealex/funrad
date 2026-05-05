@@ -1,9 +1,9 @@
 # Introduction
 The transmit path could be done using two main different approaches:
 1. Using synthesizer IC. I didn't find separate VCO that covers the range 5.7GHz...5.9GHz confidently, so I considered the option of using synthesizer LMX2572RHAT with embedded VCO:
-   ![[TxPathWithPLL.excalidraw|100%]]
+   ![[TxPathWithPLL.excalidraw.svg|100%]]
 2. Using DAC for generation of I/Q baseband signals with shifting them to RF frequency via the modulator:
-   ![[TxPathWithDAC.excalidraw|100%]]
+   ![[TxPathWithDAC.excalidraw.svg|100%]]
 # TX Chain Quality Parameters
 
 ## TX Path Comparison Result Comparison Table
