@@ -28,3 +28,10 @@ The code for NUCLEO board, and PC software can be found here: https://github.com
 The figure below contains the comparison between the results of measurements and results of simulation in openEMS and emerge. The most interesting is the E-plane diagram, because in this plane the patches interfere with each other and form rather narrow beam. It's worth to mention that the measurements fit quite well in the range 0..90 degrees, and a little bit off in the range -90..0 degrees. It could be explained by the impact of the SMA-connector and RF-cable that are located from this side. The measured main beam amplitude is lower by 2dB than simulated - only 11.8dB instead of 13.8dB.
 
 ![[09_Directivity_Meas_vs_openEMS_vs_emerge.png]]
+
+# Measured antenna beam squint/gain variation in the frequency range
+
+The patch antennas with edge feed are very frequency sensitive and have very prominent resonance S-parameters. Due to this it's very hard to have a good wide bandwidth antenna out of these types of patches. It was especially interesting how the antenna will behave in the maximum bandwidth of ISM band: from 5.725GHz to 5.875GHz (150MHz band). Another problem is possible squint of antenna beam (rotation of beam direction due to changing of frequency). To answer to these two questions the following plot was drawn:
+![[10_Gain_vs_Frequency.png]]
+
+The beam squint looks insignificant in comparison to very poor gain on the lower frequencies. The gain difference between frequency band edges is 3.8dB! I believe that using another approach (aperture coupled feed) I can achieve much better results.

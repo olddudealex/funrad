@@ -8,20 +8,20 @@ The transmit path could be done using two main different approaches:
 
 ## TX Path Comparison Result Comparison Table
 
-| Parameter              | Unit   | Synth LMX2572 | DAC5672+ | Method                               |
-| ---------------------- | ------ | ------------- | -------- | ------------------------------------ |
-| Chirp linearity error  | Hz RMS | TBD           | TBD      | see [[#Chirp Linearity]]             |
-| Sweep slope error      | %      | TBD           | TBD      | see [[#Sweep Slope Error]]           |
-| Bandwidth              | MHz    | 150           | 150      | datasheet/spec                       |
-| Phase noise @100kHz    | dBc/Hz | TBD           | TBD      | datasheet see [[#Phase Noise]]       |
-| Integrated phase noise | dBc    | TBD           | TBD      | see [[#Phase Noise]]                 |
-| SFDR                   | dBc    | TBD           | TBD      | datasheet                            |
-| SNR                    | dB     | TBD           | TBD      | calc see [[#SNR]]                    |
-| Clock jitter SNR       | dB     | N/A           | TBD      | see [[#Clock jitter SNR]]            |
-| Image rejection (IRR)  | dB     | N/A           | TBD      | est/meas [[#Image Rejection Ration]] |
-| LO leakage             | dBc    | N/A           | TBD      | est/meas                             |
-| Amplitude flatness     | dB     | TBD           | TBD      | see [[#Amplitude Flatness]]          |
-| Group delay variation  | ns     | TBD           | TBD      | see [[#Group Delay Variation]]       |
+| Parameter              | Unit   | Synth LMX2572 | DAC5672+ | Method                                  |
+| ---------------------- | ------ | ------------- | -------- | --------------------------------------- |
+| Chirp linearity error  | Hz RMS | TBD           | TBD      | see [Chirp Linearity](#chirp-linearity) |
+| Sweep slope error      | %      | TBD           | TBD      | see [[#Sweep Slope Error]]              |
+| Bandwidth              | MHz    | 150           | 150      | datasheet/spec                          |
+| Phase noise @100kHz    | dBc/Hz | TBD           | TBD      | datasheet see [[#Phase Noise]]          |
+| Integrated phase noise | dBc    | TBD           | TBD      | see [[#Phase Noise]]                    |
+| SFDR                   | dBc    | TBD           | TBD      | datasheet                               |
+| SNR                    | dB     | TBD           | TBD      | calc see [[#SNR]]                       |
+| Clock jitter SNR       | dB     | N/A           | TBD      | see [[#Clock jitter SNR]]               |
+| Image rejection (IRR)  | dB     | N/A           | TBD      | est/meas [[#Image Rejection Ration]]    |
+| LO leakage             | dBc    | N/A           | TBD      | est/meas                                |
+| Amplitude flatness     | dB     | TBD           | TBD      | see [[#Amplitude Flatness]]             |
+| Group delay variation  | ns     | TBD           | TBD      | see [[#Group Delay Variation]]          |
 ## Chirp Linearity
 
 ## Sweep Slope Error

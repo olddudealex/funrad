@@ -6,6 +6,7 @@ Python scripts for plotting S-parameter files and comparing simulated vs measure
 
 - `plot_s1p.py` — Plots all S1P files in the directory (S11 magnitude and phase)
 - `compare_directivity.py` — Compares directivity from two simulations and measured gain patterns; outputs interactive HTML and PNG
+- `plot_gain_vs_angle.py` — Plots the measured gain pattern at multiple frequencies on the same Cartesian and polar axes; annotates beam peak angle and HPBW for each frequency
 - `directivity_measurements.db` — SQLite database of antenna gain measurements written by the servo controller
 - `requirements.txt` — Python dependencies
 - `venv/` — Virtual environment
@@ -73,6 +74,26 @@ Key config constants at the top of the file:
 | `DISTANCE_CM` | Antenna separation in cm (used for Friis FSPL calculation) |
 | `EPLANE_TEST_RANK` / `HPLANE_TEST_RANK` | Which DB test to use per plane: `0` = latest, `1` = second-to-latest, … |
 | `POLAR_DYNAMIC_RANGE_DB` | Radial axis range of the polar subplots (dB below peak) |
+
+### plot_gain_vs_angle.py
+
+Plots the measured gain pattern at multiple frequencies on the same Cartesian and polar axes. Automatically computes and annotates the beam peak angle and HPBW (−3 dB beamwidth) for each frequency.
+
+```bash
+venv\Scripts\python.exe plot_gain_vs_angle.py
+```
+
+Outputs `gain_vs_angle.html` and `gain_vs_angle.png`.
+
+| Constant | Description |
+|---|---|
+| `DB_FILE` | Path to the SQLite measurement database |
+| `TEST_RANK` | Which test to use: `0` = latest, `1` = second-to-latest, … |
+| `PLANE_LABEL` | Label shown in the plot title (e.g. `"E-plane"`) |
+| `DISTANCE_CM` | Antenna separation in cm |
+| `FREQUENCIES_GHZ` | List of up to 3 frequencies to overlay |
+| `MEAS_MIRRORED` | Flip angular axis if the measurement was taken in the wrong rotation direction |
+| `POLAR_DYNAMIC_RANGE_DB` | Radial axis range of the polar subplot |
 
 ## Dependencies
 
