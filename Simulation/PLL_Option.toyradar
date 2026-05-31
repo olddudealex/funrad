@@ -1,0 +1,202 @@
+{
+  "blocks": [
+    {
+      "type": "PLLChirpBlock",
+      "id": "8c3a6c70-e063-469d-9d6a-3b4da6fff982",
+      "pos": [
+        -1,
+        50
+      ],
+      "mirrored": false,
+      "params": {
+        "center_freq_ghz": 77.0,
+        "bandwidth_mhz": 200.0,
+        "chirp_duration_ms": 1.0,
+        "power_dbm": 10.0,
+        "phase_noise_dbc_hz": -90.0
+      }
+    },
+    {
+      "type": "AmplifierBlock",
+      "id": "c808e2ab-0c4d-4760-b80e-ea0d4b1378d5",
+      "pos": [
+        195,
+        42
+      ],
+      "mirrored": false,
+      "params": {
+        "gain_db": 20.0,
+        "nf_db": 0.0
+      }
+    },
+    {
+      "type": "CouplerBlock",
+      "id": "892c5298-aae3-4e5b-b4f4-76e45c412b39",
+      "pos": [
+        407,
+        36
+      ],
+      "mirrored": false,
+      "params": {
+        "coupling_db": 20.0,
+        "through_loss_db": 0.5
+      }
+    },
+    {
+      "type": "AntennaBlock",
+      "id": "db129af3-6629-4f0a-99f4-3888228b97a0",
+      "pos": [
+        580,
+        60
+      ],
+      "mirrored": false,
+      "params": {
+        "gain_dbi": 12.0,
+        "direction": "TX"
+      }
+    },
+    {
+      "type": "TargetBlock",
+      "id": "cc789300-08fd-40a9-b647-70c56809449d",
+      "pos": [
+        760,
+        60
+      ],
+      "mirrored": false,
+      "params": {
+        "distance_m": 50.0,
+        "rcs_dbsm": 0.0,
+        "tx_antenna_gain_dbi": 12.0,
+        "rx_antenna_gain_dbi": 12.0
+      }
+    },
+    {
+      "type": "AntennaBlock",
+      "id": "9445f1d9-adfc-4a9b-9a6f-aeb4f1d8a0f7",
+      "pos": [
+        726,
+        232
+      ],
+      "mirrored": true,
+      "params": {
+        "gain_dbi": 12.0,
+        "direction": "RX"
+      }
+    },
+    {
+      "type": "LNABlock",
+      "id": "6656e1eb-9624-4795-90d7-e678a7d61840",
+      "pos": [
+        580,
+        240
+      ],
+      "mirrored": true,
+      "params": {
+        "gain_db": 20.0,
+        "nf_db": 3.0
+      }
+    },
+    {
+      "type": "MixerBlock",
+      "id": "5ee6816c-f4f0-4b5d-af50-aa4f8a85a4d8",
+      "pos": [
+        348,
+        234
+      ],
+      "mirrored": true,
+      "params": {
+        "conversion_loss_db": 6.0,
+        "nf_db": 8.0
+      }
+    },
+    {
+      "type": "ADCBlock",
+      "id": "f7a7930a-eedc-4277-b81e-459572ced745",
+      "pos": [
+        220,
+        240
+      ],
+      "mirrored": false,
+      "params": {
+        "bits": 12,
+        "sample_rate_mhz": 10.0,
+        "full_scale_dbm": 10.0
+      }
+    },
+    {
+      "type": "RangeFFTBlock",
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "pos": [
+        40,
+        240
+      ],
+      "mirrored": true,
+      "params": {
+        "window": "Hanning",
+        "nfft": 1024
+      }
+    }
+  ],
+  "connections": [
+    {
+      "src_block": "8c3a6c70-e063-469d-9d6a-3b4da6fff982",
+      "src_port": "rf_out",
+      "dst_block": "c808e2ab-0c4d-4760-b80e-ea0d4b1378d5",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "c808e2ab-0c4d-4760-b80e-ea0d4b1378d5",
+      "src_port": "rf_out",
+      "dst_block": "892c5298-aae3-4e5b-b4f4-76e45c412b39",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "892c5298-aae3-4e5b-b4f4-76e45c412b39",
+      "src_port": "through",
+      "dst_block": "db129af3-6629-4f0a-99f4-3888228b97a0",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "db129af3-6629-4f0a-99f4-3888228b97a0",
+      "src_port": "rf_out",
+      "dst_block": "cc789300-08fd-40a9-b647-70c56809449d",
+      "dst_port": "tx_in"
+    },
+    {
+      "src_block": "cc789300-08fd-40a9-b647-70c56809449d",
+      "src_port": "rx_out",
+      "dst_block": "9445f1d9-adfc-4a9b-9a6f-aeb4f1d8a0f7",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "9445f1d9-adfc-4a9b-9a6f-aeb4f1d8a0f7",
+      "src_port": "rf_out",
+      "dst_block": "6656e1eb-9624-4795-90d7-e678a7d61840",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "6656e1eb-9624-4795-90d7-e678a7d61840",
+      "src_port": "rf_out",
+      "dst_block": "5ee6816c-f4f0-4b5d-af50-aa4f8a85a4d8",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "892c5298-aae3-4e5b-b4f4-76e45c412b39",
+      "src_port": "coupled",
+      "dst_block": "5ee6816c-f4f0-4b5d-af50-aa4f8a85a4d8",
+      "dst_port": "lo_in"
+    },
+    {
+      "src_block": "5ee6816c-f4f0-4b5d-af50-aa4f8a85a4d8",
+      "src_port": "if_out",
+      "dst_block": "f7a7930a-eedc-4277-b81e-459572ced745",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "f7a7930a-eedc-4277-b81e-459572ced745",
+      "src_port": "rf_out",
+      "dst_block": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "dst_port": "if_in"
+    }
+  ]
+}
