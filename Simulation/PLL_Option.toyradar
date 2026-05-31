@@ -190,11 +190,11 @@
       "src_block": "5ee6816c-f4f0-4b5d-af50-aa4f8a85a4d8",
       "src_port": "if_out",
       "dst_block": "f7a7930a-eedc-4277-b81e-459572ced745",
-      "dst_port": "rf_in"
+      "dst_port": "if_in"
     },
     {
       "src_block": "f7a7930a-eedc-4277-b81e-459572ced745",
-      "src_port": "rf_out",
+      "src_port": "if_out",
       "dst_block": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
       "dst_port": "if_in"
     }

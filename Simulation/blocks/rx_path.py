@@ -169,6 +169,16 @@ class ADCBlock(SingleIOBlock):
     display_name = "ADC"
     category = "RX"
 
+    def _setup_ports(self):
+        self.ports = [
+            Port("if_in",  "input",  "if"),
+            Port("if_out", "output", "if"),
+        ]
+
+    def process(self, inputs: dict[str, SignalState]) -> dict[str, SignalState]:
+        sig = inputs.get("if_in", SignalState())
+        return {"if_out": self.transform(sig)}
+
     def _setup_params(self):
         self.params = {
             "bits": 12,
@@ -191,17 +201,10 @@ class ADCBlock(SingleIOBlock):
         if len(sig.samples):
             fs_in = sig.sample_rate_hz if sig.sample_rate_hz > 0 else sig.bandwidth_hz
             M = max(1, int(round(fs_in / fs_hz)))
-            if M > 1:
-                try:
-                    from scipy.signal import decimate as _decimate
-                    r = sig.samples.astype(np.complex128)
-                    dec = (_decimate(r.real, M, zero_phase=True) +
-                           1j * _decimate(r.imag, M, zero_phase=True))
-                    decimated = dec.astype(np.complex64)
-                except Exception:
-                    decimated = sig.samples[::M].astype(np.complex64)
-            else:
-                decimated = sig.samples.copy()
+            # Plain downsampling — no implicit filtering.
+            # Add an explicit FilterBlock (LP, cutoff = fs_adc/2) before the
+            # ADC if anti-aliasing is needed.
+            decimated = sig.samples[::M].astype(np.complex64)
 
             # Uniform scalar quantization on I and Q
             fs_amp = power_to_amplitude(full_scale_dbm)
@@ -211,20 +214,11 @@ class ADCBlock(SingleIOBlock):
             imag_q = np.round(decimated.imag / fs_amp * half) / half * fs_amp
             new_samples = (real_q + 1j * imag_q).astype(np.complex64)
 
-        # Update power_dbm from the actual quantised samples.
-        # If the signal was below the quantisation threshold (< ½ LSB) it
-        # rounds to zero on both I and Q channels, so the total sample power
-        # equals the quantisation noise alone.  Subtracting the known
-        # quantisation noise gives the residual signal power; when that is
-        # ≤ 0 the signal was completely lost and we flag it as −300 dBm so
-        # that downstream SNR calculations correctly show an undetectable target.
-        out_power_dbm = sig.power_dbm
-        if len(new_samples) > 0:
-            total_mw  = float(np.mean(np.abs(new_samples) ** 2)) / 50.0 * 1000.0
-            quant_mw  = 10.0 ** (quant_noise_dbm / 10.0)
-            sig_mw    = total_mw - quant_mw
-            out_power_dbm = (10.0 * math.log10(sig_mw)
-                             if sig_mw > 0 else -300.0)
+            # Dead-zone: both I and Q round to 0 when signal RMS < ½ LSB.
+            lsb_half = math.sqrt(2.0) * fs_amp / (2 ** bits)
+            out_power_dbm = -300.0 if power_to_amplitude(sig.power_dbm) < lsb_half else sig.power_dbm
+        else:
+            out_power_dbm = sig.power_dbm
 
         return sig.copy(
             power_dbm=out_power_dbm,

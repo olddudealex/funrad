@@ -187,8 +187,8 @@ class App:
         self._graph.connect(rx_ant.block_id, "rf_out", lna.block_id, "rf_in")
         self._graph.connect(lna.block_id, "rf_out", mixer.block_id, "rf_in")
         self._graph.connect(coupler.block_id, "coupled", mixer.block_id, "lo_in")
-        self._graph.connect(mixer.block_id, "if_out", adc.block_id, "rf_in")
-        self._graph.connect(adc.block_id, "rf_out", range_fft.block_id, "if_in")
+        self._graph.connect(mixer.block_id, "if_out", adc.block_id, "if_in")
+        self._graph.connect(adc.block_id, "if_out", range_fft.block_id, "if_in")
 
         self._node_editor.draw_all_connections()
 
@@ -228,12 +228,28 @@ class App:
         return None
 
     def _run_and_update(self):
-        try:
-            self._graph.run()
-            metrics = self._graph.compute_metrics()
-            self._metrics.update(metrics)
-        except Exception as e:
-            print(f"[App] Simulation error: {e}")
+        # Run simulation in a worker thread so Python debuggers (debugpy /
+        # PyCharm) can trace it.  DPG owns the main thread; breakpoints inside
+        # any block's process() / transform() only fire reliably from a thread
+        # that is fully under Python's trace hook.
+        import threading
+        _result: dict = {}
+
+        def _worker():
+            try:
+                self._graph.run()
+                _result["metrics"] = self._graph.compute_metrics()
+            except Exception as e:
+                _result["error"] = e
+
+        t = threading.Thread(target=_worker, daemon=True)
+        t.start()
+        t.join()   # block until done — same latency as before, UI safe
+
+        if "metrics" in _result:
+            self._metrics.update(_result["metrics"])
+        elif "error" in _result:
+            print(f"[App] Simulation error: {_result['error']}")
 
     def _on_add_block(self, cls: type):
         block = cls()

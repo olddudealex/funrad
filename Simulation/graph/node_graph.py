@@ -1,5 +1,6 @@
 from __future__ import annotations
 import json
+import math
 from collections import defaultdict, deque
 from dataclasses import dataclass
 
@@ -225,6 +226,17 @@ class NodeGraph:
             mr = r * 10.0 ** ((adc_signal.snr_db - snr_min_db) / 40.0)
         else:
             mr = 0.0
+
+        # ADC dead-zone constraint: signal must exceed ½ LSB at ADC input.
+        # P_min = full_scale_dbm + 10·log10(2) − 6.02·bits
+        adc_block = next((b for b in self.blocks.values() if isinstance(b, ADCBlock)), None)
+        if adc_block is not None and target_block is not None and adc_signal.power_dbm > -200:
+            bits = int(adc_block.params["bits"])
+            full_scale_dbm = float(adc_block.params["full_scale_dbm"])
+            p_min_adc_dbm = full_scale_dbm + 10 * math.log10(2.0) - 6.02 * bits
+            r_adc = float(target_block.params["distance_m"]) * 10.0 ** (
+                (adc_signal.power_dbm - p_min_adc_dbm) / 40.0)
+            mr = min(mr, r_adc)
 
         return RadarMetrics(
             range_resolution_m=rr,
