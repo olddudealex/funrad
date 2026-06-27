@@ -66,9 +66,16 @@ class PropertyPanel:
                                 label=f"##{key}", default_value=val, width=-1,
                             )
                         elif isinstance(val, str):
-                            tag = dpg.add_input_text(
-                                label=f"##{key}", default_value=val, width=-1,
-                            )
+                            options = block.param_options.get(key)
+                            if options:
+                                tag = dpg.add_combo(
+                                    items=options, default_value=val,
+                                    label=f"##{key}", width=-1,
+                                )
+                            else:
+                                tag = dpg.add_input_text(
+                                    label=f"##{key}", default_value=val, width=-1,
+                                )
                         else:
                             dpg.add_text(f"{val}", color=(140, 140, 140))
                             continue

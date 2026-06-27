@@ -15,7 +15,8 @@ class PlotData(NamedTuple):
     y_label: str
     x: np.ndarray
     y: np.ndarray
-    extra_series: list = []   # list of (label, x, y) for additional lines
+    extra_series: list = []          # list of (label, x, y) for additional lines
+    x_view: tuple | None = None      # (x_min, x_max) in x-axis units; None = fit
 
 
 @dataclass
@@ -35,6 +36,7 @@ class Block(ABC):
     def __init__(self, block_id: str | None = None):
         self.block_id: str = block_id or str(uuid.uuid4())
         self.params: dict[str, Any] = {}
+        self.param_options: dict[str, list[str]] = {}  # key → allowed values → renders as combo
         self.ports: list[Port] = []
         self.node_id: int = 0          # DPG node widget ID, set on draw
         self._dpg_pos: tuple[int, int] = (50, 50)

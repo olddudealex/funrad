@@ -195,7 +195,17 @@ class NodeEditor:
         # Don't deselect on clicking elsewhere — the property panel stays open
 
     def _on_delete_key(self, sender, app_data):
-        self.remove_selected_block()
+        if not dpg.does_item_exist(self._editor_tag):
+            return
+        selected_links = dpg.get_selected_links(self._editor_tag)
+        if selected_links:
+            for link_id in selected_links:
+                self._graph.disconnect_by_dpg_link(link_id)
+                if dpg.does_item_exist(link_id):
+                    dpg.delete_item(link_id)
+            self._on_changed()
+        else:
+            self.remove_selected_block()
 
     def _link_callback(self, sender, app_data):
         """Called when user drags a wire between two pins.
@@ -267,3 +277,4 @@ class NodeEditor:
                         block._dpg_pos = tuple(pos)
                 except Exception:
                     pass
+

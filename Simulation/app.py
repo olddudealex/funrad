@@ -1,12 +1,14 @@
 from __future__ import annotations
+import math
 import os
 import dearpygui.dearpygui as dpg
 
 from graph.node_graph import NodeGraph
+from physics.signal import SignalKind
 from blocks import (
     PLLChirpBlock, DACIQBlock, AmplifierBlock,
-    AntennaBlock, CouplerBlock, FilterBlock,
-    TargetBlock, LNABlock, MixerBlock, ADCBlock,
+    AntennaBlock, CouplerBlock, FilterBlock, AttenuatorBlock,
+    TargetBlock, LNABlock, MixerBlock, IQAmplifierBlock, IFFilterBlock, ADCBlock,
     RangeFFTBlock,
 )
 from gui.node_editor import NodeEditor
@@ -16,6 +18,9 @@ from gui.plot_panel import PlotPanel
 from gui.metrics_panel import MetricsPanel
 
 
+_PANEL_OVERHEAD_PX = 55   # menu bar + metrics row + separator
+
+
 class App:
     def __init__(self):
         self._graph = NodeGraph()
@@ -23,7 +28,10 @@ class App:
         self._unsaved = False
 
         self._metrics = MetricsPanel()
-        self._plot = PlotPanel()
+        self._plot = PlotPanel(
+            get_budget_fn=self._graph.get_power_budget,
+            get_adc_half_bw_fn=self._get_adc_half_bw,
+        )
         self._props = PropertyPanel(
             on_apply=self._on_params_changed,
             on_mirror=self._on_mirror_block,
@@ -74,8 +82,9 @@ class App:
                 dpg.add_separator()
 
                 # Top half: palette | node editor | properties
-                _top_h = max(200, (dpg.get_viewport_height() - 55) // 2)
-                with dpg.child_window(height=_top_h, border=False):
+                _top_h = max(200, (dpg.get_viewport_height() - _PANEL_OVERHEAD_PX) // 2)
+                with dpg.child_window(height=_top_h, border=False,
+                                      tag="_top_panel"):
                     with dpg.table(header_row=False,
                                    borders_innerH=False, borders_innerV=True,
                                    borders_outerH=False, borders_outerV=False,
@@ -103,6 +112,7 @@ class App:
                     self._plot.build(_plot_cell)
 
         dpg.set_primary_window("primary_window", True)
+        dpg.set_viewport_resize_callback(self._on_viewport_resize)
         self._load_default_chain()
         self._run_and_update()
 
@@ -116,79 +126,112 @@ class App:
         pll = PLLChirpBlock()
         pll._dpg_pos = (30, 60)
         pll.params.update({"center_freq_ghz": 5.8, "bandwidth_mhz": 150.0,
-                           "chirp_duration_ms": 1.0, "power_dbm": 0.0})
+                           "chirp_duration_ms": 1.0, "power_dbm": 2.0})
+
+        # TX attenuator (level-setting before PA)
+        att = AttenuatorBlock()
+        att._dpg_pos = (175, 60)
+        att.params.update({"attenuation_db": 22.0})
 
         # TX amplifier / PA
         pa = AmplifierBlock()
-        pa._dpg_pos = (220, 60)
-        pa.params.update({"gain_db": 0.0, "nf_db": 0.0})
+        pa._dpg_pos = (320, 60)
+        pa.params.update({"gain_db": 20.0, "nf_db": 1.4})
         pa.display_name = "PA"
 
         # Directional coupler
         coupler = CouplerBlock()
-        coupler._dpg_pos = (400, 60)
+        coupler._dpg_pos = (465, 60)
         coupler.params.update({"coupling_db": 20.0, "through_loss_db": 0.5})
 
         # TX Antenna
         tx_ant = AntennaBlock()
-        tx_ant._dpg_pos = (580, 60)
+        tx_ant._dpg_pos = (610, 60)
         tx_ant.params.update({"gain_dbi": 12.0, "direction": "TX"})
 
         # Target
         target = TargetBlock()
-        target._dpg_pos = (760, 60)
+        target._dpg_pos = (755, 60)
         target.params.update({"distance_m": 50.0, "rcs_dbsm": 0.0,
                                "tx_antenna_gain_dbi": 12.0,
                                "rx_antenna_gain_dbi": 12.0})
 
         # RX Antenna
         rx_ant = AntennaBlock()
-        rx_ant._dpg_pos = (760, 240)
+        rx_ant._dpg_pos = (900, 240)
         rx_ant.params.update({"gain_dbi": 12.0, "direction": "RX"})
         rx_ant.mirrored = True
 
         # LNA
         lna = LNABlock()
-        lna._dpg_pos = (580, 240)
-        lna.params.update({"gain_db": 20.0, "nf_db": 3.0})
+        lna._dpg_pos = (780, 240)
+        lna.params.update({"gain_db": 17.9, "nf_db": 0.76})
         lna.mirrored = True
 
-        # Mixer
+        # Mixer (active, positive gain)
         mixer = MixerBlock()
-        mixer._dpg_pos = (400, 240)
-        mixer.params.update({"conversion_loss_db": 6.0, "nf_db": 8.0})
+        mixer._dpg_pos = (660, 240)
+        mixer.params.update({"conversion_loss_db": -5.8, "nf_db": 15.5})
         mixer.mirrored = True
+
+        # IF filter 1 — image/channel select, before IF amp
+        if_filter1 = IFFilterBlock()
+        if_filter1._dpg_pos = (540, 240)
+        if_filter1.params.update({"cutoff_hz": 5e6, "order": 4, "insertion_loss_db": 1.0})
+        if_filter1.mirrored = True
+
+        # IF Amplifier
+        iq_amp = IQAmplifierBlock()
+        iq_amp._dpg_pos = (420, 240)
+        iq_amp.params.update({"gain_db": 20.0, "nf_db": 5.0})
+        iq_amp.mirrored = True
+
+        # IF filter 2 — anti-alias before ADC
+        if_filter2 = IFFilterBlock()
+        if_filter2._dpg_pos = (300, 240)
+        if_filter2.params.update({"cutoff_hz": 5e6, "order": 4, "insertion_loss_db": 1.0})
+        if_filter2.mirrored = True
 
         # ADC
         adc = ADCBlock()
-        adc._dpg_pos = (220, 240)
-        adc.params.update({"bits": 16, "sample_rate_mhz": 3.0,
+        adc._dpg_pos = (180, 240)
+        adc.params.update({"bits": 14, "sample_rate_mhz": 3.5,
                            "full_scale_dbm": 10.0})
         adc.mirrored = True
 
         # Range FFT
         range_fft = RangeFFTBlock()
-        range_fft._dpg_pos = (40, 240)
+        range_fft._dpg_pos = (30, 240)
         range_fft.mirrored = True
 
-        blocks = [pll, pa, coupler, tx_ant, target, rx_ant, lna, mixer, adc, range_fft]
+        blocks = [pll, att, pa, coupler, tx_ant, target,
+                  rx_ant, lna, mixer, if_filter1, iq_amp, if_filter2, adc, range_fft]
         for b in blocks:
             self._graph.add_block(b)
         self._node_editor.draw_all_blocks()
 
         # Connect TX path
-        self._graph.connect(pll.block_id, "rf_out", pa.block_id, "rf_in")
-        self._graph.connect(pa.block_id, "rf_out", coupler.block_id, "rf_in")
-        self._graph.connect(coupler.block_id, "through", tx_ant.block_id, "rf_in")
-        self._graph.connect(tx_ant.block_id, "rf_out", target.block_id, "tx_in")
+        self._graph.connect(pll.block_id,    "rf_out",  att.block_id,    "rf_in")
+        self._graph.connect(att.block_id,    "rf_out",  pa.block_id,     "rf_in")
+        self._graph.connect(pa.block_id,     "rf_out",  coupler.block_id,"rf_in")
+        self._graph.connect(coupler.block_id,"through",  tx_ant.block_id, "rf_in")
+        self._graph.connect(tx_ant.block_id, "rf_out",  target.block_id, "tx_in")
 
         # Connect RX path
-        self._graph.connect(target.block_id, "rx_out", rx_ant.block_id, "rf_in")
-        self._graph.connect(rx_ant.block_id, "rf_out", lna.block_id, "rf_in")
-        self._graph.connect(lna.block_id, "rf_out", mixer.block_id, "rf_in")
-        self._graph.connect(coupler.block_id, "coupled", mixer.block_id, "lo_in")
-        self._graph.connect(mixer.block_id, "if_out", adc.block_id, "if_in")
-        self._graph.connect(adc.block_id, "if_out", range_fft.block_id, "if_in")
+        self._graph.connect(target.block_id,    "rx_out", rx_ant.block_id,   "rf_in")
+        self._graph.connect(rx_ant.block_id,    "rf_out", lna.block_id,      "rf_in")
+        self._graph.connect(lna.block_id,       "rf_out", mixer.block_id,    "rf_in")
+        self._graph.connect(coupler.block_id,   "coupled",mixer.block_id,    "lo_in")
+        self._graph.connect(mixer.block_id,     "I_out",  if_filter1.block_id,"I_in")
+        self._graph.connect(mixer.block_id,     "Q_out",  if_filter1.block_id,"Q_in")
+        self._graph.connect(if_filter1.block_id,"I_out",  iq_amp.block_id,   "I_in")
+        self._graph.connect(if_filter1.block_id,"Q_out",  iq_amp.block_id,   "Q_in")
+        self._graph.connect(iq_amp.block_id,    "I_out",  if_filter2.block_id,"I_in")
+        self._graph.connect(iq_amp.block_id,    "Q_out",  if_filter2.block_id,"Q_in")
+        self._graph.connect(if_filter2.block_id,"I_out",  adc.block_id,      "I_in")
+        self._graph.connect(if_filter2.block_id,"Q_out",  adc.block_id,      "Q_in")
+        self._graph.connect(adc.block_id,       "I_out",  range_fft.block_id,"I_in")
+        self._graph.connect(adc.block_id,       "Q_out",  range_fft.block_id,"Q_in")
 
         self._node_editor.draw_all_connections()
 
@@ -196,33 +239,74 @@ class App:
     # Callbacks
     # ------------------------------------------------------------------
 
+    def _on_viewport_resize(self, _, app_data):
+        new_h = max(200, (app_data[1] - _PANEL_OVERHEAD_PX) // 2)
+        if dpg.does_item_exist("_top_panel"):
+            dpg.configure_item("_top_panel", height=new_h)
+
     def _on_block_selected(self, block):
         signal = self._get_block_signal(block) if block is not None else None
         self._props.show_block(block, signal)
-        self._plot.show(block, signal)
+        self._plot.show(block, signal)  # gated by pin inside PlotPanel
+
+    def _refresh_panels(self):
+        """Refresh properties for the selected block; refresh the plot for
+        the pinned block (or selected block if nothing is pinned)."""
+        selected = self._node_editor.get_selected_block()
+        sel_signal = None
+        if selected:
+            sel_signal = self._get_block_signal(selected)
+            self._props.show_block(selected, sel_signal)
+
+        if self._plot.budget_mode:
+            self._plot.refresh_budget()
+            return
+
+        pinned = self._plot.pinned_block
+        if pinned is not None:
+            pin_signal = self._get_block_signal(pinned)
+            self._plot.show(pinned, pin_signal, force=True)
+        elif selected:
+            self._plot.show(selected, sel_signal)
 
     def _on_graph_changed(self):
         self._unsaved = True
         self._run_and_update()
+        self._refresh_panels()
 
     def _on_params_changed(self):
         self._unsaved = True
         self._run_and_update()
-        block = self._node_editor.get_selected_block()
-        if block:
-            signal = self._get_block_signal(block)
-            self._props.show_block(block, signal)
-            self._plot.show(block, signal)
+        self._refresh_panels()
 
     def _on_mirror_block(self, block_id: str):
         self._node_editor.redraw_block(block_id)
         self._unsaved = True
 
+    def _get_adc_half_bw(self) -> float:
+        for b in self._graph.blocks.values():
+            if isinstance(b, ADCBlock):
+                return b.params["sample_rate_mhz"] * 1e6 / 2.0
+        return 0.0
+
     def _get_block_signal(self, block):
         try:
             outputs = self._graph.run_to(block.block_id)
-            if outputs:
-                return next(iter(outputs.values()))
+            if not outputs:
+                return None
+            i_sig = outputs.get("I_out")
+            q_sig = outputs.get("Q_out")
+            if (i_sig is not None and q_sig is not None
+                    and len(i_sig.samples) and len(q_sig.samples)):
+                import numpy as np
+                combined = (i_sig.samples.real + 1j * q_sig.samples.real).astype(np.complex64)
+                return i_sig.copy(
+                    samples=combined,
+                    power_dbm=i_sig.power_dbm + 10 * math.log10(2.0),
+                    noise_floor_dbm=i_sig.noise_floor_dbm + 10 * math.log10(2.0),
+                    kind=SignalKind.IF_IQ,
+                )
+            return next(iter(outputs.values()))
         except Exception:
             pass
         return None

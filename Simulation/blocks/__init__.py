@@ -1,20 +1,20 @@
 from .tx_path import PLLChirpBlock, DACIQBlock, AmplifierBlock
-from .rx_path import LNABlock, MixerBlock, ADCBlock
-from .passive import AntennaBlock, CouplerBlock, FilterBlock
+from .rx_path import LNABlock, MixerBlock, ADCBlock, IQAmplifierBlock, IFFilterBlock
+from .passive import AntennaBlock, CouplerBlock, FilterBlock, AttenuatorBlock
 from .target import TargetBlock
 from .dsp import RangeFFTBlock
 from graph.registry import register_block
 
 for _cls in (PLLChirpBlock, DACIQBlock, AmplifierBlock,
-             LNABlock, MixerBlock, ADCBlock,
-             AntennaBlock, CouplerBlock, FilterBlock,
+             LNABlock, MixerBlock, IQAmplifierBlock, IFFilterBlock, ADCBlock,
+             AntennaBlock, CouplerBlock, FilterBlock, AttenuatorBlock,
              TargetBlock, RangeFFTBlock):
     register_block(_cls)
 
 ALL_BLOCKS = [
     PLLChirpBlock, DACIQBlock, AmplifierBlock,
-    AntennaBlock, CouplerBlock, FilterBlock,
+    AntennaBlock, CouplerBlock, FilterBlock, AttenuatorBlock,
     TargetBlock,
-    LNABlock, MixerBlock, ADCBlock,
+    LNABlock, MixerBlock, IQAmplifierBlock, IFFilterBlock, ADCBlock,
     RangeFFTBlock,
 ]

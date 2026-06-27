@@ -47,18 +47,41 @@ def _triangular_chirp_samples(bandwidth_hz: float, chirp_duration_s: float,
     return samples, fs
 
 
+def _sawtooth_chirp_samples(bandwidth_hz: float, chirp_duration_s: float,
+                             simulation_time_s: float,
+                             power_dbm: float) -> tuple[np.ndarray, float]:
+    """
+    Generate complex baseband samples for a sawtooth FMCW chirp.
+
+    Frequency sweeps -B/2 → +B/2 (up ramp only), then instantly resets.
+    Beat frequency is always +f_beat (single-sided spectrum).
+    """
+    T          = chirp_duration_s
+    B          = bandwidth_hz
+    sweep_rate = B / T
+    fs         = 2.0 * B
+    n          = min(int(fs * simulation_time_s), _MAX_SAMPLES)
+    t          = np.arange(n, dtype=np.float64) / fs
+    tau        = t % T                                   # position within current ramp
+    phase      = np.pi * sweep_rate * tau ** 2 - np.pi * B * tau
+    amplitude  = power_to_amplitude(power_dbm)
+    samples    = (amplitude * np.exp(1j * phase)).astype(np.complex64)
+    return samples, fs
+
+
 def pll_chirp_signal(center_freq_hz: float = 58e8,
                      bandwidth_hz: float = 150e6,
                      chirp_duration_s: float = 1e-3,
                      power_dbm: float = 10.0,
-                     simulation_time_s: float | None = None) -> SignalState:
+                     simulation_time_s: float | None = None,
+                     waveform: str = "Sawtooth") -> SignalState:
     """Create the initial SignalState for a PLL-based triangular chirp generator."""
-    sweep_rate = bandwidth_hz / chirp_duration_s
-    sim_t = simulation_time_s if simulation_time_s is not None else chirp_duration_s * 2
+    sweep_rate  = bandwidth_hz / chirp_duration_s
+    sim_t       = simulation_time_s if simulation_time_s is not None else chirp_duration_s * 2
     noise_floor = thermal_noise_dbm(bandwidth_hz)
 
-    samples, fs = _triangular_chirp_samples(bandwidth_hz, chirp_duration_s,
-                                             sim_t, power_dbm)
+    _gen = _sawtooth_chirp_samples if waveform == "Sawtooth" else _triangular_chirp_samples
+    samples, fs = _gen(bandwidth_hz, chirp_duration_s, sim_t, power_dbm)
 
     return SignalState(
         center_freq_hz=center_freq_hz,

@@ -2,7 +2,7 @@ from __future__ import annotations
 import math
 import numpy as np
 
-from physics.signal import SignalState, power_to_amplitude
+from physics.signal import SignalState, SignalKind, power_to_amplitude
 from physics.noise import thermal_noise_dbm, noise_figure_to_noise_floor_dbm
 from .base import Block, SingleIOBlock, Port, PlotData
 
@@ -36,42 +36,8 @@ class LNABlock(SingleIOBlock):
             samples=new_samples,
         )
 
-    def get_plot_data(self, output_signal: SignalState) -> PlotData:
-        freqs = np.array([
-            (output_signal.center_freq_hz - output_signal.bandwidth_hz / 2) / 1e9,
-            output_signal.center_freq_hz / 1e9,
-            (output_signal.center_freq_hz + output_signal.bandwidth_hz / 2) / 1e9,
-        ])
-        powers = np.full_like(freqs, output_signal.power_dbm)
-        noise = np.full_like(freqs, output_signal.noise_floor_dbm)
-        return PlotData(
-            title=f"LNA — G={self.params['gain_db']} dB, NF={self.params['nf_db']} dB",
-            x_label="Frequency (GHz)", y_label="Power (dBm)",
-            x=freqs, y=powers,
-            extra_series=[("Noise floor", freqs, noise)],
-        )
-
-    def get_plots(self, sig: SignalState) -> dict[str, PlotData]:
-        fc = sig.center_freq_hz / 1e9
-        bw = sig.bandwidth_hz / 1e9
-        freqs = np.linspace(fc - bw / 2, fc + bw / 2, 200)
-        spectrum = PlotData(
-            title=f"LNA output  G={self.params['gain_db']} dB  NF={self.params['nf_db']} dB",
-            x_label="Frequency (GHz)", y_label="Power (dBm)",
-            x=freqs, y=np.full_like(freqs, sig.power_dbm),
-            extra_series=[("Noise floor", freqs, np.full_like(freqs, sig.noise_floor_dbm))],
-        )
-        nf_range = np.linspace(0, 20, 200)
-        snr_in = sig.snr_db + self.params["nf_db"]
-        nf_plot = PlotData(
-            title="Output SNR vs NF",
-            x_label="NF (dB)", y_label="SNR (dB)",
-            x=nf_range, y=snr_in - nf_range,
-            extra_series=[("Operating point",
-                           np.array([float(self.params["nf_db"])]),
-                           np.array([sig.snr_db]))],
-        )
-        return {"Output spectrum": spectrum, "NF tradeoff": nf_plot}
+    def get_plots(self, _: SignalState) -> dict[str, PlotData]:
+        return {}
 
 
 class MixerBlock(Block):
@@ -84,15 +50,17 @@ class MixerBlock(Block):
         self.ports = [
             Port("lo_in", "input", "lo"),
             Port("rf_in", "input", "rf"),
-            Port("if_out", "output", "if"),
+            Port("I_out", "output", "if"),
+            Port("Q_out", "output", "if"),
         ]
 
     def _setup_params(self):
         self.params = {
             "conversion_loss_db": 6.0,
             "nf_db": 8.0,
-            "mode": "downconvert",   # "downconvert" | "upconvert"
+            "mode": "downconvert",
         }
+        self.param_options = {"mode": ["downconvert", "upconvert"]}
 
     def process(self, inputs: dict[str, SignalState]) -> dict[str, SignalState]:
         rf = inputs.get("rf_in", SignalState())
@@ -127,40 +95,32 @@ class MixerBlock(Block):
         else:
             out_samples = rf.samples
 
-        return {"if_out": rf.copy(
+        ch_power = if_power - 10 * math.log10(2.0)
+        ch_noise = noise_floor - 10 * math.log10(2.0)
+        # Voltage conversion: derive IF voltage from RF input power (50 Ω reference)
+        v_rf_rms = math.sqrt(max(10.0 ** (rf.power_dbm / 10.0) * 1e-3 * 50.0, 0.0))
+        g_v = 10.0 ** (-cl / 20.0)                    # voltage gain (same sign as power)
+        v_ch_rms = v_rf_rms * g_v / math.sqrt(2.0)    # per I or Q channel
+        voltage_dbv = (20.0 * math.log10(v_ch_rms)
+                       if v_ch_rms > 1e-15 else -300.0)
+
+        sig_base = rf.copy(
             center_freq_hz=out_center,
-            power_dbm=if_power,
-            noise_floor_dbm=noise_floor,
+            power_dbm=ch_power,
+            noise_floor_dbm=ch_noise,
             noise_figure_db=rf.noise_figure_db + nf,
-            samples=out_samples,
-        )}
-
-    def get_plot_data(self, output_signal: SignalState) -> PlotData:
-        f_beat = output_signal.beat_freq_hz
-        f_max = 1e6
-        freqs_khz = np.linspace(0, f_max / 1e3, 500)
-        sigma = (f_max / 1e3) * 0.02
-        spectrum = output_signal.power_dbm - 20 * ((freqs_khz - f_beat / 1e3) / sigma) ** 2
-        spectrum = np.clip(spectrum, output_signal.noise_floor_dbm - 10, None)
-        noise = np.full_like(freqs_khz, output_signal.noise_floor_dbm)
-        return PlotData(
-            title=f"Mixer IF spectrum — f_beat={f_beat/1e3:.1f} kHz",
-            x_label="Frequency (kHz)", y_label="Power (dBm)",
-            x=freqs_khz, y=spectrum,
-            extra_series=[("Noise floor", freqs_khz, noise)],
+            kind=SignalKind.IF_I,
+            voltage_dbv=voltage_dbv,
         )
+        I_samples = out_samples.real.astype(np.complex64)
+        Q_samples = out_samples.imag.astype(np.complex64)
+        return {
+            "I_out": sig_base.copy(samples=I_samples),
+            "Q_out": sig_base.copy(samples=Q_samples),
+        }
 
-    def get_plots(self, sig: SignalState) -> dict[str, PlotData]:
-        f_beat = max(sig.beat_freq_hz, 1e3)
-        n = 500
-        t_us = np.linspace(0, 10 / f_beat * 1e6, n)
-        amplitude = 10 ** ((sig.power_dbm - 10) / 20)
-        beat_plot = PlotData(
-            title=f"Beat signal  f={f_beat/1e3:.1f} kHz",
-            x_label="Time (µs)", y_label="Amplitude (V)",
-            x=t_us, y=amplitude * np.sin(2 * np.pi * f_beat * t_us * 1e-6),
-        )
-        return {"IF spectrum": self.get_plot_data(sig), "Beat signal": beat_plot}
+    def get_plots(self, _: SignalState) -> dict[str, PlotData]:
+        return {}
 
 
 class ADCBlock(SingleIOBlock):
@@ -171,13 +131,17 @@ class ADCBlock(SingleIOBlock):
 
     def _setup_ports(self):
         self.ports = [
-            Port("if_in",  "input",  "if"),
-            Port("if_out", "output", "if"),
+            Port("I_in",  "input",  "if"),
+            Port("Q_in",  "input",  "if"),
+            Port("I_out", "output", "if"),
+            Port("Q_out", "output", "if"),
         ]
 
     def process(self, inputs: dict[str, SignalState]) -> dict[str, SignalState]:
-        sig = inputs.get("if_in", SignalState())
-        return {"if_out": self.transform(sig)}
+        outputs = {"I_out": self.transform(inputs.get("I_in", SignalState()))}
+        if "Q_in" in inputs:
+            outputs["Q_out"] = self.transform(inputs["Q_in"])
+        return outputs
 
     def _setup_params(self):
         self.params = {
@@ -214,8 +178,8 @@ class ADCBlock(SingleIOBlock):
             imag_q = np.round(decimated.imag / fs_amp * half) / half * fs_amp
             new_samples = (real_q + 1j * imag_q).astype(np.complex64)
 
-            # Dead-zone: both I and Q round to 0 when signal RMS < ½ LSB.
-            lsb_half = math.sqrt(2.0) * fs_amp / (2 ** bits)
+            # Dead-zone: signal rounds to 0 when per-channel amplitude < ½ LSB.
+            lsb_half = fs_amp / (2 ** bits)
             out_power_dbm = -300.0 if power_to_amplitude(sig.power_dbm) < lsb_half else sig.power_dbm
         else:
             out_power_dbm = sig.power_dbm
@@ -225,6 +189,7 @@ class ADCBlock(SingleIOBlock):
             noise_floor_dbm=total_noise,
             sample_rate_hz=new_fs,
             samples=new_samples,
+            voltage_dbv=sig.voltage_dbv,
         )
 
     def get_plot_data(self, output_signal: SignalState) -> PlotData:
@@ -247,24 +212,118 @@ class ADCBlock(SingleIOBlock):
         )
 
     def get_plots(self, sig: SignalState) -> dict[str, PlotData]:
-        bits = self.params["bits"]
-        fs = self.params["sample_rate_mhz"] * 1e6
-        f_beat = sig.beat_freq_hz if sig.beat_freq_hz > 0 else 1e5
+        return {"Time domain": self.get_plot_data(sig)}
 
-        n = 512
-        t = np.arange(n) / fs
-        amplitude = 10 ** ((sig.power_dbm - 10) / 20)
-        raw = amplitude * np.sin(2 * math.pi * f_beat * t)
-        full_scale = 10 ** ((self.params["full_scale_dbm"] - 10) / 20)
-        levels = 2 ** bits
-        quantized = np.round(raw / full_scale * levels / 2) / (levels / 2) * full_scale
-        fft_freqs = np.fft.rfftfreq(n, d=1 / fs) / 1e3   # kHz
-        fft_mag = 20 * np.log10(np.abs(np.fft.rfft(quantized)) / n + 1e-12)
-        fft_plot = PlotData(
-            title=f"ADC FFT  {bits}-bit  fs={fs/1e6:.0f} MHz",
-            x_label="Frequency (kHz)", y_label="Power (dBm)",
-            x=fft_freqs, y=fft_mag,
-            extra_series=[("Noise floor", fft_freqs,
-                           np.full_like(fft_freqs, sig.noise_floor_dbm))],
+
+class IQAmplifierBlock(Block):
+    """IF I/Q amplifier — applies gain and noise figure to each channel independently."""
+
+    display_name = "IF Amp"
+    category = "RX"
+
+    def _setup_ports(self):
+        self.ports = [
+            Port("I_in",  "input",  "if"),
+            Port("Q_in",  "input",  "if"),
+            Port("I_out", "output", "if"),
+            Port("Q_out", "output", "if"),
+        ]
+
+    def _setup_params(self):
+        self.params = {"gain_db": 20.0, "nf_db": 5.0}
+
+    def process(self, inputs: dict[str, SignalState]) -> dict[str, SignalState]:
+        outputs = {"I_out": self._transform_channel(inputs.get("I_in", SignalState()))}
+        if "Q_in" in inputs:
+            outputs["Q_out"] = self._transform_channel(inputs["Q_in"])
+        return outputs
+
+    def _transform_channel(self, sig: SignalState) -> SignalState:
+        g   = self.params["gain_db"]
+        nf  = self.params["nf_db"]
+        added_noise = noise_figure_to_noise_floor_dbm(nf, sig.bandwidth_hz)
+        noise_w = (10 ** (sig.noise_floor_dbm / 10) + 10 ** (added_noise / 10)) * 10 ** (g / 10)
+        amp_scale   = 10.0 ** (g / 20.0)
+        new_samples = (sig.samples * amp_scale).astype(np.complex64) if len(sig.samples) else sig.samples
+        new_vdbv = sig.voltage_dbv + g if math.isfinite(sig.voltage_dbv) else float('nan')
+        return sig.copy(
+            power_dbm=sig.power_dbm + g,
+            noise_floor_dbm=10 * math.log10(noise_w),
+            noise_figure_db=sig.noise_figure_db + nf,
+            samples=new_samples,
+            voltage_dbv=new_vdbv,
         )
-        return {"Time domain": self.get_plot_data(sig), "FFT spectrum": fft_plot}
+
+    def get_plots(self, _: SignalState) -> dict[str, PlotData]:
+        return {}
+
+
+class IFFilterBlock(Block):
+    """IF low-pass anti-aliasing filter using a Butterworth response."""
+
+    display_name = "IF Filter"
+    category = "RX"
+
+    def _setup_ports(self):
+        self.ports = [
+            Port("I_in",  "input",  "if"),
+            Port("Q_in",  "input",  "if"),
+            Port("I_out", "output", "if"),
+            Port("Q_out", "output", "if"),
+        ]
+
+    def _setup_params(self):
+        self.params = {
+            "cutoff_hz": 5e6,
+            "order": 4,
+            "insertion_loss_db": 1.0,
+        }
+
+    def process(self, inputs: dict[str, SignalState]) -> dict[str, SignalState]:
+        outputs = {"I_out": self._transform_channel(inputs.get("I_in", SignalState()))}
+        if "Q_in" in inputs:
+            outputs["Q_out"] = self._transform_channel(inputs["Q_in"])
+        return outputs
+
+    def _transform_channel(self, sig: SignalState) -> SignalState:
+        from scipy.signal import butter, lfilter
+        cutoff = float(self.params["cutoff_hz"])
+        order  = int(self.params["order"])
+        il     = self.params["insertion_loss_db"]
+
+        new_samples = sig.samples
+        if len(sig.samples):
+            fs  = sig.sample_rate_hz if sig.sample_rate_hz > 0 else sig.bandwidth_hz * 2
+            wn  = min(cutoff / (fs / 2.0), 0.999)
+            b, a = butter(order, wn, btype="low")
+            new_samples = lfilter(b, a, sig.samples.astype(np.complex128)).astype(np.complex64)
+
+        old_bw = sig.bandwidth_hz
+        new_bw = min(cutoff, old_bw)
+        bw_db  = 10.0 * math.log10(new_bw / old_bw) if new_bw < old_bw else 0.0
+
+        new_vdbv = sig.voltage_dbv - il if math.isfinite(sig.voltage_dbv) else float('nan')
+        return sig.copy(
+            power_dbm=sig.power_dbm - il,
+            noise_floor_dbm=sig.noise_floor_dbm + bw_db - il,
+            bandwidth_hz=new_bw,
+            samples=new_samples,
+            voltage_dbv=new_vdbv,
+        )
+
+    def get_plots(self, sig: SignalState) -> dict[str, PlotData]:
+        from scipy.signal import butter, freqz
+        cutoff = float(self.params["cutoff_hz"])
+        order  = int(self.params["order"])
+        il     = self.params["insertion_loss_db"]
+        fs     = sig.sample_rate_hz if sig.sample_rate_hz > 0 else sig.bandwidth_hz * 2
+        wn     = min(cutoff / (fs / 2.0), 0.999)
+        b, a   = butter(order, wn, btype="low")
+        w, h   = freqz(b, a, worN=2000, fs=fs)
+        mag_db = 20.0 * np.log10(np.abs(h) + 1e-12) - il
+        plot   = PlotData(
+            title=f"IF Filter  LP  fc={cutoff/1e6:.2f} MHz  N={order}  IL={il:.1f} dB",
+            x_label="Frequency (kHz)", y_label="Magnitude (dB)",
+            x=w / 1e3, y=mag_db,
+        )
+        return {"Filter response": plot}

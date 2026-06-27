@@ -2,7 +2,7 @@ from __future__ import annotations
 import math
 import numpy as np
 
-from physics.signal import SignalState
+from physics.signal import SignalState, SignalKind
 from .base import Block, SingleIOBlock, Port, PlotData
 
 
@@ -15,8 +15,9 @@ class AntennaBlock(SingleIOBlock):
     def _setup_params(self):
         self.params = {
             "gain_dbi": 12.0,
-            "direction": "TX",  # "TX" or "RX"
+            "direction": "TX",
         }
+        self.param_options = {"direction": ["TX", "RX"]}
 
     def transform(self, sig: SignalState) -> SignalState:
         g = self.params["gain_dbi"]
@@ -28,30 +29,8 @@ class AntennaBlock(SingleIOBlock):
             samples=new_samples,
         )
 
-    def get_plot_data(self, output_signal: SignalState) -> PlotData:
-        angles = np.linspace(-90, 90, 181)
-        # Simple sinc^2 pattern approximation
-        gain_dbi = self.params["gain_dbi"]
-        hpbw_deg = 2 * math.degrees(math.asin(0.886 / math.sqrt(10 ** (gain_dbi / 10))))
-        sigma = hpbw_deg / (2 * math.sqrt(2 * math.log(2)))
-        pattern = gain_dbi - (angles ** 2) / (2 * sigma ** 2)
-        return PlotData(
-            title=f"Antenna pattern — G={gain_dbi} dBi ({self.params['direction']})",
-            x_label="Angle (deg)", y_label="Gain (dBi)",
-            x=angles, y=pattern,
-        )
-
-    def get_plots(self, sig: SignalState) -> dict[str, PlotData]:
-        fc = sig.center_freq_hz / 1e9
-        bw = sig.bandwidth_hz / 1e9
-        freqs = np.linspace(fc - bw / 2, fc + bw / 2, 200)
-        budget = PlotData(
-            title=f"Antenna output  G={self.params['gain_dbi']} dBi  ({self.params['direction']})",
-            x_label="Frequency (GHz)", y_label="Power (dBm)",
-            x=freqs, y=np.full_like(freqs, sig.power_dbm),
-            extra_series=[("Noise floor", freqs, np.full_like(freqs, sig.noise_floor_dbm))],
-        )
-        return {"Radiation pattern": self.get_plot_data(sig), "Power budget": budget}
+    def get_plots(self, _: SignalState) -> dict[str, PlotData]:
+        return {}
 
 
 class CouplerBlock(Block):
@@ -94,37 +73,35 @@ class CouplerBlock(Block):
             power_dbm=sig.power_dbm - c,
             noise_floor_dbm=sig.noise_floor_dbm - c,
             samples=coupled_samples,
+            kind=SignalKind.LO,
         )
         return {"through": through, "coupled": coupled}
 
-    def get_plot_data(self, output_signal: SignalState) -> PlotData:
-        c = self.params["coupling_db"]
-        il = self.params["through_loss_db"]
-        labels = ["Input", "Through", "Coupled"]
-        powers = np.array([
-            output_signal.power_dbm + il,        # approximate input
-            output_signal.power_dbm,              # through output
-            output_signal.power_dbm - c + il,    # coupled output
-        ])
-        return PlotData(
-            title=f"Directional Coupler — coupling={c} dB, IL={il} dB",
-            x_label="Port", y_label="Power (dBm)",
-            x=np.array([0.0, 1.0, 2.0]), y=powers,
+    def get_plots(self, _: SignalState) -> dict[str, PlotData]:
+        return {}
+
+
+class AttenuatorBlock(SingleIOBlock):
+    """Fixed passive attenuator."""
+
+    display_name = "Attenuator"
+    category = "Passive"
+
+    def _setup_params(self):
+        self.params = {"attenuation_db": 10.0}
+
+    def transform(self, sig: SignalState) -> SignalState:
+        att = self.params["attenuation_db"]
+        amp_scale = 10.0 ** (-att / 20.0)
+        new_samples = (sig.samples * amp_scale).astype(np.complex64) if len(sig.samples) else sig.samples
+        return sig.copy(
+            power_dbm=sig.power_dbm - att,
+            noise_floor_dbm=sig.noise_floor_dbm - att,
+            samples=new_samples,
         )
 
-    def get_plots(self, sig: SignalState) -> dict[str, PlotData]:
-        c = self.params["coupling_db"]
-        il = self.params["through_loss_db"]
-        fc = sig.center_freq_hz / 1e9
-        bw = sig.bandwidth_hz / 1e9
-        freqs = np.linspace(fc - bw / 2, fc + bw / 2, 200)
-        coupling_plot = PlotData(
-            title="Coupling response (flat model)",
-            x_label="Frequency (GHz)", y_label="Level (dB)",
-            x=freqs, y=np.full_like(freqs, -il),
-            extra_series=[("Coupled port", freqs, np.full_like(freqs, -c))],
-        )
-        return {"Power split": self.get_plot_data(sig), "Coupling response": coupling_plot}
+    def get_plots(self, _: SignalState) -> dict[str, PlotData]:
+        return {}
 
 
 class FilterBlock(SingleIOBlock):
@@ -135,11 +112,12 @@ class FilterBlock(SingleIOBlock):
 
     def _setup_params(self):
         self.params = {
-            "filter_type": "LP",        # "LP" | "HP" | "BP"
+            "filter_type": "LP",
             "cutoff_hz": 5e6,
             "insertion_loss_db": 1.0,
             "order": 4,
         }
+        self.param_options = {"filter_type": ["LP", "HP", "BP"]}
 
     def transform(self, sig: SignalState) -> SignalState:
         il = self.params["insertion_loss_db"]

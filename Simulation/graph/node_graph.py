@@ -171,6 +171,45 @@ class NodeGraph:
     def get_last_signal(self, block_id: str) -> dict[str, SignalState] | None:
         return self._last_signals.get(block_id)
 
+    _BUDGET_PORT_PREF = ("rf_out", "range_out", "I_out", "through")
+
+    def get_power_budget(self) -> list[dict]:
+        """Signal power and noise floor at each stage in topological order."""
+        if not self._last_signals:
+            return []
+        try:
+            sorted_blocks = self.topological_sort()
+        except ValueError:
+            return []
+        budget = []
+        seen: dict[str, int] = {}
+        for block in sorted_blocks:
+            outputs = self._last_signals.get(block.block_id, {})
+            if not outputs:
+                continue
+            sig = None
+            for p in self._BUDGET_PORT_PREF:
+                if p in outputs:
+                    sig = outputs[p]
+                    break
+            if sig is None:
+                sig = next(iter(outputs.values()))
+            name = block.display_name
+            n = seen.get(name, 0) + 1
+            seen[name] = n
+            label = f"{name} {n}" if n > 1 else name
+            snr = sig.power_dbm - sig.noise_floor_dbm
+            is_if = math.isfinite(sig.voltage_dbv)
+            budget.append({
+                "label":        label,
+                "signal_level": sig.voltage_dbv if is_if else sig.power_dbm,
+                "noise_level":  (sig.voltage_dbv - snr) if is_if else sig.noise_floor_dbm,
+                "snr_db":       snr,
+                "unit":         "dBV" if is_if else "dBm",
+                "domain":       "IF" if is_if else "RF",
+            })
+        return budget
+
     # ------------------------------------------------------------------
     # Metrics
     # ------------------------------------------------------------------
@@ -211,7 +250,7 @@ class NodeGraph:
         if adc_signal is None:
             return RadarMetrics()
 
-        rr = range_resolution_m(adc_signal.bandwidth_hz)
+        rr = range_resolution_m(adc_signal.chirp_bandwidth_hz)
         # Triangular chirp: T_rep = 2 × T_chirp (up-ramp to next up-ramp)
         T_rep = 2.0 * adc_signal.chirp_duration_s
         v_max = max_unambiguous_velocity_ms(T_rep, adc_signal.carrier_freq_hz)
@@ -244,7 +283,7 @@ class NodeGraph:
             max_doppler_velocity_ms=v_max,
             beat_freq_hz=adc_signal.beat_freq_hz,
             snr_db=adc_signal.snr_db,
-            bandwidth_hz=adc_signal.bandwidth_hz,
+            bandwidth_hz=adc_signal.chirp_bandwidth_hz,
             center_freq_hz=adc_signal.carrier_freq_hz,
             chirp_duration_s=adc_signal.chirp_duration_s,
         )

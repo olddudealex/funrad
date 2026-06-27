@@ -8,18 +8,6 @@ from physics.chirp import pll_chirp_signal, dac_iq_signal
 from .base import Block, SingleIOBlock, Port, PlotData
 
 
-def _spectrum_plot(sig: SignalState, title: str) -> PlotData:
-    """Standard power-spectrum bar: signal level + noise floor across the band."""
-    f_start = (sig.center_freq_hz - sig.bandwidth_hz / 2) / 1e9
-    f_stop  = (sig.center_freq_hz + sig.bandwidth_hz / 2) / 1e9
-    freqs = np.linspace(f_start, f_stop, 200)
-    signal_line = np.full_like(freqs, sig.power_dbm)
-    noise_line  = np.full_like(freqs, sig.noise_floor_dbm)
-    return PlotData(title=title,
-                    x_label="Frequency (GHz)", y_label="Power (dBm)",
-                    x=freqs, y=signal_line,
-                    extra_series=[("Noise floor", freqs, noise_line)])
-
 
 def _chirp_plot(sig: SignalState) -> PlotData:
     """Instantaneous frequency vs time — triangular sweep, multiple periods."""
@@ -52,6 +40,7 @@ class PLLChirpBlock(Block):
 
     def _setup_params(self):
         self.params = {
+            "waveform": "Sawtooth",
             "center_freq_ghz": 5.8,
             "bandwidth_mhz": 150.0,
             "chirp_duration_ms": 1.0,
@@ -59,6 +48,7 @@ class PLLChirpBlock(Block):
             "power_dbm": 10.0,
             "phase_noise_dbc_hz": -90.0,
         }
+        self.param_options = {"waveform": ["Sawtooth", "Triangular"]}
 
     def process(self, inputs):
         sig = pll_chirp_signal(
@@ -67,6 +57,7 @@ class PLLChirpBlock(Block):
             chirp_duration_s=self.params["chirp_duration_ms"] * 1e-3,
             power_dbm=self.params["power_dbm"],
             simulation_time_s=self.params["simulation_time_ms"] * 1e-3,
+            waveform=self.params["waveform"],
         )
         return {"rf_out": sig}
 
@@ -156,16 +147,6 @@ class AmplifierBlock(SingleIOBlock):
             samples=new_samples,
         )
 
-    def get_plots(self, sig: SignalState) -> dict[str, PlotData]:
-        # Gain vs frequency (flat line — linear amp)
-        freqs = np.linspace(
-            (sig.center_freq_hz - sig.bandwidth_hz / 2) / 1e9,
-            (sig.center_freq_hz + sig.bandwidth_hz / 2) / 1e9, 200)
-        gain_line = np.full_like(freqs, self.params["gain_db"])
-        gain_plot = PlotData(
-            title=f"Gain profile  G={self.params['gain_db']} dB  NF={self.params['nf_db']} dB",
-            x_label="Frequency (GHz)", y_label="Gain (dB)",
-            x=freqs, y=gain_line,
-        )
-        return {"Power budget": _spectrum_plot(sig, "Output power"),
-                "Gain profile": gain_plot}
+    def get_plots(self, _: SignalState) -> dict[str, PlotData]:
+        return {}
+
