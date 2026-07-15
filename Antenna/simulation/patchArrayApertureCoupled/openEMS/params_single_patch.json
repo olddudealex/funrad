@@ -1,0 +1,22 @@
+{
+  "_comment": "Auto-saved by simulation_gui.py \u2014 edit or regenerate via GUI.",
+  "f0": 5800000000.0,
+  "fc": 500000000.0,
+  "substrate_epsR": 3,
+  "substrate_tan": 0.0016,
+  "substrate_cells": 4,
+  "h1": 1.524,
+  "h2": 1.524,
+  "air_gap": 1.5,
+  "sub_width": 40,
+  "sub_length": 60,
+  "patch_width": 20.1,
+  "patch_length": 14.7,
+  "patch_y0": 30,
+  "aperture_length": 10.6,
+  "aperture_width": 3.55,
+  "aperture_offset": 0,
+  "aperture_stub": 5,
+  "feed_line_width": 3.9,
+  "feed_R": 50
+}
