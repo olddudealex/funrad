@@ -1,3 +1,3 @@
-1. [[TX Path]]
+1. [[RF Architecture]]
 2. 
 

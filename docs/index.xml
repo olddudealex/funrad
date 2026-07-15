@@ -6,35 +6,41 @@
       <description>Last 10 notes on FunRad</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>RF Architecture</title>
+    <link>https://quartz.jzhao.xyz/RF-Architecture</link>
+    <guid>https://quartz.jzhao.xyz/RF-Architecture</guid>
+    <description><![CDATA[ General Here is the latest version of RF architecture of FunRad project: TX Channel Calculation StagePart#Gain/Loss (db)Gain/Loss Tolerance (dB)Typ Out (dBm)Abs Min Out (dBm)Abs Max Out (dBm)P1dB (dBm)Max RF Input (dBm)VCOHMC431-2-13Wilkinson DividerPlanar Component-3-1-40Step AttennuatorPE43711B-Z-... ]]></description>
+    <pubDate>Sat, 27 Jun 2026 17:53:56 GMT</pubDate>
+  </item><item>
+    <title>FunRadBlockDiagram.excalidraw</title>
+    <link>https://quartz.jzhao.xyz/Excalidraw/FunRadBlockDiagram.excalidraw</link>
+    <guid>https://quartz.jzhao.xyz/Excalidraw/FunRadBlockDiagram.excalidraw</guid>
+    <description><![CDATA[ ⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ]]></description>
+    <pubDate>Sun, 21 Jun 2026 19:31:32 GMT</pubDate>
+  </item><item>
+    <title>Frontend Description</title>
+    <link>https://quartz.jzhao.xyz/Frontend-Description</link>
+    <guid>https://quartz.jzhao.xyz/Frontend-Description</guid>
+    <description><![CDATA[  RF Architecture . ]]></description>
+    <pubDate>Wed, 17 Jun 2026 18:05:11 GMT</pubDate>
+  </item><item>
+    <title>TxPathWithPLL.excalidraw</title>
+    <link>https://quartz.jzhao.xyz/Excalidraw/TxPathWithPLL.excalidraw</link>
+    <guid>https://quartz.jzhao.xyz/Excalidraw/TxPathWithPLL.excalidraw</guid>
+    <description><![CDATA[ ⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ]]></description>
+    <pubDate>Thu, 14 May 2026 14:47:52 GMT</pubDate>
+  </item><item>
     <title>Antenna Rev.A Directivity</title>
     <link>https://quartz.jzhao.xyz/Antenna-Rev.A-Directivity</link>
     <guid>https://quartz.jzhao.xyz/Antenna-Rev.A-Directivity</guid>
     <description><![CDATA[ Measurement Process Description The setup was designed to get the directivity measurements from the Antenna Array Rev.A: On the left side of the setup the rotational tower made out of Plexiglas and plastic standoffs is used for fixing the AUT (Antenna under Test). ]]></description>
     <pubDate>Sun, 10 May 2026 20:13:45 GMT</pubDate>
   </item><item>
-    <title>TX Path</title>
-    <link>https://quartz.jzhao.xyz/TX-Path</link>
-    <guid>https://quartz.jzhao.xyz/TX-Path</guid>
-    <description><![CDATA[ Introduction The transmit path could be done using two main different approaches: Using synthesizer IC. ]]></description>
-    <pubDate>Wed, 06 May 2026 21:12:59 GMT</pubDate>
-  </item><item>
-    <title>TxPathWithPLL.excalidraw</title>
-    <link>https://quartz.jzhao.xyz/Excalidraw/TxPathWithPLL.excalidraw</link>
-    <guid>https://quartz.jzhao.xyz/Excalidraw/TxPathWithPLL.excalidraw</guid>
-    <description><![CDATA[ ⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ]]></description>
-    <pubDate>Wed, 06 May 2026 21:06:56 GMT</pubDate>
-  </item><item>
     <title>TxPathWithDAC.excalidraw</title>
     <link>https://quartz.jzhao.xyz/Excalidraw/TxPathWithDAC.excalidraw</link>
     <guid>https://quartz.jzhao.xyz/Excalidraw/TxPathWithDAC.excalidraw</guid>
     <description><![CDATA[ ⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ]]></description>
     <pubDate>Wed, 06 May 2026 21:06:43 GMT</pubDate>
-  </item><item>
-    <title>Frontend Description</title>
-    <link>https://quartz.jzhao.xyz/Frontend-Description</link>
-    <guid>https://quartz.jzhao.xyz/Frontend-Description</guid>
-    <description><![CDATA[  TX Path . ]]></description>
-    <pubDate>Tue, 05 May 2026 19:54:57 GMT</pubDate>
   </item><item>
     <title>Antenna Rev.A</title>
     <link>https://quartz.jzhao.xyz/Antenna-Rev.A</link>
