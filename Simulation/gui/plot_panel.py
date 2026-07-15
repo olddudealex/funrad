@@ -21,6 +21,7 @@ class PlotPanel:
 
     def __init__(self, get_budget_fn: Callable[[], list] | None = None,
                  get_adc_half_bw_fn: Callable[[], float] | None = None):
+        self._parent_tag: int | str = 0
         self._container_tag: int | str = 0
         self._content_tag: int | str = 0
         self._use_hanning: bool = True
@@ -73,6 +74,7 @@ class PlotPanel:
         return self._budget_mode
 
     def build(self, parent: int | str):
+        self._parent_tag = parent          # stable layout container; used for height queries
         self._container_tag = dpg.add_group(parent=parent)
         with dpg.group(horizontal=True, parent=self._container_tag):
             dpg.add_checkbox(
@@ -432,8 +434,12 @@ class PlotPanel:
         self._budget_if_entries = if_entries
 
         has_both = bool(rf_entries) and bool(if_entries)
-        panel_h  = dpg.get_item_height(self._content_tag)
-        half     = max(120, (panel_h - 20) // 2) if has_both else -1
+        # _parent_tag is the layout container whose height is set by the app
+        # (not by its children), so it's reliable even after clearing content.
+        # Subtract the controls row (~35 px) + spacer; split the rest equally.
+        panel_h = dpg.get_item_height(self._parent_tag)
+        ctrl_h  = 40
+        half    = max(200, (panel_h - ctrl_h - 8) // 2) if has_both else -1
 
         if rf_entries:
             self._budget_rf_plot_tag, self._budget_rf_annot_tag = \
@@ -451,7 +457,7 @@ class PlotPanel:
                 self._render_budget_plot(
                     if_entries,
                     y_label="Voltage (dBV)",
-                    height=-1,
+                    height=half if has_both else -1,
                 )
 
     def _render_budget_plot(self, entries: list[dict],

@@ -56,7 +56,7 @@ class MixerBlock(Block):
 
     def _setup_params(self):
         self.params = {
-            "conversion_loss_db": 6.0,
+            "voltage_gain_db": 5.8,
             "nf_db": 8.0,
             "mode": "downconvert",
         }
@@ -66,7 +66,7 @@ class MixerBlock(Block):
         rf = inputs.get("rf_in", SignalState())
         lo = inputs.get("lo_in", rf.copy())
 
-        cl = self.params["conversion_loss_db"]
+        gv_db = self.params["voltage_gain_db"]
         nf = self.params["nf_db"]
         downconvert = self.params["mode"] == "downconvert"
 
@@ -74,10 +74,10 @@ class MixerBlock(Block):
         n_thermal_w = 10 ** (thermal_noise_dbm(if_bw) / 10)
         n_in_w      = 10 ** (rf.noise_floor_dbm / 10)
         f_linear    = 10 ** (nf / 10)
-        cl_linear   = 10 ** (cl / 10)
-        n_out_w     = (n_in_w + n_thermal_w * (f_linear - 1)) / cl_linear
+        gv_linear   = 10.0 ** (gv_db / 20.0)        # voltage amplitude ratio
+        n_out_w     = (n_in_w + n_thermal_w * (f_linear - 1)) * gv_linear ** 2
         noise_floor = 10 * math.log10(n_out_w)
-        if_power = rf.power_dbm - cl
+        if_power = rf.power_dbm + gv_db
 
         out_center = 0.0 if downconvert else lo.center_freq_hz + rf.center_freq_hz
 
@@ -95,12 +95,12 @@ class MixerBlock(Block):
         else:
             out_samples = rf.samples
 
-        ch_power = if_power - 10 * math.log10(2.0)
-        ch_noise = noise_floor - 10 * math.log10(2.0)
-        # Voltage conversion: derive IF voltage from RF input power (50 Ω reference)
+        ch_power = if_power
+        ch_noise = noise_floor
+        # Voltage conversion: RF input power (50 Ω) scaled by per-channel voltage gain
         v_rf_rms = math.sqrt(max(10.0 ** (rf.power_dbm / 10.0) * 1e-3 * 50.0, 0.0))
-        g_v = 10.0 ** (-cl / 20.0)                    # voltage gain (same sign as power)
-        v_ch_rms = v_rf_rms * g_v / math.sqrt(2.0)    # per I or Q channel
+        g_v      = gv_linear
+        v_ch_rms = v_rf_rms * g_v
         voltage_dbv = (20.0 * math.log10(v_ch_rms)
                        if v_ch_rms > 1e-15 else -300.0)
 
@@ -147,18 +147,25 @@ class ADCBlock(SingleIOBlock):
         self.params = {
             "bits": 12,
             "sample_rate_mhz": 10.0,
-            "full_scale_dbm": 10.0,
+            "full_scale_pm_v": 4.096,     # peak amplitude (V), ±V_fs
         }
+        self.param_labels = {"full_scale_pm_v": "Full Scale ±V"}
 
     def transform(self, sig: SignalState) -> SignalState:
         bits = self.params["bits"]
         fs_hz = self.params["sample_rate_mhz"] * 1e6
-        full_scale_dbm = self.params["full_scale_dbm"]
+        fs_v  = self.params["full_scale_pm_v"]       # peak amplitude (V)
         sqnr_db = 6.02 * bits + 1.76
-        quant_noise_dbm = full_scale_dbm - sqnr_db
-        total_noise = 10 * math.log10(
-            10 ** (sig.noise_floor_dbm / 10) + 10 ** (quant_noise_dbm / 10)
+        # Work in the voltage domain — no impedance assumption.
+        # Noise floor in dBV is derived from the tracked SNR (dimensionless dB).
+        quant_noise_dbv  = 20.0 * math.log10(fs_v) - sqnr_db
+        noise_floor_dbv  = sig.voltage_dbv - sig.snr_db
+        total_noise_dbv  = 10.0 * math.log10(
+            10.0 ** (noise_floor_dbv / 10.0) + 10.0 ** (quant_noise_dbv / 10.0)
         )
+        # Convert back to dBm (noise_floor_dbm field) via the same SNR relationship.
+        new_snr_db  = sig.voltage_dbv - total_noise_dbv
+        total_noise = sig.power_dbm - new_snr_db
 
         new_samples = sig.samples
         new_fs = fs_hz
@@ -171,16 +178,18 @@ class ADCBlock(SingleIOBlock):
             decimated = sig.samples[::M].astype(np.complex64)
 
             # Uniform scalar quantization on I and Q
-            fs_amp = power_to_amplitude(full_scale_dbm)
             levels = 2 ** bits
             half = levels / 2
-            real_q = np.round(decimated.real / fs_amp * half) / half * fs_amp
-            imag_q = np.round(decimated.imag / fs_amp * half) / half * fs_amp
+            real_q = np.round(decimated.real / fs_v * half) / half * fs_v
+            imag_q = np.round(decimated.imag / fs_v * half) / half * fs_v
             new_samples = (real_q + 1j * imag_q).astype(np.complex64)
 
             # Dead-zone: signal rounds to 0 when per-channel amplitude < ½ LSB.
-            lsb_half = fs_amp / (2 ** bits)
-            out_power_dbm = -300.0 if power_to_amplitude(sig.power_dbm) < lsb_half else sig.power_dbm
+            lsb_half  = fs_v / (2 ** bits)
+            sig_amp_v = (10.0 ** (sig.voltage_dbv / 20.0)
+                         if math.isfinite(sig.voltage_dbv)
+                         else power_to_amplitude(sig.power_dbm))
+            out_power_dbm = -300.0 if sig_amp_v < lsb_half else sig.power_dbm
         else:
             out_power_dbm = sig.power_dbm
 
@@ -201,7 +210,7 @@ class ADCBlock(SingleIOBlock):
         # Simulate a sinusoidal beat signal at beat_freq plus quantization
         amplitude = 10 ** ((output_signal.power_dbm - 10) / 20)
         raw = amplitude * np.sin(2 * math.pi * f_beat * t_us * 1e-6)
-        full_scale = 10 ** ((self.params["full_scale_dbm"] - 10) / 20)
+        full_scale = self.params["full_scale_pm_v"]
         levels = 2 ** bits
         quantized = np.round(raw / full_scale * levels / 2) / (levels / 2) * full_scale
         return PlotData(

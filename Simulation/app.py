@@ -171,7 +171,7 @@ class App:
         # Mixer (active, positive gain)
         mixer = MixerBlock()
         mixer._dpg_pos = (660, 240)
-        mixer.params.update({"conversion_loss_db": -5.8, "nf_db": 15.5})
+        mixer.params.update({"voltage_gain_db": 5.8, "nf_db": 15.5})
         mixer.mirrored = True
 
         # IF filter 1 — image/channel select, before IF amp
@@ -196,7 +196,7 @@ class App:
         adc = ADCBlock()
         adc._dpg_pos = (180, 240)
         adc.params.update({"bits": 14, "sample_rate_mhz": 3.5,
-                           "full_scale_dbm": 10.0})
+                           "full_scale_pm_v": 4.096})
         adc.mirrored = True
 
         # Range FFT

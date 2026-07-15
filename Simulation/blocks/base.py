@@ -37,6 +37,7 @@ class Block(ABC):
         self.block_id: str = block_id or str(uuid.uuid4())
         self.params: dict[str, Any] = {}
         self.param_options: dict[str, list[str]] = {}  # key → allowed values → renders as combo
+        self.param_labels: dict[str, str] = {}         # key → override display label in property panel
         self.ports: list[Port] = []
         self.node_id: int = 0          # DPG node widget ID, set on draw
         self._dpg_pos: tuple[int, int] = (50, 50)

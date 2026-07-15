@@ -58,7 +58,10 @@ class RangeFFTBlock(Block):
 
         nfft = max(1, int(self.params["nfft"]))
         n_used = min(nfft, len(sig.samples))
-        fft_gain_db = 10.0 * math.log10(n_used)
+        # Hanning window reduces coherent SNR gain by 10·log10(3/2) ≈ 1.76 dB
+        # vs the rectangular-window formula 10·log10(n_used).
+        window_loss_db = 10.0 * math.log10(1.5) if self.params["window"] == "Hanning" else 0.0
+        fft_gain_db = 10.0 * math.log10(n_used) - window_loss_db
         per_bin_noise = sig.noise_floor_dbm - fft_gain_db
 
         return {"range_out": sig.copy(noise_floor_dbm=per_bin_noise)}

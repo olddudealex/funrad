@@ -3,7 +3,6 @@ import numpy as np
 
 from physics.signal import SignalState
 from physics.radar_equation import received_power_dbm, beat_freq_hz
-from physics.noise import thermal_noise_dbm
 
 from .base import Block, Port, PlotData
 
@@ -45,7 +44,8 @@ class TargetBlock(Block):
         )
 
         f_beat = beat_freq_hz(d, sig.sweep_rate_hz_per_s)
-        noise_floor = thermal_noise_dbm(sig.bandwidth_hz)  # ambient kTB at RX port
+        path_loss_db = sig.power_dbm - pr_dbm
+        noise_floor  = sig.noise_floor_dbm - path_loss_db
 
         # Delay (τ = 2R/c) and attenuate the sample array
         if len(sig.samples):

@@ -266,16 +266,20 @@ class NodeGraph:
         else:
             mr = 0.0
 
-        # ADC dead-zone constraint: signal must exceed ½ LSB at ADC input.
-        # P_min = full_scale_dbm + 10·log10(2) − 6.02·bits
+        # ADC dead-zone constraint: signal voltage must exceed ½ LSB.
+        # Use the ADC block's own per-channel output voltage — NOT adc_signal
+        # (which may be IQ-combined by RangeFFT and carry a spurious +3 dB).
         adc_block = next((b for b in self.blocks.values() if isinstance(b, ADCBlock)), None)
-        if adc_block is not None and target_block is not None and adc_signal.power_dbm > -200:
-            bits = int(adc_block.params["bits"])
-            full_scale_dbm = float(adc_block.params["full_scale_dbm"])
-            p_min_adc_dbm = full_scale_dbm + 10 * math.log10(2.0) - 6.02 * bits
-            r_adc = float(target_block.params["distance_m"]) * 10.0 ** (
-                (adc_signal.power_dbm - p_min_adc_dbm) / 40.0)
-            mr = min(mr, r_adc)
+        if adc_block is not None and target_block is not None:
+            adc_outs = self._last_signals.get(adc_block.block_id, {})
+            adc_ch = adc_outs.get("I_out") or next(iter(adc_outs.values()), None)
+            if adc_ch is not None and math.isfinite(adc_ch.voltage_dbv):
+                bits = int(adc_block.params["bits"])
+                fs_v = float(adc_block.params["full_scale_pm_v"])
+                lsb_half_dbv = 20.0 * math.log10(fs_v / (2 ** bits))
+                r_adc = float(target_block.params["distance_m"]) * 10.0 ** (
+                    (adc_ch.voltage_dbv - lsb_half_dbv) / 40.0)
+                mr = min(mr, r_adc)
 
         return RadarMetrics(
             range_resolution_m=rr,

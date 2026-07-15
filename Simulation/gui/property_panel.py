@@ -50,7 +50,7 @@ class PropertyPanel:
                 dpg.add_table_column()   # stretches to fill panel width
 
                 for key, val in block.params.items():
-                    label = key.replace("_", " ").title()
+                    label = block.param_labels.get(key, key.replace("_", " ").title())
                     with dpg.table_row():
                         dpg.add_text(label, color=(180, 180, 180))
                         if isinstance(val, bool):
