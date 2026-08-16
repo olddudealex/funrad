@@ -32,6 +32,7 @@ class Block(ABC):
 
     display_name: str = "Block"
     category: str = "Generic"
+    model_help: str = ""       # shown in property panel "Model description" section
 
     def __init__(self, block_id: str | None = None):
         self.block_id: str = block_id or str(uuid.uuid4())

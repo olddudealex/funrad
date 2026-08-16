@@ -7,7 +7,7 @@ from graph.node_graph import NodeGraph
 from physics.signal import SignalKind
 from blocks import (
     PLLChirpBlock, DACIQBlock, AmplifierBlock,
-    AntennaBlock, CouplerBlock, FilterBlock, AttenuatorBlock,
+    AntennaBlock, CouplerBlock, FilterBlock, AttenuatorBlock, WilkinsonDividerBlock,
     TargetBlock, LNABlock, MixerBlock, IQAmplifierBlock, IFFilterBlock, ADCBlock,
     RangeFFTBlock,
 )
@@ -124,114 +124,126 @@ class App:
         """Build the standard FMCW radar chain on startup."""
         # TX source
         pll = PLLChirpBlock()
-        pll._dpg_pos = (30, 60)
+        pll._dpg_pos = (30, 30)
         pll.params.update({"center_freq_ghz": 5.8, "bandwidth_mhz": 150.0,
                            "chirp_duration_ms": 1.0, "power_dbm": 2.0})
 
+        # Wilkinson divider: splits chirp to TX chain and LO path
+        wilkinson = WilkinsonDividerBlock()
+        wilkinson._dpg_pos = (175, 30)
+        wilkinson.params.update({"insertion_loss_db": 0.3})
+
         # TX attenuator (level-setting before PA)
-        att = AttenuatorBlock()
-        att._dpg_pos = (175, 60)
-        att.params.update({"attenuation_db": 22.0})
+        att_tx = AttenuatorBlock()
+        att_tx._dpg_pos = (330, 30)
+        att_tx.params.update({"attenuation_db": 15.0})
 
         # TX amplifier / PA
         pa = AmplifierBlock()
-        pa._dpg_pos = (320, 60)
-        pa.params.update({"gain_db": 20.0, "nf_db": 1.4})
+        pa._dpg_pos = (475, 30)
+        pa.params.update({"gain_db": 19.0, "nf_db": 1.4})
         pa.display_name = "PA"
 
-        # Directional coupler
+        # Directional coupler (coupled port reserved for power detector — not connected)
         coupler = CouplerBlock()
-        coupler._dpg_pos = (465, 60)
+        coupler._dpg_pos = (620, 30)
         coupler.params.update({"coupling_db": 20.0, "through_loss_db": 0.5})
 
         # TX Antenna
         tx_ant = AntennaBlock()
-        tx_ant._dpg_pos = (610, 60)
+        tx_ant._dpg_pos = (765, 30)
         tx_ant.params.update({"gain_dbi": 12.0, "direction": "TX"})
 
         # Target
         target = TargetBlock()
-        target._dpg_pos = (755, 60)
-        target.params.update({"distance_m": 50.0, "rcs_dbsm": 0.0,
-                               "tx_antenna_gain_dbi": 12.0,
-                               "rx_antenna_gain_dbi": 12.0})
+        target._dpg_pos = (910, 30)
+        target.params.update({"distance_m": 50.0, "rcs_dbsm": 0.0})
+
+        # LO attenuator: from Wilkinson out2 to mixer LO input
+        att_lo = AttenuatorBlock()
+        att_lo._dpg_pos = (175, 160)
+        att_lo.params.update({"attenuation_db": -1.0})
 
         # RX Antenna
         rx_ant = AntennaBlock()
-        rx_ant._dpg_pos = (900, 240)
+        rx_ant._dpg_pos = (910, 290)
         rx_ant.params.update({"gain_dbi": 12.0, "direction": "RX"})
         rx_ant.mirrored = True
 
         # LNA
         lna = LNABlock()
-        lna._dpg_pos = (780, 240)
-        lna.params.update({"gain_db": 17.9, "nf_db": 0.76})
+        lna._dpg_pos = (790, 290)
+        lna.params.update({"gain_db": 17.9, "nf_db": 0.66})
         lna.mirrored = True
 
         # Mixer (active, positive gain)
         mixer = MixerBlock()
-        mixer._dpg_pos = (660, 240)
+        mixer._dpg_pos = (660, 290)
         mixer.params.update({"voltage_gain_db": 5.8, "nf_db": 15.5})
         mixer.mirrored = True
 
         # IF filter 1 — image/channel select, before IF amp
         if_filter1 = IFFilterBlock()
-        if_filter1._dpg_pos = (540, 240)
-        if_filter1.params.update({"cutoff_hz": 5e6, "order": 4, "insertion_loss_db": 1.0})
+        if_filter1._dpg_pos = (530, 290)
+        if_filter1.params.update({"cutoff_hz": 1e6, "order": 4, "insertion_loss_db": 1.0})
         if_filter1.mirrored = True
 
         # IF Amplifier
         iq_amp = IQAmplifierBlock()
-        iq_amp._dpg_pos = (420, 240)
-        iq_amp.params.update({"gain_db": 20.0, "nf_db": 5.0})
+        iq_amp._dpg_pos = (400, 290)
+        iq_amp.params.update({"gain_db": 20.0, "added_noise_dbv": -87.74})
         iq_amp.mirrored = True
 
         # IF filter 2 — anti-alias before ADC
         if_filter2 = IFFilterBlock()
-        if_filter2._dpg_pos = (300, 240)
-        if_filter2.params.update({"cutoff_hz": 5e6, "order": 4, "insertion_loss_db": 1.0})
+        if_filter2._dpg_pos = (270, 290)
+        if_filter2.params.update({"cutoff_hz": 1e6, "order": 4, "insertion_loss_db": 1.0})
         if_filter2.mirrored = True
 
         # ADC
         adc = ADCBlock()
-        adc._dpg_pos = (180, 240)
+        adc._dpg_pos = (150, 290)
         adc.params.update({"bits": 14, "sample_rate_mhz": 3.5,
                            "full_scale_pm_v": 4.096})
         adc.mirrored = True
 
         # Range FFT
         range_fft = RangeFFTBlock()
-        range_fft._dpg_pos = (30, 240)
+        range_fft._dpg_pos = (30, 290)
         range_fft.mirrored = True
 
-        blocks = [pll, att, pa, coupler, tx_ant, target,
+        blocks = [pll, wilkinson, att_tx, att_lo, pa, coupler, tx_ant, target,
                   rx_ant, lna, mixer, if_filter1, iq_amp, if_filter2, adc, range_fft]
         for b in blocks:
             self._graph.add_block(b)
         self._node_editor.draw_all_blocks()
 
         # Connect TX path
-        self._graph.connect(pll.block_id,    "rf_out",  att.block_id,    "rf_in")
-        self._graph.connect(att.block_id,    "rf_out",  pa.block_id,     "rf_in")
-        self._graph.connect(pa.block_id,     "rf_out",  coupler.block_id,"rf_in")
-        self._graph.connect(coupler.block_id,"through",  tx_ant.block_id, "rf_in")
-        self._graph.connect(tx_ant.block_id, "rf_out",  target.block_id, "tx_in")
+        self._graph.connect(pll.block_id,      "rf_out",  wilkinson.block_id, "rf_in")
+        self._graph.connect(wilkinson.block_id, "out1",    att_tx.block_id,    "rf_in")
+        self._graph.connect(att_tx.block_id,    "rf_out",  pa.block_id,        "rf_in")
+        self._graph.connect(pa.block_id,        "rf_out",  coupler.block_id,   "rf_in")
+        self._graph.connect(coupler.block_id,   "through", tx_ant.block_id,    "rf_in")
+        self._graph.connect(tx_ant.block_id,    "rf_out",  target.block_id,    "tx_in")
+
+        # Connect LO path: Wilkinson out2 → attenuator → mixer LO
+        self._graph.connect(wilkinson.block_id, "out2",    att_lo.block_id,    "rf_in")
+        self._graph.connect(att_lo.block_id,    "rf_out",  mixer.block_id,     "lo_in")
 
         # Connect RX path
-        self._graph.connect(target.block_id,    "rx_out", rx_ant.block_id,   "rf_in")
-        self._graph.connect(rx_ant.block_id,    "rf_out", lna.block_id,      "rf_in")
-        self._graph.connect(lna.block_id,       "rf_out", mixer.block_id,    "rf_in")
-        self._graph.connect(coupler.block_id,   "coupled",mixer.block_id,    "lo_in")
-        self._graph.connect(mixer.block_id,     "I_out",  if_filter1.block_id,"I_in")
-        self._graph.connect(mixer.block_id,     "Q_out",  if_filter1.block_id,"Q_in")
-        self._graph.connect(if_filter1.block_id,"I_out",  iq_amp.block_id,   "I_in")
-        self._graph.connect(if_filter1.block_id,"Q_out",  iq_amp.block_id,   "Q_in")
-        self._graph.connect(iq_amp.block_id,    "I_out",  if_filter2.block_id,"I_in")
-        self._graph.connect(iq_amp.block_id,    "Q_out",  if_filter2.block_id,"Q_in")
-        self._graph.connect(if_filter2.block_id,"I_out",  adc.block_id,      "I_in")
-        self._graph.connect(if_filter2.block_id,"Q_out",  adc.block_id,      "Q_in")
-        self._graph.connect(adc.block_id,       "I_out",  range_fft.block_id,"I_in")
-        self._graph.connect(adc.block_id,       "Q_out",  range_fft.block_id,"Q_in")
+        self._graph.connect(target.block_id,    "rx_out",  rx_ant.block_id,    "rf_in")
+        self._graph.connect(rx_ant.block_id,    "rf_out",  lna.block_id,       "rf_in")
+        self._graph.connect(lna.block_id,       "rf_out",  mixer.block_id,     "rf_in")
+        self._graph.connect(mixer.block_id,     "I_out",   if_filter1.block_id,"I_in")
+        self._graph.connect(mixer.block_id,     "Q_out",   if_filter1.block_id,"Q_in")
+        self._graph.connect(if_filter1.block_id,"I_out",   iq_amp.block_id,    "I_in")
+        self._graph.connect(if_filter1.block_id,"Q_out",   iq_amp.block_id,    "Q_in")
+        self._graph.connect(iq_amp.block_id,    "I_out",   if_filter2.block_id,"I_in")
+        self._graph.connect(iq_amp.block_id,    "Q_out",   if_filter2.block_id,"Q_in")
+        self._graph.connect(if_filter2.block_id,"I_out",   adc.block_id,       "I_in")
+        self._graph.connect(if_filter2.block_id,"Q_out",   adc.block_id,       "Q_in")
+        self._graph.connect(adc.block_id,       "I_out",   range_fft.block_id, "I_in")
+        self._graph.connect(adc.block_id,       "Q_out",   range_fft.block_id, "Q_in")
 
         self._node_editor.draw_all_connections()
 

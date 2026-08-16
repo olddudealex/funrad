@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 import numpy as np
 
 from physics.signal import SignalState
@@ -12,6 +12,28 @@ class TargetBlock(Block):
 
     display_name = "Target"
     category = "Scene"
+    model_help = (
+        "Radar target: round-trip radar range equation.\n"
+        "\n"
+        "Received power (before RX antenna):\n"
+        "  P_rx = P_tx + RCS_dBsm\n"
+        "         + 20·log10(λ) − 30·log10(4π)\n"
+        "         − 40·log10(R)                [dBm]\n"
+        "\n"
+        "Antenna gains: gt = gr = 0 dBi here.\n"
+        "  TX gain applied by the TX Antenna block.\n"
+        "  RX gain applied by the RX Antenna block.\n"
+        "  (Avoids double-counting.)\n"
+        "\n"
+        "Noise: SNR is preserved through propagation.\n"
+        "  N_rx = N_tx − path_loss_db\n"
+        "  Dominant RX noise = kT0B from RX antenna.\n"
+        "\n"
+        "Time delay: τ = 2R/c applied to samples.\n"
+        "Beat freq:  f_b = 2R·(B/T_chirp)/c\n"
+        "\n"
+        "RCS guide: 0 dBsm ≈ person, 10 ≈ car, 20 ≈ truck."
+    )
 
     def _setup_ports(self):
         self.ports = [
@@ -22,22 +44,20 @@ class TargetBlock(Block):
     def _setup_params(self):
         self.params = {
             "distance_m": 50.0,
-            "rcs_dbsm": 0.0,       # 0 dBsm ≈ 1 m² (car-like)
-            "tx_antenna_gain_dbi": 12.0,
-            "rx_antenna_gain_dbi": 12.0,
+            "rcs_dbsm": 0.0,       # 0 dBsm ~ 1 m^2 (car-like)
         }
+        # Antenna gains are applied by the TX/RX Antenna blocks in the chain;
+        # the radar equation here uses gt=0, gr=0 to avoid double-counting.
 
     def process(self, inputs: dict[str, SignalState]) -> dict[str, SignalState]:
         sig = inputs.get("tx_in", SignalState())
         d = self.params["distance_m"]
         rcs = self.params["rcs_dbsm"]
-        gt = self.params["tx_antenna_gain_dbi"]
-        gr = self.params["rx_antenna_gain_dbi"]
 
         pr_dbm = received_power_dbm(
             ptx_dbm=sig.power_dbm,
-            gt_dbi=gt,
-            gr_dbi=gr,
+            gt_dbi=0.0,
+            gr_dbi=0.0,
             rcs_dbsm=rcs,
             distance_m=d,
             freq_hz=sig.center_freq_hz,
@@ -47,7 +67,7 @@ class TargetBlock(Block):
         path_loss_db = sig.power_dbm - pr_dbm
         noise_floor  = sig.noise_floor_dbm - path_loss_db
 
-        # Delay (τ = 2R/c) and attenuate the sample array
+        # Delay (tau = 2R/c) and attenuate the sample array
         if len(sig.samples):
             fs = sig.sample_rate_hz if sig.sample_rate_hz > 0 else sig.bandwidth_hz
             n = len(sig.samples)
@@ -74,8 +94,8 @@ class TargetBlock(Block):
         for d in distances:
             pr = received_power_dbm(
                 ptx_dbm=output_signal.power_dbm,
-                gt_dbi=self.params["tx_antenna_gain_dbi"],
-                gr_dbi=self.params["rx_antenna_gain_dbi"],
+                gt_dbi=0.0,
+                gr_dbi=0.0,
                 rcs_dbsm=self.params["rcs_dbsm"],
                 distance_m=d,
                 freq_hz=output_signal.center_freq_hz,
@@ -83,7 +103,7 @@ class TargetBlock(Block):
             powers.append(pr)
         noise = np.full_like(distances, output_signal.noise_floor_dbm)
         return PlotData(
-            title=f"Target — Rx power vs distance (RCS={self.params['rcs_dbsm']} dBsm)",
+            title=f"Target  -  Rx power vs distance (RCS={self.params['rcs_dbsm']} dBsm)",
             x_label="Distance (m)", y_label="Rx Power (dBm)",
             x=distances, y=np.array(powers),
             extra_series=[("Noise floor", distances, noise)],

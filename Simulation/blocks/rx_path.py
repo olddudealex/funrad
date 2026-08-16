@@ -1,9 +1,9 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 import math
 import numpy as np
 
 from physics.signal import SignalState, SignalKind, power_to_amplitude
-from physics.noise import thermal_noise_dbm, noise_figure_to_noise_floor_dbm
+from physics.noise import thermal_noise_dbm
 from .base import Block, SingleIOBlock, Port, PlotData
 
 
@@ -12,6 +12,24 @@ class LNABlock(SingleIOBlock):
 
     display_name = "LNA"
     category = "RX"
+    model_help = (
+        "Low-Noise Amplifier (RF domain).\n"
+        "\n"
+        "Signal:  P_out = P_in + gain_db            [dBm]\n"
+        "Noise:   N_out = (N_in + kT0B·(F−1)) · G  [mW]\n"
+        "  where  F = 10^(nf_db/10)   (noise factor)\n"
+        "         G = 10^(gain_db/10) (power gain)\n"
+        "         k = 1.38e-23 J/K,  T0 = 290 K\n"
+        "\n"
+        "The LNA adds only kT0B·(F−1) — the device-\n"
+        "contributed excess noise at the input.\n"
+        "The input kT0B must come from the upstream\n"
+        "RX Antenna block (which injects it explicitly).\n"
+        "\n"
+        "Total at LNA output (for kT0B antenna source):\n"
+        "  N_out = (kT0B + kT0B·(F−1))·G\n"
+        "        = kT0B·F·G                          (ok)"
+    )
 
     def _setup_params(self):
         self.params = {
@@ -20,12 +38,15 @@ class LNABlock(SingleIOBlock):
         }
 
     def transform(self, sig: SignalState) -> SignalState:
-        g = self.params["gain_db"]
+        g  = self.params["gain_db"]
         nf = self.params["nf_db"]
-        added_noise = noise_figure_to_noise_floor_dbm(nf, sig.bandwidth_hz)
-        noise_combined_w = (10 ** (sig.noise_floor_dbm / 10) +
-                            10 ** (added_noise / 10)) * 10 ** (g / 10)
-        new_noise_floor = 10 * math.log10(noise_combined_w)
+        # Device adds only kT0B*(F-1).  The input kT0B source comes from
+        # the upstream RX antenna block, so we must NOT add another kT0B here.
+        kTB_mw  = 10.0 ** (thermal_noise_dbm(sig.bandwidth_hz) / 10.0)
+        f_linear = 10.0 ** (nf / 10.0)
+        n_in_mw  = 10.0 ** (sig.noise_floor_dbm / 10.0)
+        noise_out_mw = (n_in_mw + kTB_mw * (f_linear - 1.0)) * 10.0 ** (g / 10.0)
+        new_noise_floor = 10.0 * math.log10(max(noise_out_mw, 1e-30))
         new_nf = sig.noise_figure_db + nf
         amp_scale = 10.0 ** (g / 20.0)
         new_samples = (sig.samples * amp_scale).astype(np.complex64) if len(sig.samples) else sig.samples
@@ -45,6 +66,27 @@ class MixerBlock(Block):
 
     display_name = "Mixer"
     category = "RX"
+    model_help = (
+        "Active IQ downconverter (Model B).\n"
+        "Both I and Q receive the full signal power.\n"
+        "\n"
+        "Signal:  P_IF = P_RF + voltage_gain_db     [dBm]\n"
+        "  voltage_gain_db = 20·log10(V_out/V_in)\n"
+        "\n"
+        "Noise:\n"
+        "  N_out = (N_in + kT0B·(F−1)) · Gv²      [mW]\n"
+        "  Gv = 10^(voltage_gain_db/20)  (amplitude)\n"
+        "  Gv² is used for noise (power conversion).\n"
+        "  F = 10^(nf_db/10)\n"
+        "\n"
+        "Voltage conversion (RF→IF domain):\n"
+        "  V_rms = √(P_RF_mW·50e−3) · Gv           [V]\n"
+        "  voltage_dbv = 20·log10(V_rms)\n"
+        "\n"
+        "nf_db: mixer noise figure, RF-input referred.\n"
+        "mode:  downconvert (f_beat = |f_RF − f_LO|)\n"
+        "       or upconvert."
+    )
 
     def _setup_ports(self):
         self.ports = [
@@ -97,7 +139,7 @@ class MixerBlock(Block):
 
         ch_power = if_power
         ch_noise = noise_floor
-        # Voltage conversion: RF input power (50 Ω) scaled by per-channel voltage gain
+        # Voltage conversion: RF input power (50 Ohm) scaled by per-channel voltage gain
         v_rf_rms = math.sqrt(max(10.0 ** (rf.power_dbm / 10.0) * 1e-3 * 50.0, 0.0))
         g_v      = gv_linear
         v_ch_rms = v_rf_rms * g_v
@@ -128,6 +170,26 @@ class ADCBlock(SingleIOBlock):
 
     display_name = "ADC"
     category = "RX"
+    model_help = (
+        "Analog-to-Digital Converter.\n"
+        "\n"
+        "Quantisation noise (voltage domain, no 50 Ω):\n"
+        "  SQNR = 6.02·bits + 1.76              [dB]\n"
+        "  qn_dbv = 20·log10(full_scale_pm_v)\n"
+        "           − SQNR\n"
+        "  total_noise_dbv = 10·log10(\n"
+        "      10^(noise_in/10) + 10^(qn/10))\n"
+        "\n"
+        "Sampling: decimates by M = round(fs_in / fs_adc).\n"
+        "  No anti-alias filter inside this block.\n"
+        "  Add an IFFilterBlock upstream for AA filtering.\n"
+        "\n"
+        "Dead zone: |V_signal| < ½ LSB → signal = 0.\n"
+        "  ½ LSB = full_scale_pm_v / 2^bits\n"
+        "\n"
+        "full_scale_pm_v: peak amplitude (V), i.e.\n"
+        "  the ADC accepts ±full_scale_pm_v."
+    )
 
     def _setup_ports(self):
         self.ports = [
@@ -147,7 +209,7 @@ class ADCBlock(SingleIOBlock):
         self.params = {
             "bits": 12,
             "sample_rate_mhz": 10.0,
-            "full_scale_pm_v": 4.096,     # peak amplitude (V), ±V_fs
+            "full_scale_pm_v": 4.096,     # peak amplitude (V), +/-V_fs
         }
         self.param_labels = {"full_scale_pm_v": "Full Scale ±V"}
 
@@ -156,7 +218,7 @@ class ADCBlock(SingleIOBlock):
         fs_hz = self.params["sample_rate_mhz"] * 1e6
         fs_v  = self.params["full_scale_pm_v"]       # peak amplitude (V)
         sqnr_db = 6.02 * bits + 1.76
-        # Work in the voltage domain — no impedance assumption.
+        # Work in the voltage domain  -  no impedance assumption.
         # Noise floor in dBV is derived from the tracked SNR (dimensionless dB).
         quant_noise_dbv  = 20.0 * math.log10(fs_v) - sqnr_db
         noise_floor_dbv  = sig.voltage_dbv - sig.snr_db
@@ -172,7 +234,7 @@ class ADCBlock(SingleIOBlock):
         if len(sig.samples):
             fs_in = sig.sample_rate_hz if sig.sample_rate_hz > 0 else sig.bandwidth_hz
             M = max(1, int(round(fs_in / fs_hz)))
-            # Plain downsampling — no implicit filtering.
+            # Plain downsampling  -  no implicit filtering.
             # Add an explicit FilterBlock (LP, cutoff = fs_adc/2) before the
             # ADC if anti-aliasing is needed.
             decimated = sig.samples[::M].astype(np.complex64)
@@ -184,7 +246,7 @@ class ADCBlock(SingleIOBlock):
             imag_q = np.round(decimated.imag / fs_v * half) / half * fs_v
             new_samples = (real_q + 1j * imag_q).astype(np.complex64)
 
-            # Dead-zone: signal rounds to 0 when per-channel amplitude < ½ LSB.
+            # Dead-zone: signal rounds to 0 when per-channel amplitude < 1/2 LSB.
             lsb_half  = fs_v / (2 ** bits)
             sig_amp_v = (10.0 ** (sig.voltage_dbv / 20.0)
                          if math.isfinite(sig.voltage_dbv)
@@ -214,8 +276,8 @@ class ADCBlock(SingleIOBlock):
         levels = 2 ** bits
         quantized = np.round(raw / full_scale * levels / 2) / (levels / 2) * full_scale
         return PlotData(
-            title=f"ADC output — {bits}-bit, fs={fs/1e6:.0f} MHz",
-            x_label="Time (µs)", y_label="Amplitude",
+            title=f"ADC output  -  {bits}-bit, fs={fs/1e6:.0f} MHz",
+            x_label="Time (us)", y_label="Amplitude",
             x=t_us, y=quantized,
             extra_series=[("Continuous", t_us, raw)],
         )
@@ -225,10 +287,28 @@ class ADCBlock(SingleIOBlock):
 
 
 class IQAmplifierBlock(Block):
-    """IF I/Q amplifier — applies gain and noise figure to each channel independently."""
+    """IF I/Q amplifier  -  applies gain and noise figure to each channel independently."""
 
     display_name = "IF Amp"
     category = "RX"
+    model_help = (
+        "IF I/Q amplifier — I and Q processed independently.\n"
+        "\n"
+        "Signal:  V_out = V_in · Gv  (Gv = 10^(G/20))\n"
+        "         P_out = P_in + gain_db              [dBm]\n"
+        "\n"
+        "Noise (voltage domain, no impedance assumed):\n"
+        "  noise_in_dbv  = voltage_dbv − SNR_in\n"
+        "  noise_amp_dbv = noise_in_dbv + gain_db\n"
+        "  total_dbv = 10·log10(\n"
+        "      10^(noise_amp/10) + 10^(added_noise/10))\n"
+        "\n"
+        "added_noise_dbv: total RMS noise added at\n"
+        "  this amplifier's output (dBV).\n"
+        "  Source: datasheet nV/√Hz × √BW → dBV.\n"
+        "  No kT0B reference — IF chain has no 50 Ω\n"
+        "  thermal floor by definition."
+    )
 
     def _setup_ports(self):
         self.ports = [
@@ -239,7 +319,11 @@ class IQAmplifierBlock(Block):
         ]
 
     def _setup_params(self):
-        self.params = {"gain_db": 20.0, "nf_db": 5.0}
+        self.params = {
+            "gain_db": 20.0,
+            "added_noise_dbv": -87.74,  # noise added by this amp at its output (dBV RMS)
+        }
+        self.param_labels = {"added_noise_dbv": "Added Output Noise (dBV)"}
 
     def process(self, inputs: dict[str, SignalState]) -> dict[str, SignalState]:
         outputs = {"I_out": self._transform_channel(inputs.get("I_in", SignalState()))}
@@ -248,17 +332,29 @@ class IQAmplifierBlock(Block):
         return outputs
 
     def _transform_channel(self, sig: SignalState) -> SignalState:
-        g   = self.params["gain_db"]
-        nf  = self.params["nf_db"]
-        added_noise = noise_figure_to_noise_floor_dbm(nf, sig.bandwidth_hz)
-        noise_w = (10 ** (sig.noise_floor_dbm / 10) + 10 ** (added_noise / 10)) * 10 ** (g / 10)
+        g               = self.params["gain_db"]
+        added_noise_dbv = self.params["added_noise_dbv"]
+
         amp_scale   = 10.0 ** (g / 20.0)
         new_samples = (sig.samples * amp_scale).astype(np.complex64) if len(sig.samples) else sig.samples
-        new_vdbv = sig.voltage_dbv + g if math.isfinite(sig.voltage_dbv) else float('nan')
+        new_vdbv    = sig.voltage_dbv + g if math.isfinite(sig.voltage_dbv) else float('nan')
+        new_power   = sig.power_dbm + g
+
+        if math.isfinite(sig.voltage_dbv):
+            # Combine amplified input noise with amp's own output noise, in dBV domain
+            noise_in_dbv    = sig.voltage_dbv - sig.snr_db   # input noise floor in dBV
+            noise_amp_dbv   = noise_in_dbv + g               # amplified to output
+            total_noise_dbv = 10.0 * math.log10(
+                10.0 ** (noise_amp_dbv   / 10.0) +
+                10.0 ** (added_noise_dbv / 10.0)
+            )
+            new_noise_floor = new_power - (new_vdbv - total_noise_dbv)
+        else:
+            new_noise_floor = sig.noise_floor_dbm + g
+
         return sig.copy(
-            power_dbm=sig.power_dbm + g,
-            noise_floor_dbm=10 * math.log10(noise_w),
-            noise_figure_db=sig.noise_figure_db + nf,
+            power_dbm=new_power,
+            noise_floor_dbm=new_noise_floor,
             samples=new_samples,
             voltage_dbv=new_vdbv,
         )
@@ -272,6 +368,26 @@ class IFFilterBlock(Block):
 
     display_name = "IF Filter"
     category = "RX"
+    model_help = (
+        "Butterworth IF low-pass filter — I and Q\n"
+        "channels processed independently.\n"
+        "\n"
+        "Signal:  P_out = P_in − insertion_loss_db\n"
+        "         V_out = V_in − insertion_loss_db\n"
+        "\n"
+        "Bandwidth: narrowed to min(cutoff_hz, BW_in).\n"
+        "  BW change: 10·log10(BW_out/BW_in) ≤ 0 dB.\n"
+        "\n"
+        "Noise:   noise_out = noise_in\n"
+        "                   + BW_change_db − IL_dB\n"
+        "  (noise power scales with bandwidth).\n"
+        "\n"
+        "Thermal noise from the filter itself is\n"
+        "negligible after LNA gain — not modelled.\n"
+        "\n"
+        "A Butterworth response is applied to the\n"
+        "sample array. cutoff_hz is the −3 dB corner."
+    )
 
     def _setup_ports(self):
         self.ports = [

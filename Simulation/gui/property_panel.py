@@ -88,6 +88,12 @@ class PropertyPanel:
                 dpg.add_button(label=mirror_label, width=160,
                                callback=self._mirror)
 
+            if getattr(block, 'model_help', ''):
+                dpg.add_spacer(height=6)
+                with dpg.collapsing_header(label="Model description",
+                                           default_open=False):
+                    dpg.add_text(block.model_help, wrap=0)
+
     def _apply(self):
         if self._block is None:
             return

@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 import math
 import numpy as np
 
@@ -19,6 +19,28 @@ class RangeFFTBlock(Block):
 
     display_name = "Range FFT"
     category = "DSP"
+    model_help = (
+        "Range FFT: N-point FFT of the complex beat signal.\n"
+        "\n"
+        "Coherent processing gain:\n"
+        "  G_FFT = 10·log10(N_used)             [dB]\n"
+        "  Hanning window loss: −10·log10(1.5)\n"
+        "    ≈ −1.76 dB (coherent gain reduction).\n"
+        "  Net FFT gain: G_FFT − 1.76 dB.\n"
+        "\n"
+        "Effect on noise floor:\n"
+        "  Per-bin noise = time-domain noise − G_FFT\n"
+        "  (noise is incoherent across bins → spreads).\n"
+        "  Signal in target bin: +G_FFT vs time domain.\n"
+        "  Net SNR improvement ≈ G_FFT dB.\n"
+        "\n"
+        "N_used = min(nfft, len(samples)).\n"
+        "Zero-padding (nfft > len) improves frequency\n"
+        "resolution display but does NOT improve SNR.\n"
+        "\n"
+        "Time-domain samples passed through unchanged;\n"
+        "only noise_floor_dbm is updated to per-bin level."
+    )
 
     def _setup_ports(self):
         self.ports = [
@@ -58,8 +80,8 @@ class RangeFFTBlock(Block):
 
         nfft = max(1, int(self.params["nfft"]))
         n_used = min(nfft, len(sig.samples))
-        # Hanning window reduces coherent SNR gain by 10·log10(3/2) ≈ 1.76 dB
-        # vs the rectangular-window formula 10·log10(n_used).
+        # Hanning window reduces coherent SNR gain by 10*log10(3/2) ~ 1.76 dB
+        # vs the rectangular-window formula 10*log10(n_used).
         window_loss_db = 10.0 * math.log10(1.5) if self.params["window"] == "Hanning" else 0.0
         fft_gain_db = 10.0 * math.log10(n_used) - window_loss_db
         per_bin_noise = sig.noise_floor_dbm - fft_gain_db
