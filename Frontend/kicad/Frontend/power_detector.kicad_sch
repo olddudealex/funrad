@@ -1,0 +1,514 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "4fbcf9a3-9b15-4aab-b722-ee91be0ee647")
+	(paper "A4")
+	(lib_symbols
+		(symbol "Frontend:AD8318"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -8.128 16.256 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "AD8318ACPZ"
+				(at -2.54 -16.51 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Package_CSP:Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "1 MHz to 8 GHz, 70 dB Logarithmic Detector/Controller"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "AD8318_1_1"
+				(rectangle
+					(start -8.636 15.24)
+					(end 9.144 -15.24)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin power_in line
+					(at 11.43 0 180)
+					(length 2.54)
+					(name "CMIP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 11.43 -2.54 180)
+					(length 2.54)
+					(name "CMIP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -11.43 -7.62 0)
+					(length 2.54)
+					(name "VPSI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -11.43 -10.16 0)
+					(length 2.54)
+					(name "VPSI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -11.43 0 0)
+					(length 2.54)
+					(name "CLPF"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 11.43 12.7 180)
+					(length 2.54)
+					(name "VOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 11.43 10.16 180)
+					(length 2.54)
+					(name "VSET"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 11.43 -12.7 180)
+					(length 2.54)
+					(name "CMOP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -11.43 -12.7 0)
+					(length 2.54)
+					(name "VPSO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -11.43 -2.54 0)
+					(length 2.54)
+					(name "TADJ"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 11.43 -5.08 180)
+					(length 2.54)
+					(name "CMIP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 11.43 -7.62 180)
+					(length 2.54)
+					(name "CMIP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 11.43 5.08 180)
+					(length 2.54)
+					(name "TEMP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -11.43 12.7 0)
+					(length 2.54)
+					(name "INHI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -11.43 10.16 0)
+					(length 2.54)
+					(name "INLO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -11.43 5.08 0)
+					(length 2.54)
+					(name "ENBL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 11.43 -10.16 180)
+					(length 2.54)
+					(name "CMIP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(symbol
+		(lib_id "Frontend:AD8318")
+		(at 101.6 67.31 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "22c433f2-f295-4c82-9644-8093944abb3d")
+		(property "Reference" "U5"
+			(at 101.727 46.99 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "AD8318ACPZ"
+			(at 101.727 49.53 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Package_CSP:Analog_LFCSP-16-1EP_4x4mm_P0.65mm_EP2.1x2.1mm"
+			(at 101.6 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 101.6 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "1 MHz to 8 GHz, 70 dB Logarithmic Detector/Controller"
+			(at 101.6 67.31 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "12"
+			(uuid "535efeef-b1bd-4e61-a428-6bb09589b2c4")
+		)
+		(pin "11"
+			(uuid "a6ccfc88-a196-4de7-9986-3492a3208eaf")
+		)
+		(pin "17"
+			(uuid "bb67f82d-c96d-45eb-a7e5-b3c845d67080")
+		)
+		(pin "2"
+			(uuid "ef903a8b-0468-4c58-be77-38ca807d859d")
+		)
+		(pin "4"
+			(uuid "cf736011-d50e-4f26-a7ad-a275b435521e")
+		)
+		(pin "9"
+			(uuid "5bd15427-7beb-40a2-afe2-7fbe2ac8fec9")
+		)
+		(pin "3"
+			(uuid "cc8d323c-f2df-47d3-9252-36619fb63e5a")
+		)
+		(pin "10"
+			(uuid "5d1068e7-fe72-4d18-b0ac-768aa164f584")
+		)
+		(pin "1"
+			(uuid "da0ffc4b-15ba-4582-9a5b-e76943e36416")
+		)
+		(pin "14"
+			(uuid "7eeafeb1-1b26-45d4-8420-3efd694b6e02")
+		)
+		(pin "15"
+			(uuid "55129339-ba82-491f-9049-2ca8a073bb57")
+		)
+		(pin "7"
+			(uuid "057ebb68-8326-4497-b5b5-c7ff1265e21d")
+		)
+		(pin "5"
+			(uuid "c6ae1459-ad69-4a3a-92a0-16c56b2e827a")
+		)
+		(pin "16"
+			(uuid "5653a4a6-14da-40e2-a2b9-9a293d2be745")
+		)
+		(pin "8"
+			(uuid "41addcb1-1453-42a1-ade5-7485fe7a01c8")
+		)
+		(pin "6"
+			(uuid "5ccb2573-284e-4d35-94da-43c1a19f7c79")
+		)
+		(pin "13"
+			(uuid "97eee62d-2477-47d5-a087-49b9cb597ba0")
+		)
+		(instances
+			(project "Frontend"
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/403ee0aa-09a0-488a-9c58-25feb5868867"
+					(reference "U5")
+					(unit 1)
+				)
+			)
+		)
+	)
+)

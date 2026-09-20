@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://toyradar.local/schema/toyradar-v1.json",
+  "title": "ToyRadar executable design configuration",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "design",
+    "environment",
+    "blocks",
+    "connections",
+    "scenarios",
+    "analyses"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "design": {
+      "type": "object",
+      "required": ["name", "revision"],
+      "additionalProperties": true,
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "minLength": 1},
+        "description": {"type": "string"}
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": ["reference_temperature_k", "rf_impedance_ohm"],
+      "additionalProperties": false,
+      "properties": {
+        "reference_temperature_k": {"type": "number", "exclusiveMinimum": 0},
+        "rf_impedance_ohm": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/block"}
+    },
+    "connections": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/connection"}
+    },
+    "scenarios": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/scenario"}
+    },
+    "analyses": {
+      "type": "object",
+      "required": ["snr_min_db"],
+      "additionalProperties": true,
+      "properties": {
+        "snr_min_db": {"type": "number"}
+      }
+    }
+  },
+  "$defs": {
+    "status": {
+      "enum": ["chosen", "working", "provisional", "open", "measured"]
+    },
+    "parameterMetadata": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "status": {"$ref": "#/$defs/status"},
+          "note": {"type": "string"},
+          "source": {"type": "string"}
+        }
+      }
+    },
+    "block": {
+      "type": "object",
+      "required": ["type", "id", "name", "params"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {"type": "string", "minLength": 1},
+        "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"},
+        "name": {"type": "string", "minLength": 1},
+        "part_number": {"type": "string"},
+        "role": {"type": "string"},
+        "pos": {
+          "type": "array",
+          "prefixItems": [{"type": "number"}, {"type": "number"}],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "mirrored": {"type": "boolean"},
+        "params": {"type": "object"},
+        "parameter_metadata": {"$ref": "#/$defs/parameterMetadata"}
+      }
+    },
+    "connection": {
+      "type": "object",
+      "required": ["src_block", "src_port", "dst_block", "dst_port"],
+      "additionalProperties": false,
+      "properties": {
+        "src_block": {"type": "string"},
+        "src_port": {"type": "string"},
+        "dst_block": {"type": "string"},
+        "dst_port": {"type": "string"}
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "required": ["id", "overrides"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"},
+        "label": {"type": "string"},
+        "overrides": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

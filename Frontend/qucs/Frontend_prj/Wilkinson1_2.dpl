@@ -1,0 +1,38 @@
+<Qucs Schematic 24.4.0>
+<Properties>
+  <View=46,-6,966,572,1.48644,0,59>
+  <Grid=10,10,0>
+  <DataSet=Wilkinson1_2.dat>
+  <DataDisplay=Wilkinson1_2.sch>
+  <OpenDisplay=0>
+  <Script=Wilkinson1_2.m>
+  <RunScript=0>
+  <showFrame=0>
+  <FrameText0=Title>
+  <FrameText1=Drawn By:>
+  <FrameText2=Date:>
+  <FrameText3=Revision:>
+</Properties>
+<Symbol>
+</Symbol>
+<Components>
+</Components>
+<Wires>
+</Wires>
+<Diagrams>
+  <Rect 560 220 240 160 3 #c0c0c0 1 00 1 4e+09 1e+09 8e+09 1 -3.6 0.2 -3.2 1 -1 1 1 315 0 225 1 0 0 "" "" "">
+	<"S21_dB" #0000ff 0 3 0 0 0>
+	  <Mkr 5.98995e+09 159 -212 3 0 0>
+	<"S31_dB" #ff0000 0 3 0 0 0>
+  </Rect>
+  <Rect 190 220 240 160 3 #c0c0c0 1 00 1 4e+09 1e+09 8e+09 1 -30 10 0 1 -1 1 1 315 0 225 1 0 0 "" "" "">
+	<"S11_dB" #ff00ff 0 3 0 0 0>
+	  <Mkr 5.82915e+09 -123 -44 3 0 0>
+  </Rect>
+  <Rect 190 440 240 160 3 #c0c0c0 1 00 1 0 0.2 1 1 -0.1 0.5 1.1 1 -0.1 0.5 1.1 315 0 225 1 0 0 "" "" "">
+	<"S23_dB" #0000ff 0 3 0 0 0>
+	  <Mkr 5.78894e+09 166 -76 3 0 0>
+  </Rect>
+</Diagrams>
+<Paintings>
+</Paintings>

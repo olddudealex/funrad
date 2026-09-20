@@ -1,6 +1,6 @@
 from __future__ import annotations
-import json
 import math
+from copy import deepcopy
 from collections import defaultdict, deque
 from dataclasses import dataclass
 
@@ -32,6 +32,17 @@ class NodeGraph:
         self.blocks: dict[str, Block] = {}
         self.connections: list[Connection] = []
         self._last_signals: dict[str, dict[str, SignalState]] = {}
+        self.document_metadata: dict = {
+            "schema_version": 1,
+            "design": {"name": "Untitled", "revision": "working"},
+            "environment": {
+                "reference_temperature_k": 290.0,
+                "rf_impedance_ohm": 50.0,
+            },
+            "scenarios": [],
+            "analyses": {"snr_min_db": 10.0},
+        }
+        self.load_warnings: list[str] = []
 
     # ------------------------------------------------------------------
     # Block management
@@ -47,6 +58,10 @@ class NodeGraph:
             if c.src_block_id != block_id and c.dst_block_id != block_id
         ]
         self._last_signals.pop(block_id, None)
+        for scenario in self.document_metadata.get("scenarios", []):
+            overrides = scenario.get("overrides", {})
+            if isinstance(overrides, dict):
+                overrides.pop(block_id, None)
 
     # ------------------------------------------------------------------
     # Connection management
@@ -115,7 +130,7 @@ class NodeGraph:
     # Simulation
     # ------------------------------------------------------------------
 
-    def run(self) -> dict[str, dict[str, SignalState]]:
+    def run(self, *, strict: bool = False) -> dict[str, dict[str, SignalState]]:
         """Run all blocks in topological order. Returns {block_id: {port: signal}}."""
         sorted_blocks = self.topological_sort()
         signals: dict[str, dict[str, SignalState]] = {}
@@ -133,8 +148,12 @@ class NodeGraph:
             try:
                 outputs = block.process(inputs)
             except Exception as e:
+                if strict:
+                    raise RuntimeError(
+                        f"Block {block.instance_name!r} ({block.block_id}) failed: {e}"
+                    ) from e
                 outputs = {}
-                print(f"[NodeGraph] Error in block {block.display_name}: {e}")
+                print(f"[NodeGraph] Error in block {block.instance_name}: {e}")
 
             signals[block.block_id] = outputs
 
@@ -161,7 +180,7 @@ class NodeGraph:
                 outputs = block.process(inputs)
             except Exception as e:
                 outputs = {}
-                print(f"[NodeGraph] Error in block {block.display_name}: {e}")
+                print(f"[NodeGraph] Error in block {block.instance_name}: {e}")
             signals[block.block_id] = outputs
             if block.block_id == block_id:
                 break
@@ -194,14 +213,17 @@ class NodeGraph:
                     break
             if sig is None:
                 sig = next(iter(outputs.values()))
-            name = block.display_name
+            name = block.instance_name
             n = seen.get(name, 0) + 1
             seen[name] = n
             label = f"{name} {n}" if n > 1 else name
             snr = sig.power_dbm - sig.noise_floor_dbm
             is_if = math.isfinite(sig.voltage_dbv)
             budget.append({
+                "block_id":     block.block_id,
+                "block_type":   type(block).__name__,
                 "label":        label,
+                "part_number":  block.part_number,
                 "signal_level": sig.voltage_dbv if is_if else sig.power_dbm,
                 "noise_level":  (sig.voltage_dbv - snr) if is_if else sig.noise_floor_dbm,
                 "snr_db":       snr,
@@ -214,7 +236,7 @@ class NodeGraph:
     # Metrics
     # ------------------------------------------------------------------
 
-    def compute_metrics(self) -> RadarMetrics:
+    def compute_metrics(self, snr_min_db: float | None = None) -> RadarMetrics:
         """Derive radar performance metrics from the last simulation run."""
         if not self._last_signals:
             self.run()
@@ -260,7 +282,10 @@ class NodeGraph:
             (b for b in self.blocks.values() if isinstance(b, TargetBlock)), None
         )
         if target_block is not None and adc_signal.snr_db > -200:
-            snr_min_db = 10.0
+            if snr_min_db is None:
+                snr_min_db = float(
+                    self.document_metadata.get("analyses", {}).get("snr_min_db", 10.0)
+                )
             r = float(target_block.params["distance_m"])
             mr = r * 10.0 ** ((adc_signal.snr_db - snr_min_db) / 40.0)
         else:
@@ -297,22 +322,28 @@ class NodeGraph:
     # ------------------------------------------------------------------
 
     def to_dict(self) -> dict:
-        return {
+        result = deepcopy(self.document_metadata)
+        result.update({
             "blocks": [b.to_dict() for b in self.blocks.values()],
             "connections": [c.to_dict() for c in self.connections],
-        }
+        })
+        return result
 
     def from_dict(self, d: dict):
         self.blocks.clear()
         self.connections.clear()
         self._last_signals.clear()
+        self.document_metadata = {
+            key: deepcopy(value)
+            for key, value in d.items()
+            if key not in {"blocks", "connections"}
+        }
 
         for bd in d.get("blocks", []):
             cls_name = bd.get("type", "")
             cls = _BLOCK_REGISTRY.get(cls_name)
             if cls is None:
-                print(f"[NodeGraph] Unknown block type '{cls_name}', skipping.")
-                continue
+                raise ValueError(f"Unknown block type '{cls_name}'.")
             block = cls.from_dict(bd)
             self.blocks[block.block_id] = block
 
@@ -321,14 +352,20 @@ class NodeGraph:
             self.connections.append(conn)
 
     def save_to_file(self, path: str):
-        with open(path, "w") as f:
-            json.dump(self.to_dict(), f, indent=2)
+        from config import save_configuration
+
+        save_configuration(self.to_dict(), path, require_connected=False)
 
     def load_from_file(self, path: str):
-        with open(path, "r") as f:
-            self.from_dict(json.load(f))
+        from config import load_configuration
+
+        document, warnings = load_configuration(path, require_connected=False)
+        self.from_dict(document)
+        self.load_warnings = warnings
+        return warnings
 
     def clear(self):
         self.blocks.clear()
         self.connections.clear()
         self._last_signals.clear()
+        self.load_warnings.clear()

@@ -3,8 +3,10 @@ import math
 import os
 import dearpygui.dearpygui as dpg
 
+from config import load_configuration, save_configuration
 from graph.node_graph import NodeGraph
 from physics.signal import SignalKind
+from scenario import BASE_SCENARIO_LABEL, ConfigurationSession
 from blocks import (
     PLLChirpBlock, DACIQBlock, AmplifierBlock,
     AntennaBlock, CouplerBlock, FilterBlock, AttenuatorBlock, WilkinsonDividerBlock,
@@ -24,8 +26,12 @@ _PANEL_OVERHEAD_PX = 55   # menu bar + metrics row + separator
 class App:
     def __init__(self):
         self._graph = NodeGraph()
+        self._session = ConfigurationSession(self._graph.to_dict())
         self._current_file: str | None = None
         self._unsaved = False
+        self._scenario_combo_tag: int | str = 0
+        self._delete_scenario_tag: int | str = 0
+        self._scenario_display_to_id: dict[str, str | None] = {}
 
         self._metrics = MetricsPanel()
         self._plot = PlotPanel(
@@ -35,6 +41,8 @@ class App:
         self._props = PropertyPanel(
             on_apply=self._on_params_changed,
             on_mirror=self._on_mirror_block,
+            on_reset_override=self._on_reset_override,
+            on_promote_overrides=self._on_promote_overrides,
         )
         self._node_editor = NodeEditor(
             graph=self._graph,
@@ -77,6 +85,25 @@ class App:
             with dpg.group(horizontal=False, tag="main_vgroup"):
                 # Metrics bar
                 with dpg.group(horizontal=True) as _metrics_group:
+                    dpg.add_text("Scenario:")
+                    self._scenario_combo_tag = dpg.add_combo(
+                        items=[BASE_SCENARIO_LABEL],
+                        default_value=BASE_SCENARIO_LABEL,
+                        width=230,
+                        callback=self._on_scenario_changed,
+                    )
+                    dpg.add_button(
+                        label="Add scenario",
+                        width=100,
+                        callback=self._open_add_scenario_dialog,
+                    )
+                    self._delete_scenario_tag = dpg.add_button(
+                        label="Delete scenario",
+                        width=110,
+                        enabled=False,
+                        callback=self._delete_active_scenario,
+                    )
+                    dpg.add_spacer(width=10)
                     self._metrics.build(_metrics_group)
 
                 dpg.add_separator()
@@ -121,131 +148,71 @@ class App:
     # ------------------------------------------------------------------
 
     def _load_default_chain(self):
-        """Build the standard FMCW radar chain on startup."""
-        # TX source
-        pll = PLLChirpBlock()
-        pll._dpg_pos = (30, 30)
-        pll.params.update({"center_freq_ghz": 5.8, "bandwidth_mhz": 150.0,
-                           "chirp_duration_ms": 1.0, "power_dbm": 2.0})
+        """Load the standard FMCW radar chain from its executable specification."""
+        default_path = os.path.join(
+            os.path.dirname(__file__), "configs", "FunRad.RevA.toyradar"
+        )
+        self._load_configuration(default_path)
+        self._current_file = default_path
+        self._unsaved = False
 
-        # Wilkinson divider: splits chirp to TX chain and LO path
-        wilkinson = WilkinsonDividerBlock()
-        wilkinson._dpg_pos = (175, 30)
-        wilkinson.params.update({"insertion_loss_db": 0.3})
+    def _load_configuration(self, path: str) -> None:
+        document, warnings = load_configuration(path, require_connected=False)
+        for warning in warnings:
+            print(f"[Configuration] {warning}")
+        self._session.load(document)
+        self._graph.from_dict(self._session.effective_document())
+        self._refresh_scenario_selector()
+        self._node_editor.refresh_all()
+        self._plot.clear_selection()
+        self._props.show_block(None)
 
-        # TX attenuator (level-setting before PA)
-        att_tx = AttenuatorBlock()
-        att_tx._dpg_pos = (330, 30)
-        att_tx.params.update({"attenuation_db": 15.0})
+    def _refresh_scenario_selector(self) -> None:
+        self._scenario_display_to_id.clear()
+        used: set[str] = set()
+        active_display = BASE_SCENARIO_LABEL
+        for scenario_id, label in self._session.scenarios():
+            display = label
+            if display in used:
+                display = f"{label} ({scenario_id})"
+            used.add(display)
+            self._scenario_display_to_id[display] = scenario_id
+            if scenario_id == self._session.active_scenario_id:
+                active_display = display
+        if dpg.does_item_exist(self._scenario_combo_tag):
+            dpg.configure_item(
+                self._scenario_combo_tag,
+                items=list(self._scenario_display_to_id),
+            )
+            dpg.set_value(self._scenario_combo_tag, active_display)
+        if dpg.does_item_exist(self._delete_scenario_tag):
+            dpg.configure_item(
+                self._delete_scenario_tag,
+                enabled=self._session.active_scenario_id is not None,
+            )
 
-        # TX amplifier / PA
-        pa = AmplifierBlock()
-        pa._dpg_pos = (475, 30)
-        pa.params.update({"gain_db": 19.0, "nf_db": 1.4})
-        pa.display_name = "PA"
+    def _sync_structure_from_graph(self) -> None:
+        self._node_editor.update_node_positions()
+        self._session.sync_graph_structure(self._graph.to_dict())
 
-        # Directional coupler (coupled port reserved for power detector — not connected)
-        coupler = CouplerBlock()
-        coupler._dpg_pos = (620, 30)
-        coupler.params.update({"coupling_db": 20.0, "through_loss_db": 0.5})
-
-        # TX Antenna
-        tx_ant = AntennaBlock()
-        tx_ant._dpg_pos = (765, 30)
-        tx_ant.params.update({"gain_dbi": 12.0, "direction": "TX"})
-
-        # Target
-        target = TargetBlock()
-        target._dpg_pos = (910, 30)
-        target.params.update({"distance_m": 50.0, "rcs_dbsm": 0.0})
-
-        # LO attenuator: from Wilkinson out2 to mixer LO input
-        att_lo = AttenuatorBlock()
-        att_lo._dpg_pos = (175, 160)
-        att_lo.params.update({"attenuation_db": -1.0})
-
-        # RX Antenna
-        rx_ant = AntennaBlock()
-        rx_ant._dpg_pos = (910, 290)
-        rx_ant.params.update({"gain_dbi": 12.0, "direction": "RX"})
-        rx_ant.mirrored = True
-
-        # LNA
-        lna = LNABlock()
-        lna._dpg_pos = (790, 290)
-        lna.params.update({"gain_db": 17.9, "nf_db": 0.66})
-        lna.mirrored = True
-
-        # Mixer (active, positive gain)
-        mixer = MixerBlock()
-        mixer._dpg_pos = (660, 290)
-        mixer.params.update({"voltage_gain_db": 5.8, "nf_db": 15.5})
-        mixer.mirrored = True
-
-        # IF filter 1 — image/channel select, before IF amp
-        if_filter1 = IFFilterBlock()
-        if_filter1._dpg_pos = (530, 290)
-        if_filter1.params.update({"cutoff_hz": 1e6, "order": 4, "insertion_loss_db": 1.0})
-        if_filter1.mirrored = True
-
-        # IF Amplifier
-        iq_amp = IQAmplifierBlock()
-        iq_amp._dpg_pos = (400, 290)
-        iq_amp.params.update({"gain_db": 20.0, "added_noise_dbv": -87.74})
-        iq_amp.mirrored = True
-
-        # IF filter 2 — anti-alias before ADC
-        if_filter2 = IFFilterBlock()
-        if_filter2._dpg_pos = (270, 290)
-        if_filter2.params.update({"cutoff_hz": 1e6, "order": 4, "insertion_loss_db": 1.0})
-        if_filter2.mirrored = True
-
-        # ADC
-        adc = ADCBlock()
-        adc._dpg_pos = (150, 290)
-        adc.params.update({"bits": 14, "sample_rate_mhz": 3.5,
-                           "full_scale_pm_v": 4.096})
-        adc.mirrored = True
-
-        # Range FFT
-        range_fft = RangeFFTBlock()
-        range_fft._dpg_pos = (30, 290)
-        range_fft.mirrored = True
-
-        blocks = [pll, wilkinson, att_tx, att_lo, pa, coupler, tx_ant, target,
-                  rx_ant, lna, mixer, if_filter1, iq_amp, if_filter2, adc, range_fft]
-        for b in blocks:
-            self._graph.add_block(b)
-        self._node_editor.draw_all_blocks()
-
-        # Connect TX path
-        self._graph.connect(pll.block_id,      "rf_out",  wilkinson.block_id, "rf_in")
-        self._graph.connect(wilkinson.block_id, "out1",    att_tx.block_id,    "rf_in")
-        self._graph.connect(att_tx.block_id,    "rf_out",  pa.block_id,        "rf_in")
-        self._graph.connect(pa.block_id,        "rf_out",  coupler.block_id,   "rf_in")
-        self._graph.connect(coupler.block_id,   "through", tx_ant.block_id,    "rf_in")
-        self._graph.connect(tx_ant.block_id,    "rf_out",  target.block_id,    "tx_in")
-
-        # Connect LO path: Wilkinson out2 → attenuator → mixer LO
-        self._graph.connect(wilkinson.block_id, "out2",    att_lo.block_id,    "rf_in")
-        self._graph.connect(att_lo.block_id,    "rf_out",  mixer.block_id,     "lo_in")
-
-        # Connect RX path
-        self._graph.connect(target.block_id,    "rx_out",  rx_ant.block_id,    "rf_in")
-        self._graph.connect(rx_ant.block_id,    "rf_out",  lna.block_id,       "rf_in")
-        self._graph.connect(lna.block_id,       "rf_out",  mixer.block_id,     "rf_in")
-        self._graph.connect(mixer.block_id,     "I_out",   if_filter1.block_id,"I_in")
-        self._graph.connect(mixer.block_id,     "Q_out",   if_filter1.block_id,"Q_in")
-        self._graph.connect(if_filter1.block_id,"I_out",   iq_amp.block_id,    "I_in")
-        self._graph.connect(if_filter1.block_id,"Q_out",   iq_amp.block_id,    "Q_in")
-        self._graph.connect(iq_amp.block_id,    "I_out",   if_filter2.block_id,"I_in")
-        self._graph.connect(iq_amp.block_id,    "Q_out",   if_filter2.block_id,"Q_in")
-        self._graph.connect(if_filter2.block_id,"I_out",   adc.block_id,       "I_in")
-        self._graph.connect(if_filter2.block_id,"Q_out",   adc.block_id,       "Q_in")
-        self._graph.connect(adc.block_id,       "I_out",   range_fft.block_id, "I_in")
-        self._graph.connect(adc.block_id,       "Q_out",   range_fft.block_id, "Q_in")
-
-        self._node_editor.draw_all_connections()
+    def _rebuild_effective_graph(self, selected_block_id: str | None = None) -> None:
+        pinned = self._plot.pinned_block
+        pinned_block_id = pinned.block_id if pinned is not None else None
+        self._graph.from_dict(self._session.effective_document())
+        self._node_editor.refresh_all()
+        self._plot.clear_selection()
+        self._props.show_block(None)
+        self._run_and_update()
+        if pinned_block_id in self._graph.blocks:
+            pinned_block = self._graph.blocks[pinned_block_id]
+            self._plot.restore_pin(
+                pinned_block,
+                self._get_block_signal(pinned_block),
+            )
+        else:
+            self._plot.refresh_budget()
+        if selected_block_id in self._graph.blocks:
+            self._node_editor.select_block(selected_block_id)
 
     # ------------------------------------------------------------------
     # Callbacks
@@ -258,8 +225,19 @@ class App:
 
     def _on_block_selected(self, block):
         signal = self._get_block_signal(block) if block is not None else None
-        self._props.show_block(block, signal)
+        self._show_block_properties(block, signal)
         self._plot.show(block, signal)  # gated by pin inside PlotPanel
+
+    def _show_block_properties(self, block, signal=None):
+        if block is None:
+            self._props.show_block(None)
+            return
+        self._props.show_block(
+            block,
+            signal,
+            override_keys=self._session.override_keys(block.block_id),
+            base_params=self._session.base_params(block.block_id),
+        )
 
     def _refresh_panels(self):
         """Refresh properties for the selected block; refresh the plot for
@@ -268,7 +246,7 @@ class App:
         sel_signal = None
         if selected:
             sel_signal = self._get_block_signal(selected)
-            self._props.show_block(selected, sel_signal)
+            self._show_block_properties(selected, sel_signal)
 
         if self._plot.budget_mode:
             self._plot.refresh_budget()
@@ -282,18 +260,112 @@ class App:
             self._plot.show(selected, sel_signal)
 
     def _on_graph_changed(self):
+        self._sync_structure_from_graph()
         self._unsaved = True
         self._run_and_update()
         self._refresh_panels()
 
-    def _on_params_changed(self):
+    def _on_params_changed(self, block_id: str, changes: dict):
+        for key, value in changes.items():
+            self._session.set_parameter(block_id, key, value)
         self._unsaved = True
         self._run_and_update()
         self._refresh_panels()
+
+    def _on_reset_override(self, block_id: str, key: str):
+        self._session.reset_override(block_id, key)
+        self._unsaved = True
+        self._rebuild_effective_graph(block_id)
+
+    def _on_promote_overrides(self, block_id: str):
+        self._session.promote_block_overrides(block_id)
+        self._unsaved = True
+        self._rebuild_effective_graph(block_id)
+
+    def _on_scenario_changed(self, _sender, display: str):
+        scenario_id = self._scenario_display_to_id.get(display)
+        if scenario_id == self._session.active_scenario_id:
+            return
+        self._sync_structure_from_graph()
+        self._session.select(scenario_id)
+        self._refresh_scenario_selector()
+        self._rebuild_effective_graph()
+
+    def _open_add_scenario_dialog(self):
+        if dpg.does_item_exist("_add_scenario_dlg"):
+            dpg.delete_item("_add_scenario_dlg")
+        active = self._session.active_scenario_id is not None
+        with dpg.window(
+            label="Add scenario",
+            modal=True,
+            width=390,
+            height=190,
+            tag="_add_scenario_dlg",
+            no_resize=True,
+        ):
+            dpg.add_text("Scenario name")
+            dpg.add_input_text(tag="_scenario_name_input", width=-1)
+            dpg.add_checkbox(
+                label="Copy active scenario overrides",
+                default_value=active,
+                tag="_scenario_copy_active",
+                enabled=active,
+            )
+            dpg.add_text("", tag="_scenario_add_error", color=(255, 120, 120))
+            with dpg.group(horizontal=True):
+                dpg.add_button(
+                    label="Add",
+                    width=90,
+                    callback=self._create_scenario_from_dialog,
+                )
+                dpg.add_button(
+                    label="Cancel",
+                    width=90,
+                    callback=lambda: dpg.delete_item("_add_scenario_dlg"),
+                )
+
+    def _create_scenario_from_dialog(self):
+        label = dpg.get_value("_scenario_name_input") or ""
+        copy_active = bool(dpg.get_value("_scenario_copy_active"))
+        try:
+            self._sync_structure_from_graph()
+            self._session.add_scenario(label, copy_active=copy_active)
+        except ValueError as exc:
+            dpg.set_value("_scenario_add_error", str(exc))
+            return
+        dpg.delete_item("_add_scenario_dlg")
+        self._unsaved = True
+        self._refresh_scenario_selector()
+        self._rebuild_effective_graph()
+
+    def _delete_active_scenario(self):
+        scenario_id = self._session.active_scenario_id
+        if scenario_id is None:
+            return
+        label = next(
+            (
+                item.get("label", item["id"])
+                for item in self._session.document.get("scenarios", [])
+                if item["id"] == scenario_id
+            ),
+            scenario_id,
+        )
+
+        def _delete():
+            self._session.delete_active_scenario()
+            self._unsaved = True
+            self._refresh_scenario_selector()
+            self._rebuild_effective_graph()
+
+        self._confirm_dialog(f"Delete scenario '{label}'?", _delete)
 
     def _on_mirror_block(self, block_id: str):
         self._node_editor.redraw_block(block_id)
+        self._sync_structure_from_graph()
         self._unsaved = True
+        block = self._graph.blocks.get(block_id)
+        if block is not None:
+            self._show_block_properties(block, self._get_block_signal(block))
 
     def _get_adc_half_bw(self) -> float:
         for b in self._graph.blocks.values():
@@ -350,6 +422,7 @@ class App:
     def _on_add_block(self, cls: type):
         block = cls()
         self._node_editor.add_block(block)
+        self._sync_structure_from_graph()
         self._unsaved = True
 
     # ------------------------------------------------------------------
@@ -359,7 +432,11 @@ class App:
     def _file_new(self):
         def _do_new():
             self._graph.clear()
+            self._session.load(NodeGraph().to_dict())
+            self._graph.from_dict(self._session.effective_document())
             self._node_editor.refresh_all()
+            self._refresh_scenario_selector()
+            self._plot.clear_selection()
             self._current_file = None
             self._unsaved = False
             self._props.show_block(None)
@@ -377,8 +454,7 @@ class App:
             if not path:
                 return
             try:
-                self._graph.load_from_file(path)
-                self._node_editor.refresh_all()
+                self._load_configuration(path)
                 self._current_file = path
                 self._unsaved = False
                 self._run_and_update()
@@ -420,8 +496,12 @@ class App:
 
     def _do_save(self, path: str):
         try:
-            self._node_editor.update_node_positions()
-            self._graph.save_to_file(path)
+            self._sync_structure_from_graph()
+            save_configuration(
+                self._session.document,
+                path,
+                require_connected=False,
+            )
             self._current_file = path
             self._unsaved = False
         except Exception as e:

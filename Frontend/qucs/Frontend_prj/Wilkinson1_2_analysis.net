@@ -1,0 +1,30 @@
+# Qucs 24.4.0  C:/Fun/ToyRadar/Frontend/qucs/Frontend_prj/Wilkinson1_2_analysis.sch
+
+.Def:Wilkinson1_2 _net0 _net17 _net16
+MLIN:MS2 _net0 _net1 Subst="FR4_7628" W="W_50" L="2 mm" Model="Hammerstad" DispModel="Kirschning" Temp="26.85"
+MLIN:MS12 _net2 _net3 Subst="FR4_7628" W="W_70" L="L2" Model="Hammerstad" DispModel="Kirschning" Temp="26.85"
+MLIN:MS3 _net4 _net5 Subst="FR4_7628" W="W_70" L="L1" Model="Hammerstad" DispModel="Kirschning" Temp="26.85"
+MLIN:MS11 _net6 _net7 Subst="FR4_7628" W="W_70" L="L2" Model="Hammerstad" DispModel="Kirschning" Temp="26.85"
+MLIN:MS4 _net8 _net9 Subst="FR4_7628" W="W_70" L="L1" Model="Hammerstad" DispModel="Kirschning" Temp="26.85"
+MLIN:MS10 _net10 _net11 Subst="FR4_7628" W="W_70" L="L3" Model="Hammerstad" DispModel="Kirschning" Temp="26.85"
+MMBEND:MS18 _net6 _net12 Subst="FR4_7628" W="W_70"
+MMBEND:MS19 _net10 _net2 Subst="FR4_7628" W="W_70"
+MMBEND:MS20 _net3 _net8 Subst="FR4_7628" W="W_70"
+MMBEND:MS21 _net13 _net14 Subst="FR4_7628" W="W_70"
+MMBEND:MS22 _net11 _net15 Subst="FR4_7628" W="W_70"
+R:R1 _net16 _net17 R="100 Ohm" Temp="26.85" Tc1="0.0" Tc2="0.0" Tnom="26.85"
+MLIN:MS15 _net16 _net15 Subst="FR4_7628" W="W_70" L="L4" Model="Hammerstad" DispModel="Kirschning" Temp="26.85"
+MLIN:MS16 _net17 _net13 Subst="FR4_7628" W="W_70" L="L4" Model="Hammerstad" DispModel="Kirschning" Temp="26.85"
+MLIN:MS9 _net14 _net12 Subst="FR4_7628" W="W_70" L="L3" Model="Hammerstad" DispModel="Kirschning" Temp="26.85"
+MMBEND:MS17 _net5 _net7 Subst="FR4_7628" W="W_70"
+MTEE:MS1 _net4 _net9 _net1 Subst="FR4_7628" W1="W_70" W2="W_70" W3="W_50" MSModel="Hammerstad" MSDispModel="Kirschning" Temp="26.85"
+SUBST:FR4_7628 er="4.4" h="0.21 mm" t="35 um" tand="0.020" rho="0.022e-6" D="0.15e-6"
+Eqn:Eqn1 S11_dB="dB(S[1,1])" S21_dB="dB(S[2,1])" S31_dB="dB(S[3,1])" S23_dB="dB(S[2,3])" W_50="0.00038" W_70="0.000195" Lsmd="0.00085" Lq="0.0071" L1="0.3*Lq" L2="Lq-(L1+L3+L4)" L3="L1-Lsmd/2" L4="0.0005" Export="yes"
+.Def:End
+
+.SP:SP1 Type="lin" Start="4 GHz" Stop="8 GHz" Points="200" Noise="no" NoiseIP="1" NoiseOP="2" saveCVs="no" saveAll="no"
+Pac:P1 _net0 gnd Num="1" Z="50 Ohm" P="0 dBm" f="1 MHz" Temp="26.85"
+Pac:P3 _net1 gnd Num="3" Z="50 Ohm" P="0 dBm" f="1 MHz" Temp="26.85"
+Pac:P2 _net2 gnd Num="2" Z="50 Ohm" P="0 dBm" f="1 MHz" Temp="26.85"
+Eqn:Eqn1 S11_dB="dB(S[1,1])" S21_dB="dB(S[2,1])" S31_dB="dB(S[3,1])" S23_dB="dB(S[2,3])" W_50="0.00038" W_70="0.000195" Lsmd="0.00085" Lq="0.0071" L1="0.3*Lq" L2="Lq-(L1+L3+L4)" L3="L1-Lsmd/2" L4="0.0005" Export="yes"
+Sub:SUB1 _net0 _net2 _net1 Type="Wilkinson1_2"

@@ -1,0 +1,44 @@
+<Qucs Schematic 24.4.0>
+<Properties>
+  <View=-88,50,1321,757,1.48644,126,165>
+  <Grid=10,10,0>
+  <DataSet=Wilkinson1_4.dat>
+  <DataDisplay=Wilkinson1_4.sch>
+  <OpenDisplay=0>
+  <Script=Wilkinson1_4.m>
+  <RunScript=0>
+  <showFrame=0>
+  <FrameText0=Title>
+  <FrameText1=Drawn By:>
+  <FrameText2=Date:>
+  <FrameText3=Revision:>
+</Properties>
+<Symbol>
+</Symbol>
+<Components>
+</Components>
+<Wires>
+</Wires>
+<Diagrams>
+  <Rect 550 310 240 160 3 #c0c0c0 1 00 1 4e+09 1e+09 8e+09 1 -7.3294 0.5 -6.34695 1 -1 1 1 315 0 225 1 0 0 "" "" "">
+	<"S21_dB" #0000ff 0 3 0 0 0>
+	  <Mkr 5.80905e+09 159 -212 3 0 0>
+	<"S31_dB" #ff0000 0 3 0 0 0>
+	<"S41_dB" #ff00ff 0 3 0 0 0>
+	<"S51_dB" #00ff00 0 3 0 0 0>
+  </Rect>
+  <Rect 180 310 240 160 3 #c0c0c0 1 00 1 4e+09 1e+09 8e+09 1 -33.1166 10 -7.82233 1 -1 1 1 315 0 225 1 0 0 "" "" "">
+	<"S11_dB" #ff00ff 0 3 0 0 0>
+	  <Mkr 5.82915e+09 -123 -44 3 0 0>
+  </Rect>
+  <Rect 540 580 240 160 3 #c0c0c0 1 00 1 4e+09 1e+09 8e+09 1 -46.7393 20 -11.2351 1 -1 1 1 315 0 225 1 0 0 "" "" "">
+	<"S25_dB" #ff00ff 0 3 0 0 0>
+	<"S34_dB" #00ff00 0 3 0 0 0>
+  </Rect>
+  <Rect 180 580 240 160 3 #c0c0c0 1 00 1 4e+09 1e+09 8e+09 1 -46.7393 20 -11.2351 1 -1 1 1 315 0 225 1 0 0 "" "" "">
+	<"S23_dB" #0000ff 0 3 0 0 0>
+	<"S24_dB" #ff0000 0 3 0 0 0>
+  </Rect>
+</Diagrams>
+<Paintings>
+</Paintings>

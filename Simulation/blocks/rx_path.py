@@ -194,7 +194,7 @@ class ADCBlock(SingleIOBlock):
     def _setup_ports(self):
         self.ports = [
             Port("I_in",  "input",  "if"),
-            Port("Q_in",  "input",  "if"),
+            Port("Q_in",  "input",  "if", required=False),
             Port("I_out", "output", "if"),
             Port("Q_out", "output", "if"),
         ]
@@ -313,7 +313,7 @@ class IQAmplifierBlock(Block):
     def _setup_ports(self):
         self.ports = [
             Port("I_in",  "input",  "if"),
-            Port("Q_in",  "input",  "if"),
+            Port("Q_in",  "input",  "if", required=False),
             Port("I_out", "output", "if"),
             Port("Q_out", "output", "if"),
         ]
@@ -392,7 +392,7 @@ class IFFilterBlock(Block):
     def _setup_ports(self):
         self.ports = [
             Port("I_in",  "input",  "if"),
-            Port("Q_in",  "input",  "if"),
+            Port("Q_in",  "input",  "if", required=False),
             Port("I_out", "output", "if"),
             Port("Q_out", "output", "if"),
         ]
@@ -411,13 +411,13 @@ class IFFilterBlock(Block):
         return outputs
 
     def _transform_channel(self, sig: SignalState) -> SignalState:
-        from scipy.signal import butter, lfilter
         cutoff = float(self.params["cutoff_hz"])
         order  = int(self.params["order"])
         il     = self.params["insertion_loss_db"]
 
         new_samples = sig.samples
         if len(sig.samples):
+            from scipy.signal import butter, lfilter
             fs  = sig.sample_rate_hz if sig.sample_rate_hz > 0 else sig.bandwidth_hz * 2
             wn  = min(cutoff / (fs / 2.0), 0.999)
             b, a = butter(order, wn, btype="low")

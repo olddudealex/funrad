@@ -45,7 +45,7 @@ class RangeFFTBlock(Block):
     def _setup_ports(self):
         self.ports = [
             Port("I_in",     "input",  "if"),
-            Port("Q_in",     "input",  "if"),
+            Port("Q_in",     "input",  "if", required=False),
             Port("range_out","output", "if"),
         ]
 

@@ -1,0 +1,2748 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "95a06e06-0cd7-4b3b-8207-92d5ffda5add")
+	(paper "A4")
+	(lib_symbols
+		(symbol "Frontend:ADL5380ACPZ"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -8.128 10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "ADL5380ACPZ"
+				(at -2.286 -10.414 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Frontend:LFCSP-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "400 MHz to 6 GHz Quadrature Demodulator"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "ADL5380ACPZ_1_1"
+				(rectangle
+					(start -8.89 8.89)
+					(end 8.89 -8.89)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin output line
+					(at 11.43 6.35 180)
+					(length 2.54)
+					(name "IHI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 11.43 3.81 180)
+					(length 2.54)
+					(name "ILO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -11.43 -5.08 0)
+					(length 2.54)
+					(name "LOIP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -11.43 -7.62 0)
+					(length 2.54)
+					(name "LOIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 11.43 -7.62 180)
+					(length 2.54)
+					(name "QLO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 11.43 -5.08 180)
+					(length 2.54)
+					(name "QHI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -11.43 3.81 0)
+					(length 2.54)
+					(name "RFIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -11.43 6.35 0)
+					(length 2.54)
+					(name "RFIP"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "ADL5380ACPZ_2_1"
+				(rectangle
+					(start -10.16 13.97)
+					(end 10.16 -13.97)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin power_in line
+					(at 12.7 2.54 180)
+					(length 2.54)
+					(name "GND3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 12.7 12.7 180)
+					(length 2.54)
+					(name "GND1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 12.7 10.16 180)
+					(length 2.54)
+					(name "GND1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -12.7 -7.62 0)
+					(length 2.54)
+					(name "VCC1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 12.7 0)
+					(length 2.54)
+					(name "ENBL"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 12.7 -7.62 180)
+					(length 2.54)
+					(name "GND4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 12.7 -10.16 180)
+					(length 2.54)
+					(name "GND4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -12.7 10.16 0)
+					(length 2.54)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -12.7 -10.16 0)
+					(length 2.54)
+					(name "VCC2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 12.7 7.62 180)
+					(length 2.54)
+					(name "GND2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 12.7 5.08 180)
+					(length 2.54)
+					(name "GND2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 12.7 0 180)
+					(length 2.54)
+					(name "GND3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -12.7 7.62 0)
+					(length 2.54)
+					(name "ADJ"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 12.7 -2.54 180)
+					(length 2.54)
+					(name "GND3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 12.7 -5.08 180)
+					(length 2.54)
+					(name "GND3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "23"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -12.7 -12.7 0)
+					(length 2.54)
+					(name "VCC3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "24"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 12.7 -12.7 180)
+					(length 2.54)
+					(name "EPAD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "25"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Frontend:ADS9234RIRHB"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -13.208 30.48 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "ADS9234RIRHB"
+				(at -6.604 -30.48 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Frontend:VQFN-32-1EP_5x5mm_P0.5mm_EP3.5x3.5mm"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "14-bit, 3.5-MSPS, dual, simultaneous-sampling SAR ADC with internal reference and enhanced SPI"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "ADS9234RIRHB_1_1"
+				(rectangle
+					(start -13.97 29.21)
+					(end 13.97 -29.21)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -16.51 26.67 0)
+					(length 2.54)
+					(name "AINP_A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -16.51 24.13 0)
+					(length 2.54)
+					(name "AINM_A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -16.51 8.89 0)
+					(length 2.54)
+					(name "REFby2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 16.51 -26.67 180)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -16.51 6.35 0)
+					(length 2.54)
+					(name "REFOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -16.51 -13.97 0)
+					(length 2.54)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -16.51 16.51 0)
+					(length 2.54)
+					(name "AINM_B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -16.51 19.05 0)
+					(length 2.54)
+					(name "AINP_B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -16.51 -8.89 0)
+					(length 2.54)
+					(name "REFM_B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -16.51 -6.35 0)
+					(length 2.54)
+					(name "REFP_B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 16.51 -19.05 180)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -16.51 -24.13 0)
+					(length 2.54)
+					(name "AVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 16.51 21.59 180)
+					(length 2.54)
+					(name "CONVST"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 16.51 16.51 180)
+					(length 2.54)
+					(name "~{CS}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 16.51 11.43 180)
+					(length 2.54)
+					(name "SDI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 16.51 13.97 180)
+					(length 2.54)
+					(name "SCLK"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 16.51 -13.97 180)
+					(length 2.54)
+					(name "SDO-7/3B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 16.51 -11.43 180)
+					(length 2.54)
+					(name "SDO-6/2B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 16.51 -8.89 180)
+					(length 2.54)
+					(name "SDO-5/1B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 16.51 -6.35 180)
+					(length 2.54)
+					(name "SDO-4/0B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 16.51 -3.81 180)
+					(length 2.54)
+					(name "SDO-3/3A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 16.51 -1.27 180)
+					(length 2.54)
+					(name "SDO-2/2A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 16.51 1.27 180)
+					(length 2.54)
+					(name "SDO-1/1A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "23"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 16.51 3.81 180)
+					(length 2.54)
+					(name "SDO-0/0A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "24"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 16.51 8.89 180)
+					(length 2.54)
+					(name "READY/STROBE"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "25"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 16.51 26.67 180)
+					(length 2.54)
+					(name "~{PD}/~{RST}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "26"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 16.51 -21.59 180)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "27"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -16.51 -19.05 0)
+					(length 2.54)
+					(name "DVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "28"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -16.51 -26.67 0)
+					(length 2.54)
+					(name "AVDD"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "29"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 16.51 -24.13 180)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "30"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -16.51 1.27 0)
+					(length 2.54)
+					(name "REFP_A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "31"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -16.51 -1.27 0)
+					(length 2.54)
+					(name "REFM_A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "32"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Frontend:QPL9504"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -7.112 9.906 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "QPL9504"
+				(at -3.302 -10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Frontend:DFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.6mm"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "1-6GHz,Ultra Low Noise, Flat Gain LNA Datasheet,"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "QPL9504_1_1"
+				(rectangle
+					(start -7.62 8.89)
+					(end 7.62 -8.89)
+					(stroke
+						(width 0)
+						(type solid)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin input line
+					(at -10.16 6.35 0)
+					(length 2.54)
+					(name "Vbias"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 3.81 0)
+					(length 2.54)
+					(name "RFin"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -10.16 -5.08 0)
+					(length 2.54)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 10.16 -5.08 180)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -10.16 0 0)
+					(length 2.54)
+					(name "Shutdown"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 10.16 -7.62 180)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 10.16 3.81 180)
+					(length 2.54)
+					(name "RFout"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at -10.16 -7.62 0)
+					(length 2.54)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Frontend:THS4551xRGT"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at 0 6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "THS4551xRGT"
+				(at 10.16 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Package_DFN_QFN:WQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://www.ti.com/lit/ds/symlink/ths4551.pdf"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Low-Noise Precision Fully Differential Amplifier, VQFN-16"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "differential amplifier"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "VQFN*1EP*3x3mm*P0.5mm*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "THS4551xRGT_1_1"
+				(polyline
+					(pts
+						(xy -7.62 7.62) (xy -7.62 -7.62) (xy 7.62 0) (xy -7.62 7.62)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin output line
+					(at -2.54 -7.62 90)
+					(length 2.54)
+					(name "FB-"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 5.08 0)
+					(length 2.54)
+					(name "IN+"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 -5.08 0)
+					(length 2.54)
+					(name "IN-"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at -2.54 7.62 270)
+					(length 2.54)
+					(name "FB+"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 0.762 0.762)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 -2.54 0)
+					(length 2.54)
+					(name "VOCM"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 7.62 2.54 180)
+					(length 5.08)
+					(name "OUT+"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 7.62 -2.54 180)
+					(length 5.08)
+					(name "OUT-"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 2.54 0)
+					(length 2.54)
+					(name "~{PD}"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "THS4551xRGT_2_1"
+				(rectangle
+					(start -5.08 5.08)
+					(end 5.08 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin power_in line
+					(at 0 7.62 270)
+					(length 2.54)
+					(name "VS+"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 7.62 270)
+					(length 2.54)
+					(hide yes)
+					(name "VS+"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 7.62 270)
+					(length 2.54)
+					(hide yes)
+					(name "VS+"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 7.62 270)
+					(length 2.54)
+					(hide yes)
+					(name "VS+"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -2.54 -7.62 90)
+					(length 2.54)
+					(name "VS-"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -2.54 -7.62 90)
+					(length 2.54)
+					(hide yes)
+					(name "VS-"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -2.54 -7.62 90)
+					(length 2.54)
+					(hide yes)
+					(name "VS-"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -2.54 -7.62 90)
+					(length 2.54)
+					(hide yes)
+					(name "VS-"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 -7.62 90)
+					(length 2.54)
+					(name "EP"
+						(effects
+							(font
+								(size 0.508 0.508)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(symbol
+		(lib_id "Frontend:ADL5380ACPZ")
+		(at 101.6 55.88 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "47d07ce3-8dcc-4493-88dd-a5686fd764f6")
+		(property "Reference" "U8"
+			(at 101.6 41.91 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "ADL5380ACPZ"
+			(at 101.6 44.45 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Frontend:LFCSP-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm"
+			(at 101.6 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 101.6 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "400 MHz to 6 GHz Quadrature Demodulator"
+			(at 101.6 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "17"
+			(uuid "b0ba9d37-852c-4c9f-acd1-2665bb1c851e")
+		)
+		(pin "2"
+			(uuid "48165d64-c43b-4fff-93e3-4670b7868658")
+		)
+		(pin "8"
+			(uuid "0a53cb68-8153-4324-99a3-6c809f7a6152")
+		)
+		(pin "19"
+			(uuid "85b6b030-cea2-4b41-84fb-9ebd91728083")
+		)
+		(pin "24"
+			(uuid "a9a1579b-6dab-4e75-a198-1c2a7e71a659")
+		)
+		(pin "7"
+			(uuid "78fcffe0-0129-4b7b-85b3-a2064477c1b0")
+		)
+		(pin "6"
+			(uuid "3d1e2ff3-9613-4ced-a11f-ba2c18ce4fde")
+		)
+		(pin "10"
+			(uuid "e65973f5-ff7d-43a5-a0e8-508c35e4adcf")
+		)
+		(pin "22"
+			(uuid "afb9281f-e943-4352-b582-63c6d722986f")
+		)
+		(pin "5"
+			(uuid "877db558-a43f-4447-94f0-b83892ff4c50")
+		)
+		(pin "20"
+			(uuid "e7a5b761-1029-46b7-a269-8719a96f3769")
+		)
+		(pin "25"
+			(uuid "88c4af2e-ef4a-4753-b00c-87165129dad0")
+		)
+		(pin "15"
+			(uuid "bed8dc3e-1dc6-402a-8e1e-dd9cf2a019c3")
+		)
+		(pin "14"
+			(uuid "3c5261d0-98a4-4634-acdb-c66d265f1cbe")
+		)
+		(pin "4"
+			(uuid "8752bcee-9383-4092-b95e-fe3719dfcaf2")
+		)
+		(pin "9"
+			(uuid "dfec3279-2e51-4b84-b61f-54dd2cb29ec8")
+		)
+		(pin "3"
+			(uuid "5a645aa7-25fa-41b5-a853-01d1a904b754")
+		)
+		(pin "16"
+			(uuid "04214177-3a3c-4ea3-912a-19069d94ea32")
+		)
+		(pin "21"
+			(uuid "bfb65eb0-ca6a-494a-a309-2f5053c02885")
+		)
+		(pin "1"
+			(uuid "e6064199-f529-4619-bf02-487f73fc2db4")
+		)
+		(pin "11"
+			(uuid "c120703e-02ea-47da-bbbc-90dafa0f69d4")
+		)
+		(pin "12"
+			(uuid "d59a9710-4dd3-49e2-a142-fe4d5411fd66")
+		)
+		(pin "13"
+			(uuid "597b43b0-9145-4f27-8191-5dc481784d2d")
+		)
+		(pin "18"
+			(uuid "d1d5977a-a94e-4670-a7e2-d64856552ad0")
+		)
+		(pin "23"
+			(uuid "6d9483da-1da7-49f1-97b6-a3b345a476cd")
+		)
+		(instances
+			(project "Frontend"
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/0dbd0f2d-7b48-4dee-91e4-afcf5616635d"
+					(reference "U16")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/1a97131c-7fcc-4de1-bec5-8c1ed4c6de33"
+					(reference "U20")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/95821d7c-2631-4b4b-afcb-37bde5130a48"
+					(reference "U8")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/f56646a0-2038-4053-8823-380d3a4e601a"
+					(reference "U12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Frontend:THS4551xRGT")
+		(at 148.59 74.93 0)
+		(unit 2)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "54bb6517-52d2-41cb-81b9-4786249294e7")
+		(property "Reference" "U9"
+			(at 154.94 73.6599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "THS4551xRGT"
+			(at 154.94 76.1999 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_DFN_QFN:WQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm"
+			(at 148.59 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/ths4551.pdf"
+			(at 148.59 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Low-Noise Precision Fully Differential Amplifier, VQFN-16"
+			(at 148.59 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "4"
+			(uuid "405ff9e8-436b-41df-a096-0262d03962de")
+		)
+		(pin "3"
+			(uuid "dbc71303-0337-41be-91d2-ca8312992134")
+		)
+		(pin "14"
+			(uuid "ac6818aa-fe20-4798-a02a-f7ce7ff93b32")
+		)
+		(pin "17"
+			(uuid "fd59da6a-a026-43d7-abdd-bf829d83f84a")
+		)
+		(pin "8"
+			(uuid "544325dd-80af-408d-8440-70b7c3478416")
+		)
+		(pin "11"
+			(uuid "799ead98-053a-4f53-8383-261d84707058")
+		)
+		(pin "13"
+			(uuid "ffee7d98-d6f0-45cb-8ed0-379c467ffc0e")
+		)
+		(pin "16"
+			(uuid "675dd4e9-bacc-4685-a56a-155e89861b42")
+		)
+		(pin "1"
+			(uuid "67b475f1-f49a-4bc5-a1d6-328178bd8bc5")
+		)
+		(pin "6"
+			(uuid "6cc8d543-0583-4fb1-8a2c-7eff5a1bc452")
+		)
+		(pin "9"
+			(uuid "c6ee4d16-4db4-4d24-a2ea-06e52ace788e")
+		)
+		(pin "7"
+			(uuid "9f3bd60c-aac2-4086-a5f4-8f57483d4836")
+		)
+		(pin "15"
+			(uuid "689a9a8e-f571-4e4d-b086-7e7607b81ad5")
+		)
+		(pin "2"
+			(uuid "6b9f72d1-11cf-46a0-a026-df5a1270ae0f")
+		)
+		(pin "10"
+			(uuid "8422e33c-a0b8-4ffc-90dc-ef3d11b0346b")
+		)
+		(pin "12"
+			(uuid "37ee5b7d-8a80-4eb6-be2d-9383458833b2")
+		)
+		(pin "5"
+			(uuid "6633fb3d-5fee-4757-be29-25e8cae1505d")
+		)
+		(instances
+			(project "Frontend"
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/0dbd0f2d-7b48-4dee-91e4-afcf5616635d"
+					(reference "U17")
+					(unit 2)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/1a97131c-7fcc-4de1-bec5-8c1ed4c6de33"
+					(reference "U21")
+					(unit 2)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/95821d7c-2631-4b4b-afcb-37bde5130a48"
+					(reference "U9")
+					(unit 2)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/f56646a0-2038-4053-8823-380d3a4e601a"
+					(reference "U13")
+					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Frontend:ADS9234RIRHB")
+		(at 224.79 74.93 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "62a0abdd-7f2b-42d5-a2e5-d0a4957d3ce5")
+		(property "Reference" "U10"
+			(at 224.79 40.64 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "ADS9234RIRHB"
+			(at 224.79 43.18 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Frontend:VQFN-32-1EP_5x5mm_P0.5mm_EP3.5x3.5mm"
+			(at 224.79 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 224.79 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "14-bit, 3.5-MSPS, dual, simultaneous-sampling SAR ADC with internal reference and enhanced SPI"
+			(at 224.79 74.93 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "11"
+			(uuid "19531d9f-1d8f-42c0-bb44-da3491483d29")
+		)
+		(pin "14"
+			(uuid "1765eb17-65af-48b3-bd0e-b95aa2937592")
+		)
+		(pin "1"
+			(uuid "c2abbfc2-f8de-46b0-a643-e04f6881bec6")
+		)
+		(pin "6"
+			(uuid "71b5aa6e-6997-4b91-99ef-3fe3694a87a3")
+		)
+		(pin "2"
+			(uuid "0f6cf0d0-f79e-461a-867e-120fc27ee738")
+		)
+		(pin "4"
+			(uuid "d4bc8854-4fc3-4a6c-bb7a-ff1281473530")
+		)
+		(pin "7"
+			(uuid "f13fa8e0-b82f-46d6-8b77-d397da3a5b0e")
+		)
+		(pin "8"
+			(uuid "d710b3c6-ad30-4c0c-8c42-e01f836da690")
+		)
+		(pin "3"
+			(uuid "a1bc0547-3db0-42bb-ac52-b4af07521e4d")
+		)
+		(pin "5"
+			(uuid "5efc6e1b-5b1c-41c0-aabd-c55341b1c157")
+		)
+		(pin "9"
+			(uuid "d84767ac-5dac-4082-877b-084ffa961953")
+		)
+		(pin "10"
+			(uuid "80497cd8-14ce-4a96-931e-7251c355844f")
+		)
+		(pin "12"
+			(uuid "3cc8158e-66d5-47fc-aa05-24b766ea8245")
+		)
+		(pin "13"
+			(uuid "cd1e52e9-06e5-433a-9b36-fc1c24bf5e2a")
+		)
+		(pin "22"
+			(uuid "fdbd5e6b-5338-49ac-a68f-928047ff9e89")
+		)
+		(pin "15"
+			(uuid "ed1425b4-4fdb-440f-93f4-58153f9c92dd")
+		)
+		(pin "24"
+			(uuid "4dc063fa-123d-4126-9422-7f4df23d031d")
+		)
+		(pin "27"
+			(uuid "1bcc803d-2bd2-475e-bd63-9efb5c0c24e8")
+		)
+		(pin "17"
+			(uuid "cfb1c575-eafc-45c2-b6f8-17f6a272486a")
+		)
+		(pin "18"
+			(uuid "6b273eb5-a565-4315-b9e5-4aefb192d060")
+		)
+		(pin "19"
+			(uuid "3234a840-5a53-4965-a9b2-ab64e79d160c")
+		)
+		(pin "16"
+			(uuid "20cabc33-c16b-4272-8288-7336283a0097")
+		)
+		(pin "21"
+			(uuid "1d497d98-3a5c-42db-9db5-74d1f5aaabb9")
+		)
+		(pin "23"
+			(uuid "b8126783-e6de-4f99-a966-ed46d1431bf2")
+		)
+		(pin "25"
+			(uuid "63b52111-c63e-4fa9-82dc-d22d0bf5fd56")
+		)
+		(pin "28"
+			(uuid "d08d1748-71e6-49b3-a54b-82ab042613d6")
+		)
+		(pin "29"
+			(uuid "1640c4ab-b13f-4818-a0de-605b6b034f05")
+		)
+		(pin "26"
+			(uuid "51746ff2-adea-4254-b6d5-9fb50f1d88a9")
+		)
+		(pin "30"
+			(uuid "f51b667e-b402-4549-9851-cfcfc3c08b3c")
+		)
+		(pin "20"
+			(uuid "d1221879-149a-4610-8399-7c802571be9b")
+		)
+		(pin "32"
+			(uuid "b0edce78-00ad-4a8a-acf7-3010d0453ae2")
+		)
+		(pin "31"
+			(uuid "4bb6fc4e-de9a-4b86-8283-270552cac246")
+		)
+		(instances
+			(project "Frontend"
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/0dbd0f2d-7b48-4dee-91e4-afcf5616635d"
+					(reference "U18")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/1a97131c-7fcc-4de1-bec5-8c1ed4c6de33"
+					(reference "U22")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/95821d7c-2631-4b4b-afcb-37bde5130a48"
+					(reference "U10")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/f56646a0-2038-4053-8823-380d3a4e601a"
+					(reference "U14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Frontend:QPL9504")
+		(at 63.5 55.88 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8196a80b-ebd7-46d5-a7b0-6612068f2e45")
+		(property "Reference" "U7"
+			(at 63.5 41.91 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "QPL9504"
+			(at 63.5 44.45 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Frontend:DFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.6mm"
+			(at 63.5 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "1-6GHz,Ultra Low Noise, Flat Gain LNA Datasheet,"
+			(at 63.5 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "5"
+			(uuid "30298c28-39e1-46fb-ade2-82573265afa5")
+		)
+		(pin "2"
+			(uuid "3285d692-a993-41d7-9332-e2ff52070a91")
+		)
+		(pin "3"
+			(uuid "1e2f60b3-af0a-4afd-bd3b-8c42b90faf29")
+		)
+		(pin "1"
+			(uuid "acfc11c9-6582-461e-bd6b-707028604475")
+		)
+		(pin "7"
+			(uuid "c02fadee-8706-4c70-9e7b-b21efb146339")
+		)
+		(pin "4"
+			(uuid "4d29abac-727d-4bc2-8e24-125110a650b0")
+		)
+		(pin "8"
+			(uuid "396d67f3-3335-4302-9fdf-706b579cf9c3")
+		)
+		(pin "6"
+			(uuid "72c23b37-48ad-4ec0-b86b-1b2327afd9d0")
+		)
+		(instances
+			(project "Frontend"
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/0dbd0f2d-7b48-4dee-91e4-afcf5616635d"
+					(reference "U15")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/1a97131c-7fcc-4de1-bec5-8c1ed4c6de33"
+					(reference "U19")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/95821d7c-2631-4b4b-afcb-37bde5130a48"
+					(reference "U7")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/f56646a0-2038-4053-8823-380d3a4e601a"
+					(reference "U11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Frontend:THS4551xRGT")
+		(at 151.13 54.61 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ccaac769-c638-4a18-b2dd-b18f86900a6f")
+		(property "Reference" "U9"
+			(at 150.2411 41.91 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "THS4551xRGT"
+			(at 150.2411 44.45 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_DFN_QFN:WQFN-16-1EP_3x3mm_P0.5mm_EP1.68x1.68mm"
+			(at 151.13 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/ths4551.pdf"
+			(at 151.13 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Low-Noise Precision Fully Differential Amplifier, VQFN-16"
+			(at 151.13 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "9"
+			(uuid "4a2246c2-242e-4012-bae1-07f0ca00cf05")
+		)
+		(pin "2"
+			(uuid "a7bea5b8-dc89-4901-9f49-9df54bdba688")
+		)
+		(pin "1"
+			(uuid "da6c6505-b8fb-4a61-81f8-d9a789760d4a")
+		)
+		(pin "5"
+			(uuid "a039ac3a-a5ab-4b3f-9745-a38dfac684fe")
+		)
+		(pin "7"
+			(uuid "9c087dde-3e23-440d-89e0-4b42e680fc4e")
+		)
+		(pin "3"
+			(uuid "19ffb9e2-fa67-4325-8b98-8475b92c3d06")
+		)
+		(pin "4"
+			(uuid "12f1997e-114a-4cf7-91c3-3835baaa8ac4")
+		)
+		(pin "11"
+			(uuid "43390a44-25d0-4273-89f3-b97b5cbc1fea")
+		)
+		(pin "12"
+			(uuid "4db4f2e2-6fea-497e-b4bc-ef510ec7c319")
+		)
+		(pin "10"
+			(uuid "12104b8d-c43c-496a-aed2-1a4de92752f0")
+		)
+		(pin "6"
+			(uuid "abb9ff3f-f122-4fd4-81ff-65fa0c1e38ce")
+		)
+		(pin "17"
+			(uuid "e189d305-8b9b-4111-9e50-bd46359e483c")
+		)
+		(pin "13"
+			(uuid "e2e8b114-71ef-4d30-94c8-53df00fcbf32")
+		)
+		(pin "8"
+			(uuid "8688bffb-cb57-43eb-ac8d-7b6925ba0605")
+		)
+		(pin "16"
+			(uuid "31fa32d8-61f1-4dda-8dde-a90bff7a5559")
+		)
+		(pin "15"
+			(uuid "9b204a1c-b9d7-4df5-ab04-d420200dd85a")
+		)
+		(pin "14"
+			(uuid "fcfa17b4-61b8-4a01-8e62-b01edfdfe4c4")
+		)
+		(instances
+			(project "Frontend"
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/0dbd0f2d-7b48-4dee-91e4-afcf5616635d"
+					(reference "U17")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/1a97131c-7fcc-4de1-bec5-8c1ed4c6de33"
+					(reference "U21")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/95821d7c-2631-4b4b-afcb-37bde5130a48"
+					(reference "U9")
+					(unit 1)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/f56646a0-2038-4053-8823-380d3a4e601a"
+					(reference "U13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Frontend:ADL5380ACPZ")
+		(at 100.33 88.9 0)
+		(unit 2)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "cd10a284-7c96-4892-af44-2f0b5320d6b5")
+		(property "Reference" "U8"
+			(at 100.33 69.85 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "ADL5380ACPZ"
+			(at 100.33 72.39 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Frontend:LFCSP-24-1EP_4x4mm_P0.5mm_EP2.5x2.5mm"
+			(at 100.33 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 100.33 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "400 MHz to 6 GHz Quadrature Demodulator"
+			(at 100.33 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "3"
+			(uuid "a6056c27-8de4-4336-91f2-86a9339be51d")
+		)
+		(pin "18"
+			(uuid "206f4d3c-cf3b-4e97-805c-dbacf4abd4f5")
+		)
+		(pin "14"
+			(uuid "01798f3a-f8e8-4e36-8cda-d62f88d60f91")
+		)
+		(pin "9"
+			(uuid "5970e1eb-e581-41ec-aafd-f80caae38df9")
+		)
+		(pin "16"
+			(uuid "fc46ef8f-abe2-4194-9880-03d20c31be1e")
+		)
+		(pin "22"
+			(uuid "eb51ff60-8d1a-40e9-94ab-789d99ce6e70")
+		)
+		(pin "2"
+			(uuid "34628c7c-99aa-4912-a930-7e8c6cc04698")
+		)
+		(pin "24"
+			(uuid "c4dce6d1-6426-44b4-9539-f0bc04d8a613")
+		)
+		(pin "10"
+			(uuid "2e6cfbe0-b83b-4d30-9deb-c5f600e3ebcb")
+		)
+		(pin "5"
+			(uuid "2d343dfc-01a8-4393-a0c9-10df1a636263")
+		)
+		(pin "6"
+			(uuid "47baf039-fa44-4c3a-a751-5538912f2b1a")
+		)
+		(pin "1"
+			(uuid "898cf0c1-14cb-4ea1-a369-3e1549d74527")
+		)
+		(pin "15"
+			(uuid "b1197f62-c3c7-424d-af06-4ff64a01769e")
+		)
+		(pin "7"
+			(uuid "fa2b6312-9f42-40da-ba76-df0b65b1079a")
+		)
+		(pin "11"
+			(uuid "558c2273-f725-4340-89c7-3cc7147257f5")
+		)
+		(pin "13"
+			(uuid "13b620e0-e315-4787-bfb7-474d0743069c")
+		)
+		(pin "17"
+			(uuid "69e5f1e2-7f04-4930-8c2b-b52586292873")
+		)
+		(pin "20"
+			(uuid "06043b42-de9d-4b26-ab58-8855cfd9f429")
+		)
+		(pin "23"
+			(uuid "d97d5b51-deb2-40d3-8278-31e9c05625ae")
+		)
+		(pin "21"
+			(uuid "e8814af4-1b7c-4595-a06e-645ed69dad91")
+		)
+		(pin "25"
+			(uuid "5bcbf6e5-2f4e-4d47-ab78-6b16d34c99c3")
+		)
+		(pin "4"
+			(uuid "352b7035-5fce-43ed-aa1c-1c9eb929ecd2")
+		)
+		(pin "8"
+			(uuid "c3ce7312-603d-4a75-86e5-11859aff9756")
+		)
+		(pin "12"
+			(uuid "05a14c3a-3d51-46df-8d84-3e1813389d62")
+		)
+		(pin "19"
+			(uuid "f8cc45c5-308f-4027-877a-9ef852e4014c")
+		)
+		(instances
+			(project "Frontend"
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/0dbd0f2d-7b48-4dee-91e4-afcf5616635d"
+					(reference "U16")
+					(unit 2)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/1a97131c-7fcc-4de1-bec5-8c1ed4c6de33"
+					(reference "U20")
+					(unit 2)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/95821d7c-2631-4b4b-afcb-37bde5130a48"
+					(reference "U8")
+					(unit 2)
+				)
+				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/f56646a0-2038-4053-8823-380d3a4e601a"
+					(reference "U12")
+					(unit 2)
+				)
+			)
+		)
+	)
+)

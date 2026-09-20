@@ -164,7 +164,7 @@ class PlotPanel:
             if self._last_block is None:
                 return
             self._pinned_block = self._last_block
-            name = self._last_block.display_name
+            name = self._last_block.instance_name
             dpg.configure_item(self._pin_btn_tag, label=f"Unpin ({name})")
 
     # ------------------------------------------------------------------
@@ -281,6 +281,30 @@ class PlotPanel:
             self._queued_signal = signal
             return
         self._render(block, signal)
+
+    def clear_selection(self):
+        """Drop references to graph objects before loading another scenario."""
+        self._pinned_block = None
+        self._queued_block = None
+        self._queued_signal = None
+        if dpg.does_item_exist(self._pin_btn_tag):
+            dpg.configure_item(self._pin_btn_tag, label="Pin plot")
+        self._render(None, None)
+
+    def restore_pin(self, block: Block, signal: SignalState | None):
+        """Rebind a pin to the replacement block object after a graph reload."""
+        self._pinned_block = block
+        self._queued_block = None
+        self._queued_signal = None
+        if dpg.does_item_exist(self._pin_btn_tag):
+            dpg.configure_item(
+                self._pin_btn_tag,
+                label=f"Unpin ({block.instance_name})",
+            )
+        if self._budget_mode:
+            self._render_budget()
+        else:
+            self._render(block, signal)
 
     def refresh_budget(self):
         """Re-render the budget chart after the simulation reruns."""

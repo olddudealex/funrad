@@ -1,0 +1,37 @@
+<Qucs Schematic 24.4.0>
+<Properties>
+  <View=-36,-131,2242,1138,1,0,0>
+  <Grid=10,10,0>
+  <DataSet=DirectionalCoupler.dat>
+  <DataDisplay=DirectionalCoupler.sch>
+  <OpenDisplay=0>
+  <Script=DirectionalCoupler.m>
+  <RunScript=0>
+  <showFrame=0>
+  <FrameText0=Title>
+  <FrameText1=Drawn By:>
+  <FrameText2=Date:>
+  <FrameText3=Revision:>
+</Properties>
+<Symbol>
+</Symbol>
+<Components>
+</Components>
+<Wires>
+</Wires>
+<Diagrams>
+  <Rect 170 484 594 384 3 #c0c0c0 1 00 1 0 0.2 1 1 -0.1 0.5 1.1 1 -0.1 0.5 1.1 315 0 225 1 0 0 "" "" "">
+	<"S11_dB" #0000ff 0 3 0 0 0>
+	<"S21_dB" #ff0000 0 3 0 0 0>
+	<"S31_dB" #ff00ff 0 3 0 0 0>
+	  <Mkr 5.98995e+09 356 -280 3 0 0>
+	<"S41_dB" #00ff00 0 3 0 0 0>
+	  <Mkr 5.96985e+09 341 -236 3 0 0>
+  </Rect>
+  <Rect 910 526 590 426 3 #c0c0c0 1 00 1 4e+09 5e+08 8e+09 1 0.969603 0.002 0.984809 1 -1 0.2 1 315 0 225 1 0 0 "" "" "">
+	<"S[2,1]" #0000ff 0 3 0 0 0>
+	<"S[3,1]" #ff0000 0 3 0 0 0>
+  </Rect>
+</Diagrams>
+<Paintings>
+</Paintings>

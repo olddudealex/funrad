@@ -65,7 +65,7 @@ class NodeEditor:
 
     def draw_block(self, block: Block):
         pos = list(block._dpg_pos)
-        with dpg.node(label=block.display_name, parent=self._editor_tag,
+        with dpg.node(label=block.instance_name, parent=self._editor_tag,
                       pos=pos) as node_id:
             block.node_id = node_id
             self._node_to_block[node_id] = block.block_id
@@ -266,6 +266,14 @@ class NodeEditor:
             return self._graph.blocks.get(self._selected_block_id)
         return None
 
+    def select_block(self, block_id: str) -> None:
+        """Restore logical selection after rebuilding an effective scenario graph."""
+        block = self._graph.blocks.get(block_id)
+        if block is None:
+            return
+        self._selected_block_id = block_id
+        self._on_selected(block)
+
     def update_node_positions(self):
         """Sync DPG node positions back to block._dpg_pos (call before save)."""
         for node_id, block_id in self._node_to_block.items():
@@ -277,4 +285,3 @@ class NodeEditor:
                         block._dpg_pos = tuple(pos)
                 except Exception:
                     pass
-

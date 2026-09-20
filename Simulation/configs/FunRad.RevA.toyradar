@@ -1,0 +1,566 @@
+{
+  "schema_version": 1,
+  "design": {
+    "name": "FunRad",
+    "revision": "Rev.A",
+    "description": "Executable working configuration for the 5.8 GHz FunRad FMCW radar"
+  },
+  "environment": {
+    "reference_temperature_k": 290.0,
+    "rf_impedance_ohm": 50.0
+  },
+  "analyses": {
+    "snr_min_db": 10.0,
+    "adc_quantization_status": "open",
+    "fft_scaling_status": "open"
+  },
+  "scenarios": [
+    {
+      "id": "close_0dbsm",
+      "label": "Close target, 0 dBsm",
+      "overrides": {
+        "target": {
+          "distance_m": 1.0,
+          "rcs_dbsm": 0.0
+        },
+        "tx_attenuator": {
+          "attenuation_db": 33.0
+        }
+      }
+    },
+    {
+      "id": "close_minus10dbsm",
+      "label": "Close target, -10 dBsm",
+      "overrides": {
+        "target": {
+          "distance_m": 1.0,
+          "rcs_dbsm": -10.0
+        },
+        "tx_attenuator": {
+          "attenuation_db": 33.0
+        }
+      }
+    },
+    {
+      "id": "far_0dbsm",
+      "label": "Far target, 0 dBsm",
+      "overrides": {
+        "target": {
+          "distance_m": 45.0,
+          "rcs_dbsm": 0.0
+        },
+        "tx_attenuator": {
+          "attenuation_db": 16.0
+        }
+      }
+    },
+    {
+      "id": "far_plus10dbsm",
+      "label": "Far target, +10 dBsm",
+      "overrides": {
+        "target": {
+          "distance_m": 45.0,
+          "rcs_dbsm": 10.0
+        },
+        "tx_attenuator": {
+          "attenuation_db": 16.0
+        }
+      }
+    }
+  ],
+  "blocks": [
+    {
+      "type": "PLLChirpBlock",
+      "id": "pll_vco",
+      "name": "PLL/VCO",
+      "pos": [
+        53,
+        33
+      ],
+      "mirrored": false,
+      "params": {
+        "waveform": "Sawtooth",
+        "center_freq_ghz": 5.8,
+        "bandwidth_mhz": 150.0,
+        "chirp_duration_ms": 1.0,
+        "simulation_time_ms": 5.0,
+        "power_dbm": 2.0,
+        "phase_noise_dbc_hz": -90.0
+      },
+      "part_number": "LMX2491 + HMC431",
+      "role": "chirp_source",
+      "parameter_metadata": {
+        "center_freq_ghz": {
+          "status": "chosen"
+        },
+        "bandwidth_mhz": {
+          "status": "working"
+        },
+        "chirp_duration_ms": {
+          "status": "provisional"
+        },
+        "phase_noise_dbc_hz": {
+          "status": "open"
+        }
+      }
+    },
+    {
+      "type": "WilkinsonDividerBlock",
+      "id": "source_divider",
+      "name": "TX/LO Split",
+      "pos": [
+        198,
+        33
+      ],
+      "mirrored": false,
+      "params": {
+        "insertion_loss_db": 0.3
+      },
+      "part_number": "Planar Wilkinson",
+      "role": "source_splitter",
+      "parameter_metadata": {
+        "insertion_loss_db": {
+          "status": "provisional"
+        }
+      }
+    },
+    {
+      "type": "AttenuatorBlock",
+      "id": "tx_attenuator",
+      "name": "TX Atten.",
+      "pos": [
+        353,
+        33
+      ],
+      "mirrored": false,
+      "params": {
+        "attenuation_db": 16.0
+      },
+      "part_number": "PE43711B-Z",
+      "role": "tx_level_control",
+      "parameter_metadata": {
+        "attenuation_db": {
+          "status": "working"
+        }
+      }
+    },
+    {
+      "type": "AmplifierBlock",
+      "id": "tx_pa",
+      "name": "TX PA",
+      "pos": [
+        498,
+        33
+      ],
+      "mirrored": false,
+      "params": {
+        "gain_db": 19.0,
+        "nf_db": 1.4
+      },
+      "part_number": "QPA9127",
+      "role": "tx_power_amplifier"
+    },
+    {
+      "type": "CouplerBlock",
+      "id": "tx_coupler",
+      "name": "TX Coupler",
+      "pos": [
+        643,
+        33
+      ],
+      "mirrored": false,
+      "params": {
+        "coupling_db": 20.0,
+        "through_loss_db": 0.5
+      },
+      "role": "tx_monitor",
+      "parameter_metadata": {
+        "coupling_db": {
+          "status": "provisional"
+        },
+        "through_loss_db": {
+          "status": "provisional"
+        }
+      }
+    },
+    {
+      "type": "AntennaBlock",
+      "id": "tx_antenna",
+      "name": "TX Ant.",
+      "pos": [
+        788,
+        33
+      ],
+      "mirrored": false,
+      "params": {
+        "gain_dbi": 12.0,
+        "direction": "TX"
+      },
+      "part_number": "Custom Rev.A",
+      "role": "tx_antenna",
+      "parameter_metadata": {
+        "gain_dbi": {
+          "status": "provisional"
+        }
+      }
+    },
+    {
+      "type": "TargetBlock",
+      "id": "target",
+      "name": "Target",
+      "pos": [
+        933,
+        33
+      ],
+      "mirrored": false,
+      "params": {
+        "distance_m": 45.0,
+        "rcs_dbsm": 0.0
+      },
+      "role": "analysis_target"
+    },
+    {
+      "type": "AttenuatorBlock",
+      "id": "lo_level_trim",
+      "name": "LO Trim",
+      "pos": [
+        198,
+        163
+      ],
+      "mirrored": false,
+      "params": {
+        "attenuation_db": -1.0
+      },
+      "role": "lo_level_control",
+      "parameter_metadata": {
+        "attenuation_db": {
+          "status": "open",
+          "note": "Current simulator simplification; reconcile with the documented GALI-84+ and 1:4 LO path"
+        }
+      }
+    },
+    {
+      "type": "AntennaBlock",
+      "id": "rx_antenna",
+      "name": "RX Ant.",
+      "pos": [
+        933,
+        293
+      ],
+      "mirrored": true,
+      "params": {
+        "gain_dbi": 12.0,
+        "direction": "RX"
+      },
+      "part_number": "Custom Rev.A",
+      "role": "rx_antenna",
+      "parameter_metadata": {
+        "gain_dbi": {
+          "status": "provisional"
+        }
+      }
+    },
+    {
+      "type": "LNABlock",
+      "id": "rx_lna",
+      "name": "RX LNA",
+      "pos": [
+        813,
+        293
+      ],
+      "mirrored": true,
+      "params": {
+        "gain_db": 17.9,
+        "nf_db": 0.66
+      },
+      "part_number": "QPL9504",
+      "role": "rx_low_noise_amplifier",
+      "parameter_metadata": {
+        "gain_db": {
+          "status": "working"
+        },
+        "nf_db": {
+          "status": "chosen",
+          "note": "Value at 5.8 GHz"
+        }
+      }
+    },
+    {
+      "type": "MixerBlock",
+      "id": "iq_demodulator",
+      "name": "I/Q Demod.",
+      "pos": [
+        683,
+        293
+      ],
+      "mirrored": true,
+      "params": {
+        "voltage_gain_db": 5.8,
+        "nf_db": 15.5,
+        "mode": "downconvert"
+      },
+      "part_number": "ADL5380",
+      "role": "direct_conversion_demodulator"
+    },
+    {
+      "type": "IFFilterBlock",
+      "id": "if_filter_1",
+      "name": "IF Filter",
+      "pos": [
+        553,
+        293
+      ],
+      "mirrored": true,
+      "params": {
+        "cutoff_hz": 1000000.0,
+        "order": 4,
+        "insertion_loss_db": 1.0
+      },
+      "part_number": "TBD",
+      "role": "if_noise_bandwidth_filter",
+      "parameter_metadata": {
+        "cutoff_hz": {
+          "status": "working"
+        },
+        "order": {
+          "status": "open"
+        },
+        "insertion_loss_db": {
+          "status": "provisional"
+        }
+      }
+    },
+    {
+      "type": "IQAmplifierBlock",
+      "id": "if_fda",
+      "name": "IF FDA",
+      "pos": [
+        423,
+        293
+      ],
+      "mirrored": true,
+      "params": {
+        "gain_db": 20.0,
+        "added_noise_dbv": -87.74
+      },
+      "part_number": "THS4551",
+      "role": "adc_driver",
+      "parameter_metadata": {
+        "gain_db": {
+          "status": "provisional"
+        },
+        "added_noise_dbv": {
+          "status": "working"
+        }
+      }
+    },
+    {
+      "type": "IFFilterBlock",
+      "id": "if_filter_2",
+      "name": "AA Filter",
+      "pos": [
+        293,
+        293
+      ],
+      "mirrored": true,
+      "params": {
+        "cutoff_hz": 1000000.0,
+        "order": 4,
+        "insertion_loss_db": 1.0
+      },
+      "part_number": "TBD",
+      "role": "anti_alias_filter",
+      "parameter_metadata": {
+        "cutoff_hz": {
+          "status": "working"
+        },
+        "order": {
+          "status": "open"
+        },
+        "insertion_loss_db": {
+          "status": "provisional"
+        }
+      }
+    },
+    {
+      "type": "ADCBlock",
+      "id": "adc",
+      "name": "ADC",
+      "pos": [
+        173,
+        293
+      ],
+      "mirrored": true,
+      "params": {
+        "bits": 14,
+        "sample_rate_mhz": 3.5,
+        "full_scale_pm_v": 4.096
+      },
+      "part_number": "TBD",
+      "role": "if_digitizer",
+      "parameter_metadata": {
+        "bits": {
+          "status": "provisional"
+        },
+        "sample_rate_mhz": {
+          "status": "provisional"
+        },
+        "full_scale_pm_v": {
+          "status": "open",
+          "note": "Peak magnitude of the provisional ±4.096 V differential input convention"
+        }
+      }
+    },
+    {
+      "type": "RangeFFTBlock",
+      "id": "range_fft",
+      "name": "Range FFT",
+      "pos": [
+        53,
+        293
+      ],
+      "mirrored": true,
+      "params": {
+        "window": "Hanning",
+        "nfft": 1024
+      },
+      "role": "range_processing",
+      "parameter_metadata": {
+        "window": {
+          "status": "open"
+        },
+        "nfft": {
+          "status": "open"
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "src_block": "pll_vco",
+      "src_port": "rf_out",
+      "dst_block": "source_divider",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "source_divider",
+      "src_port": "out1",
+      "dst_block": "tx_attenuator",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "tx_attenuator",
+      "src_port": "rf_out",
+      "dst_block": "tx_pa",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "tx_pa",
+      "src_port": "rf_out",
+      "dst_block": "tx_coupler",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "tx_coupler",
+      "src_port": "through",
+      "dst_block": "tx_antenna",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "tx_antenna",
+      "src_port": "rf_out",
+      "dst_block": "target",
+      "dst_port": "tx_in"
+    },
+    {
+      "src_block": "source_divider",
+      "src_port": "out2",
+      "dst_block": "lo_level_trim",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "lo_level_trim",
+      "src_port": "rf_out",
+      "dst_block": "iq_demodulator",
+      "dst_port": "lo_in"
+    },
+    {
+      "src_block": "target",
+      "src_port": "rx_out",
+      "dst_block": "rx_antenna",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "rx_antenna",
+      "src_port": "rf_out",
+      "dst_block": "rx_lna",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "rx_lna",
+      "src_port": "rf_out",
+      "dst_block": "iq_demodulator",
+      "dst_port": "rf_in"
+    },
+    {
+      "src_block": "iq_demodulator",
+      "src_port": "I_out",
+      "dst_block": "if_filter_1",
+      "dst_port": "I_in"
+    },
+    {
+      "src_block": "iq_demodulator",
+      "src_port": "Q_out",
+      "dst_block": "if_filter_1",
+      "dst_port": "Q_in"
+    },
+    {
+      "src_block": "if_filter_1",
+      "src_port": "I_out",
+      "dst_block": "if_fda",
+      "dst_port": "I_in"
+    },
+    {
+      "src_block": "if_filter_1",
+      "src_port": "Q_out",
+      "dst_block": "if_fda",
+      "dst_port": "Q_in"
+    },
+    {
+      "src_block": "if_fda",
+      "src_port": "I_out",
+      "dst_block": "if_filter_2",
+      "dst_port": "I_in"
+    },
+    {
+      "src_block": "if_fda",
+      "src_port": "Q_out",
+      "dst_block": "if_filter_2",
+      "dst_port": "Q_in"
+    },
+    {
+      "src_block": "if_filter_2",
+      "src_port": "I_out",
+      "dst_block": "adc",
+      "dst_port": "I_in"
+    },
+    {
+      "src_block": "if_filter_2",
+      "src_port": "Q_out",
+      "dst_block": "adc",
+      "dst_port": "Q_in"
+    },
+    {
+      "src_block": "adc",
+      "src_port": "I_out",
+      "dst_block": "range_fft",
+      "dst_port": "I_in"
+    },
+    {
+      "src_block": "adc",
+      "src_port": "Q_out",
+      "dst_block": "range_fft",
+      "dst_port": "Q_in"
+    }
+  ]
+}
