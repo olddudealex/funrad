@@ -20,3 +20,16 @@ backups/
 # FreeCAD
 *.FCBak
 *.ini
+
+# LibreOffice profiles
+.lo_profile_*/
+
+# KiCad local/per-user state
+*.kicad_prl
+~*.lck
+fp-info-cache
+*.bak
+
+# Generated / derived outputs
+Notes/FunRad/Generated/
+Simulation/generated/
