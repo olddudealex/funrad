@@ -1,319 +1,224 @@
 # TX Coupler EM Method
 
-How the 5.8 GHz TX tap in [[RF Architecture]] got its geometry. Self-contained: every number it leans on is quoted here.
+**5.8 GHz symmetric TX monitoring coupler · prototype candidate, not production released.** Target: $S_{31}=-15\pm0.3$ dB over 5.7–5.9 GHz, high directivity and good input match. All results below use **50 Ω at all ports**. Results are simulations, not hardware measurements.
 
-**Target:** -15 dB coupling, high directivity, good return loss, over 5.7-5.9 GHz.
-**Model:** `Frontend/emerge/coupler_sim.py` (EMerge 2.8.9 + gmsh), 35 um copper etched on FR-4, ground plane, air box. Copper is PEC — no conductor loss.
+## Selected design
 
-![[11_Coupler_Mesh.png|560]]
+![Selected symmetric copper geometry](images/redesign/02_geometry.png)
 
+| Dimension | Value, mm |
+|---|---:|
+| Coupled length $L$ | 5.10 |
+| Coupled / feed width $W$ | 0.37 / 0.37 |
+| Coupled edge gap $S$ | 0.13 |
+| Comb bus centre spacing $Y$ | 1.05 |
+| Straight comb station length $J$ | 1.20 |
+| Fingers per side, per end | 3 |
+| Finger width / slot | 0.10 / 0.10 |
+| Overlap $O$ | 0.48 |
+| Finger extension $(Y-W+O)/2$ | 0.58 |
+| Tip-to-opposite-bus gap $(Y-W-O)/2$ | 0.10 |
+| Comb span | 1.10 |
 
-## Result
+Both fan-outs use clean 45° diagonals; the tiny vertical remnants are removed. L2 ground remains intact. Nominal stack: $h=0.2104$ mm, $\varepsilon_r=4.4$, $\tan\delta=0.020$, top copper 35 µm, no soldermask. Geometry selection used PEC copper; the subsequent R058 check includes finite copper conductivity. The nominal 0.10 mm comb features exceed JLCPCB's published standard multilayer 1 oz 0.09/0.09 mm minimum; this is a geometry limit, not an etch-tolerance guarantee. [Stack](https://jlcpcb.com/impedance) · [Capabilities](https://jlcpcb.com/capabilities/Capab).
 
-| | uncompensated | with comb |
+| 50 Ω metric | No comb, PEC | Selected comb, PEC | Selected comb, finite Cu |
+|---|---:|---:|---:|
+| $S_{31}$ at 5.8 GHz | −14.92 dB | −15.14 dB | −15.286 dB |
+| $S_{41}$ at 5.8 GHz | −22.17 dB | −50.19 dB | −47.71 dB |
+| Through loss at 5.8 GHz | 0.609 dB | 0.581 dB | 0.652 dB |
+| Minimum sampled input return loss | 29.88 dB | 30.48 dB | 31.22 dB |
+| Minimum sampled directivity | 7.11 dB | 32.16 dB | **30.50 dB** |
+| Coupling range, 5.7–5.9 GHz | −14.97 to −14.89 dB | −15.27 to −15.02 dB | **−15.419 to −15.166 dB** |
+| Direct EM frequency samples | 3 | 5 | 9 |
+
+**Latest prediction: R058, finite copper.** Directivity remains above 30 dB, but coupling misses the −15.3 dB band limit by 0.119 dB at 5.9 GHz. The geometry remains the selected prototype candidate; it is not an all-requirements pass. Meeting the strict uncalibrated coupling window would require a small retune, or an explicit system decision to calibrate that offset.
+
+The bare control was added after selection: it demonstrates the comb's effect but did not guide the original search. Both cases use the same requested mesh settings, including 0.04 mm edge refinement.
+
+![Uncompensated and compensated symmetric design](images/coupler/final_response.png)
+
+## 1. Idea → initial dimensions
+
+For an ideal matched, equal-velocity, quarter-wave backward coupler:
+
+$$k=10^{-15/20}=0.1778,\qquad Z_{0e}Z_{0o}=Z_0^2,$$
+$$Z_{0e}=Z_0\sqrt{\frac{1+k}{1-k}}=59.85\ \Omega,\qquad Z_{0o}=Z_0\sqrt{\frac{1-k}{1+k}}=41.77\ \Omega.$$
+
+Transcalc's rounded starting point was $W=0.38$, $S=0.15$, $L=7.14$ mm, with $\varepsilon_{\mathrm{eff},e}=3.549$ and $\varepsilon_{\mathrm{eff},o}=3.029$.
+
+![Transcalc starting point](images/19_Coupler_Transcalc_Synthesis.png)
+
+These are starting values for a uniform line. The combs and transitions add electrical loading, so the complete compensated structure need not retain a quarter-wave physical coupled section. The final section is only 5.10 mm.
+
+### Why symmetry, and why compensation?
+
+For a symmetric two-line network, even/odd decomposition gives
+
+$$S_{31}=\frac{\Gamma_e-\Gamma_o}{2},\qquad S_{41}=\frac{T_e-T_o}{2},\qquad D=20\log_{10}\left|\frac{S_{31}}{S_{41}}\right|.$$
+
+The isolated port depends on cancellation. In microstrip, the modes sample different dielectric distributions:
+
+$$\theta_m=\frac{\omega L}{c}\sqrt{\varepsilon_{\mathrm{eff},m}},\qquad \varepsilon_{\mathrm{eff},e}>\varepsilon_{\mathrm{eff},o}\ \Rightarrow\ \theta_e>\theta_o.$$
+
+Mirror-symmetric main routes remove an avoidable path imbalance and make the modal description useful. They do **not** remove the dielectric velocity difference, make the interdigital loading perfectly lumped, or guarantee better performance than every asymmetric layout. The recommendation rests on the simulated complete design.
+
+### The fix: slow the odd mode
+
+A bridge capacitor at each end sees zero voltage in the even mode. In the odd mode the lines are at $+V$ and $-V$:
+
+$$I=j\omega C(V-(-V))=j\omega(2C)V.$$
+
+Each half-circuit sees a shunt capacitance $2C$ to its virtual ground, with susceptance $B=2\omega C$.
+
+**Step 1 — represent the odd-mode line.** A lossless line has an exact π equivalent with series impedance $jZ_{0o}\sin\theta_o$ and a shunt admittance at each end:
+
+$$Y_{\mathrm{sh}}=jF(\theta_o),\qquad F(\theta)=\frac{\tan(\theta/2)}{Z_{0o}}.$$
+
+**Step 2 — ask for extra electrical length.** Approximate the added shunt susceptance by the change an extra angle $\Delta\theta$ would produce:
+
+$$F(\theta_o+\Delta\theta)-F(\theta_o)\simeq B.$$
+
+**Step 3 — linearize that change.** Taylor's formula is $F(\theta+\Delta\theta)=F(\theta)+F'(\theta)\Delta\theta+O(\Delta\theta^2)$. The chain rule supplies the factor $1/2$:
+
+$$F'(\theta)=\frac{1}{Z_{0o}}\frac{d}{d\theta}\tan(\theta/2)=\frac{\sec^2(\theta/2)}{2Z_{0o}}.$$
+
+Subtract $F(\theta_o)$ and neglect the quadratic remainder:
+
+$$\underbrace{\frac{\sec^2(\theta_o/2)}{2Z_{0o}}}_{\text{susceptance change per radian}}\ \underbrace{\Delta\theta}_{\text{extra radians}}\simeq2\omega C.$$
+
+Differentiation is a local slope calculation: **slope × small angle change = added susceptance**. Angles must be in radians.
+
+**Step 4 — use the quarter-wave approximation.** At $\theta_o\simeq\pi/2$, $\sec^2(\theta_o/2)\simeq2$. Set $\Delta\theta=\theta_e-\theta_o$:
+
+$$\boxed{C\simeq\frac{\theta_e-\theta_o}{2\omega Z_{0o}}}.$$
+
+The Transcalc starting point gives about **41 fF per end**. This is a sizing estimate: matching the π shunts alone does not also match the series arm, and the loaded network's effective impedance changes. It is not an exact broadband synthesis or a direct prescription for the final shortened structure.
+
+## 2. Uncompensated EM → lumped-capacitor search
+
+The question is: **if the bare EM coupler could be compensated with ideal capacitors, what value would it want?** We solve the bare geometry once, then reuse its four-port result as a circuit component. All the bends, dielectric loading and coupling already present in that EM result stay inside the component. Only the two capacitors are added outside it.
+
+![EM result imported into QUCS with two bridge capacitors](images/coupler/qucs_cap_workflow.png)
+
+**In QUCS:**
+
+1. Solve the uncompensated geometry with the four reference planes at the intended comb connection points, and export its complete 50 Ω S-matrix as a Touchstone `.s4p` file.
+2. Place a **four-port S-parameter-file component** and load that file. Attach four 50 Ω RF ports; connect the component's additional reference pin to ground if it exposes one.
+3. Add **Cleft between ports 1 and 3**, and **Cright between ports 2 and 4**. Give both the same parameter $C$. These are bridges between the signal lines, not shunt capacitors to physical ground. The $2C$ in the modal derivation is a half-circuit equivalent, not the component value to enter.
+4. Run S-parameter analysis over 5.7–5.9 GHz and sweep $C$. Plot $S_{31}$, $S_{41}$ and $D=S_{31,\mathrm{dB}}-S_{41,\mathrm{dB}}$. Choose the best **minimum over the band**, not the deepest single-frequency isolation null.
+
+[Ready-to-import 50 Ω Touchstone file](../../Frontend/emerge/catalogue/qucs/historical_bare_at_comb_50ohm.s4p) · [Circuit setup](../../Frontend/emerge/catalogue/qucs/README.md) · [QUCS S-parameter-file component](https://qucs.github.io/qucs-manual/0.0.19/html-en/component_reference.html).
+
+The supplied plots solve this same linear circuit algebraically in Python; they are not screenshots of a QUCS run. **There is no second EM solve for each capacitor value.** Convert the saved 50 Ω S-matrix to Y and stamp the two capacitor admittances:
+
+$$Y=\frac1{50}(I-S)(I+S)^{-1},\qquad Y'=Y+j\omega C\!\begin{bmatrix}1&0&-1&0\\0&1&0&-1\\-1&0&1&0\\0&-1&0&1\end{bmatrix},$$
+$$S'=(I-50Y')(I+50Y')^{-1}.$$
+
+The positive diagonal entries add current at each capacitor terminal; the negative off-diagonal entries enforce $I_a=j\omega C(V_a-V_b)$ and equal opposite current at the other terminal. Converting $Y'$ back to S gives the loaded four-port response, just as the QUCS circuit does.
+
+**Placement matters:** moving the reference planes moves the virtual capacitors. Loading a full-feed file at the external board ports answers a different question from adding capacitors beside the coupled section. Use the truncated, at-comb network for this sizing exercise.
+
+![Lumped-capacitance sweep at 50 ohm](images/coupler/lumped_cap_method.png)
+
+The panels show the sequence: too little capacitance under-corrects the leakage; near the optimum, the two contributions cancel; too much passes through the null and worsens isolation again. The coupling panel checks the cost of that compensation. The frequency–capacitance map shows why one capacitor value must be judged over the whole band.
+
+This illustration reprocesses the **historical truncated geometry**, not the selected symmetric geometry. Its fitted network gives **85 fF/end and 25.78 dB minimum directivity at 50 Ω**. The older 76 fF / 37.6 dB result used modal references. The 41 fF analytic estimate and this 85 fF result describe different models and geometry; their difference is not an unexplained correction factor. The circuit result includes the actual saved network and its connection planes. No equivalent capacitance has been extracted for the final comb; 85 fF was not imposed on it.
+
+**Role of the 2-D solver:** it informed the earlier cross-section estimates. The selected comb and 5.10 mm length came from full 3-D sweeps. A subsequent 2-D check of the final $W=0.37$, $S=0.13$ mm cross-section confirms a mode-velocity split but cannot model bends, finite combs or their placement. See [[Quasi-static 2-D Solver]].
+
+## 3. Etched compensation → parameter search
+
+The comb adds mutual and ground capacitance, distributed inductance and electrical length. A useful first-order separation is
+
+$$C'_e=C'_g,\qquad C'_o=C'_g+2C'_m.$$
+
+Changing the comb alters both terms. “Shorter fingers are always better” and “closer combs always increase coupling” are not general laws. Reducing finger reach can reduce unwanted loading; moving the comb changes the phase between the coupled section and compensating current. The vector sum can increase or decrease $S_{31}$ and $S_{41}$. These are plausible mechanisms, not a uniquely identified equivalent circuit.
+
+**Method:** hand-selected, physics-guided parameter sweeps, local retuning and mesh checks. No gradient, adjoint, Bayesian or global optimizer was used. Multiple parameters sometimes changed together; the search does not isolate every parameter's independent effect.
+
+$$\max_{\mathbf p}\ \min_{f\in\mathcal F}D(f;\mathbf p),\qquad -15.3\le S_{31,\mathrm{dB}}(f;\mathbf p)\le-14.7,$$
+
+where $\mathcal F$ is the finite set of directly solved frequencies. This was the design criterion, not proof that a mathematical optimum was found.
+
+![Parameter decisions and numerical checks](images/coupler/decision_path.png)
+
+| Step | What changed | Reason / finding |
 |---|---|---|
-| Coupling $S_{31}$ | -11.96 dB | **-15.00 dB** |
-| Isolation $S_{41}$ | -19.57 dB | -35.99 dB |
-| Through $S_{21}$ | -0.815 dB | -0.588 dB |
-| Return loss | 21.3 dB | 28.6 dB |
-| **Directivity, worst in band** | **7.4 dB** | **20.35 dB** |
+| Manufacturable comb | 0.10 mm width/slot; 2 → 3 fingers; overlap 0.30 → 0.40 mm | Initial compensation was too weak; larger combs improved isolation but changed coupling. |
+| Coupling / match | Gap 0.10–0.16 mm; widths 0.37–0.43 mm | Recover coupling and match with the complete comb present. |
+| Loaded length | 7.15 → 6 → 5.5–5.6 mm, with gap/overlap retuning | Unloaded quarter-wave length was not optimal for the complete structure. |
+| Mesh challenge | Same 5.6 mm geometry, add 0.04 mm edge refinement | Apparent minimum D fell **34.10 → 19.68 dB**. Reject that optimum. |
+| Retune on edge mesh | Overlap 0.41 → 0.48 mm; $Y$ 1.00 → 1.05 mm | At 5.8 GHz, D recovered to 29.46 dB; coupling −15.45 dB. |
+| Centre coupling | $L$ 5.6 → 5.3 → 5.1 mm | 5.3 mm gave 35.01 dB at one frequency; 5.1 mm passed nominal coupling at all five band samples. |
+| Challenge final design | $\varepsilon_r$ 4.2/4.6; correlated ±10 µm widths/spaces | Directivity survived, but some coupling values missed the target. |
 
-Final geometry, mm:
+The complete matrix, original aliases and database are in [[Coupler Simulation Catalogue]]. **R052** is the selected prototype, **R057** its later bare control. Each redesign run retains its configuration, actual polygons, mesh counts and raw solved samples. Legacy fitted data are separately labeled.
 
-| | value |
-|---|---|
-| `W_50` feed width | 0.37 |
-| `W_C` coupled width | 0.37 — *the same*, so there is no width step |
-| `S_GAP` coupled gap | 0.10 |
-| `L_C` coupled length | 7.39 |
-| comb | 3 fingers/side, 0.08 wide, 0.06 gap, 0.27 overlap (0.60 finger) |
+![Changing geometry and accumulating simulation results](images/coupler/search_history.gif)
 
-All bends are 90 degree mitred, no diagonals, and **every dimension sits on a 0.01 mm drawing grid** — including the derived ones: clearance = `Y_COMB` - `W_50` = 0.93, so an overlap of 0.27 puts the comb finger at exactly 0.60.
+The GIF follows saved configuration timestamps. Blue points use surface refinement only; purple includes edge refinement. Diamonds are one-frequency runs. It documents the search, not a ranking at equal numerical accuracy.
 
-Micron-resolution widths were false precision. Rounding the old 0.371 to 0.37 moves the line by 0.08 ohm, against a fab etch tolerance near 0.02 mm — a design that cannot survive 5 um of rounding cannot be built. Measured, the rounded geometry came out *better*, so it costs nothing.
+### Ground opening: tested, not selected
 
-Only the stack-up keeps more digits, because it is specified by the fab rather than drawn by us: $\varepsilon_r$ 4.4, h = 0.2104 mm prepreg, 35 um copper.
+![Ground aperture and lower stack](images/redesign/09_ground_layout.png)
 
-![[12_Coupler_Layout.png]]
+A 0.50 mm-wide L2 aperture was tested with a 1.065 mm core and intact grounded L3. On the same finer surface settings, minimum D changed **15.15 → 17.32 dB**; this was not an edge-converged result. The selected 32.16 dB candidate needs no aperture, retaining the simpler intact return plane.
 
+## 4. Validation and production decision
 
-## The idea
+| Check | Evidence | Remaining limitation |
+|---|---|---|
+| Nominal band | R058: 9 direct points at 25 MHz spacing; D 30.50–34.59 dB | Coupling misses the upper-band limit by 0.119 dB. |
+| Mesh | 283,633 tetrahedra; edge 0.04, surface 0.15, port 0.10 mm | Further refinement or an independent solver must confirm the null. |
+| Consistency | R058: maximum singular value 0.963703; reciprocity residual $8.91\times10^{-4}$ | Does not prove physical accuracy. |
+| Export | Connected copper; nominal 0.10 mm opposite-net clearance | Import DRC is not fabrication or RF qualification. |
+| Loss / environment | R058: finite copper, dielectric loss, bare copper, PEC box | Finish and roughness omitted; box and 50 Ω loads are accepted assumptions. |
 
-Every number in this section comes out of `coupled_theory.py`; run it to reproduce them.
+The 0.05 mm port-control attempt selected an unphysical mode and was excluded. An earlier ground-placement suspicion was not confirmed: the dielectric won the original overlap by geometry priority. Neither establishes convergence of the present model.
 
-### What a -15 dB coupler requires
+![Sensitivity at 5.8 GHz](images/redesign/05_sensitivity.png)
 
-The nameplate coupling is the voltage coupling coefficient $k$, and a matched backward-wave coupler must also satisfy $Z_{0e} Z_{0o} = Z_0^2$. Those two conditions fix both mode impedances outright:
+| 5.8 GHz case | Coupling, dB | Directivity, dB |
+|---|---:|---:|
+| Nominal | −15.139 | 35.05 |
+| $\varepsilon_r=4.2$ | −14.973 | 28.81 |
+| $\varepsilon_r=4.6$ | −15.304 | 28.80 |
+| Narrower copper / wider spaces | −15.437 | 31.39 |
+| Wider copper / narrower spaces | −14.852 | 32.46 |
 
-$$k = 10^{-15/20} = 0.1778 \qquad Z_{0e} = Z_0\sqrt{\frac{1+k}{1-k}} \qquad Z_{0o} = Z_0\sqrt{\frac{1-k}{1+k}}$$
+These earlier checks use PEC copper and were not repeated with finite copper loss. They are single-frequency illustrative corners, not supplier-guaranteed distributions. Widths change ±0.01 mm, gaps oppositely, and overlap with bus-edge movement. This is a correlated parameter perturbation, not a morphological etch model. The narrowest feature becomes 0.09 mm.
 
-$$Z_{0e} = 59.85\ \Omega \qquad Z_{0o} = 41.77\ \Omega$$
+### Agreed scope and practical next step
 
-That is the whole specification. Everything physical follows from those two impedances plus a quarter wave of length.
+For this power-monitoring application, the relevant outputs are coupling versus frequency, insertion loss, match and directivity. With matched ports, $P_3=|S_{31}|^2P_1$. **There is no requirement to measure or calibrate detector phase.** The EM solver still uses complex fields internally because interference determines isolation.
 
-### What Transcalc makes of them
+We retain the stated stack and material values, 50 Ω detector/P4 loads and the existing PEC enclosure model. EMerge assigns PEC to unassigned exterior domain faces; the lid is 2.5 mm above the board. This is a specific ideal metal box, not an open-space boundary. Via stitching is an implementation assumption and is not added to this model. An independent solver is optional, not a required gate for the next prototype.
 
-Feeding those two impedances at 5.8 GHz into Qucs Transcalc, for this substrate:
+**Completed follow-up, R058:** nine direct points at 25 MHz spacing, with $\sigma=5.8\times10^7$ S/m using EMerge's built-in surface-impedance boundary on the copper. Surface finish and roughness are omitted. At 5.8 GHz the skin depth is about 0.87 µm, much smaller than the 35 µm copper thickness, so a surface treatment avoids resolving the skin depth volumetrically. Saved geometry and mesh counts match the PEC case. Through loss increases by 0.0705 dB at 5.8 GHz; directivity there changes from 35.05 to 32.42 dB. The denser curve is smooth at all sampled points, with no newly resolved narrow feature. Frequency sampling is improved; this is not an additional mesh-convergence test.
 
-![[19_Coupler_Transcalc_Synthesis.png]]
+“Sweep corners across the band” means repeating a frequency sweep for perturbed parameters—for example, εr=4.2 and 4.6 instead of nominal 4.4, or narrower/wider etched copper. The earlier corner checks were at 5.8 GHz only. They remain sensitivity illustrations; **a new full-band corner campaign is not part of the agreed next step**.
 
-Rounded to the drawing grid, that synthesis is **W = 0.38, S = 0.15, L = 7.14 mm**, with
+The useful next step is a prototype coupon with a through/reference structure, followed by coupling and directivity measurements. If −15±0.3 dB must be met without calibration, first retune the small coupling offset exposed by R058. Residual mesh error remains a limitation, but every possible board detail or another solver is not a prerequisite for making the coupon. Production release should follow measured performance; simulation is not hardware qualification.
 
-$$\varepsilon_{\text{eff},e} = 3.549 \qquad \varepsilon_{\text{eff},o} = 3.029$$
+## Files and reproduction
 
-The last pair is what matters, and it is the reason this page exists.
+- [KiCad footprint](../../Frontend/kicad/FunRad_RF.pretty/FunRad_Coupler_5GHz8_Symmetric_15dB.kicad_mod) · [Import instructions](../../Frontend/kicad/README.md)
+- [SQLite database](../../Frontend/emerge/catalogue/coupler_simulations.sqlite) · [Searchable table](../../Frontend/emerge/catalogue/index.html) · [[Coupler Simulation Catalogue]]
 
-### Why unequal mode velocities break the isolated port
+The SQLite file is generated locally and excluded from Git; rebuild it with `python coupler_catalogue.py`. Its source matrices, stable IDs and original run timestamps are committed.
+- [[Quasi-static 2-D Solver]] — cross-section theory and final-geometry diagnostic.
 
-Solve the coupled pair by even/odd decomposition. Exciting ports 1 and 3 in phase sees one line of impedance $Z_{0e}$ and electrical length $\theta_e$; out of phase sees $Z_{0o}$ and $\theta_o$. The four-port then follows from the reflection and transmission of those two lines:
+Run in `Frontend/emerge` using the existing EMerge environment:
 
-$$S_{31} = \tfrac{1}{2}(\Gamma_e - \Gamma_o) \qquad S_{41} = \tfrac{1}{2}(T_e - T_o)$$
-
-**This is Pozar's derivation, and the effect is absent there by assumption.** Pozar works in a homogeneous medium — stripline — where both modes see the same permittivity. Then $\theta_e = \theta_o$, the two transmissions are identical, $S_{41}$ vanishes *identically*, and the isolated port is perfectly isolated. Directivity never appears as a design problem because it is infinite.
-
-Microstrip is not homogeneous. The even mode keeps most of its field in the substrate; the odd mode puts a large share in the air gap between the strips, where $\varepsilon$ = 1. So $\varepsilon_{\text{eff},e} > \varepsilon_{\text{eff},o}$, the odd mode runs faster, and at 5.8 GHz the two electrical lengths are **7.13 deg apart** even though their mean is the 90 deg that was asked for. $T_e$ and $T_o$ no longer cancel and the isolated port comes alive.
-
-Force $\varepsilon_{\text{eff},o} := \varepsilon_{\text{eff},e}$ in the same calculation and $S_{41}$ drops to -319 dB, i.e. numerically zero. **The entire directivity limit is the velocity split.** It is a property of the medium, not of the layout, so no choice of W, S or L removes it — which is why the coupler needs something *added* rather than something adjusted.
-
-### The fix
-
-A capacitor bridging the two lines at each end. It is invisible to the even mode — both strips sit at the same potential, so there is no voltage across it and no current — and loads only the odd mode, slowing it until the two electrical lengths match.
-
-**Where the formula comes from.** Four steps.
-
-*1. What the bridging capacitor looks like to one line.* Under odd excitation the symmetry plane is a virtual ground. A capacitor $C$ from line 1 to line 2 is then two capacitors of $2C$ in series through that ground, so each line sees $2C$ to ground:
-
-$$B = \omega \cdot 2C$$
-
-*2. What a line section looks like as lumped elements.* A section of impedance $Z$ and electrical length $\theta$ has an exact equivalent $\pi$-network — series arm $jZ\sin\theta$, and a shunt arm at each end of
-
-$$Y_{\text{shunt}} = \frac{j\tan(\theta/2)}{Z}$$
-
-*3. Ask the loaded line to look longer.* Adding $B$ at each end should make the odd mode behave as a line of length $\theta_o + \Delta\theta$. Matching the shunt arms:
-
-$$\frac{\tan\!\big((\theta_o+\Delta\theta)/2\big)}{Z_{0o}} = \frac{\tan(\theta_o/2)}{Z_{0o}} + B$$
-
-For small $\Delta\theta$, differentiate the left side — $\frac{d}{d\theta}\frac{\tan(\theta/2)}{Z} = \frac{\sec^2(\theta/2)}{2Z}$ — which gives
-
-$$\Delta\theta\,\frac{\sec^2(\theta_o/2)}{2 Z_{0o}} = 2\omega C$$
-
-*4. Evaluate at the design point.* The section is a quarter wave, $\theta_o \approx 90^\circ$, so $\sec^2(45^\circ) = 2$ and the factor collapses:
-
-$$\boxed{\;C = \frac{\theta_e - \theta_o}{2\,\omega\,Z_{0o}}\;}$$
-
-with $\Delta\theta = \theta_e - \theta_o$ in radians, because that is exactly the length the odd mode is short by. On Transcalc's numbers this gives **40.9 fF**, and a numerical sweep of the same circuit agrees to 0.04 fF.
-
-(Step 4's $\theta_o \approx 90^\circ$ is what produces the tidy factor of 2. Keeping $\sec^2(\theta_o/2)$ at the real 86.5 deg would say 38.5 fF instead. That is *not* more accurate — the derivation only matched the shunt arm and ignored what the capacitor does to the series arm, and the two approximations happen to cancel at $90^\circ$.)
-
-There is no room for a discrete part at 5.8 GHz, so it is etched as an interdigital comb.
-
-The rest of this page is the 3-D work: measure the real uncompensated coupler, find the capacitance *it* wants, then build that as a comb and tune it.
-
-
-## Step 1 — the uncompensated baseline
-
-```
-python coupler_sim.py --no-comb --at-comb
+```text
+python redesign.py redesign_configs/final51.json
+python redesign.py redesign_configs/final51_bare.json
+python redesign.py redesign_configs/final51_copper9.json
+python final_cross_section_check.py
+python coupler_catalogue.py
+python coupler_story_figures.py
+python export_coupler_footprint.py
 ```
 
-`--at-comb` truncates both lines at the comb plane and puts the four ports there. This matters: in step 2 a lumped capacitor lands exactly on the port reference plane, so the ports must sit where the comb will actually go. Put them on the board edges instead and the capacitance that comes out is a different number, which the comb cannot be sized against.
-
-![[13_Coupler_Geometry_at_Comb_Planes.png|560]]
-
-| $S_{11}$ | $S_{31}$ | $S_{21}$ | $S_{41}$ | D worst |
-|---|---|---|---|---|
-| -24.83 | -11.66 | -0.621 | -20.48 | 8.59 dB |
-
-![[14_Coupler_Sparams_Uncompensated.png]]
-
-Two things to take from it.
-
-**Coupling is deliberately 3.3 dB too strong, and the reason is not what it looks like.** Adding the comb takes $S_{31}$ from -11.66 to -15.00 dB, so the bare section has to start over-coupled. But that is *not* a property of compensation. A capacitor placed where the theory puts it — right at the ends of the coupled section — costs essentially no coupling. Out on the jog, 1 mm away, the comb is only partly a compensation element; the rest of it is plain shunt capacitance across the line pair, which de-couples them. **So `S_GAP` = 0.10 mm is a correction for where the comb had to go**, not a design value in its own right.
-
-**Directivity is 8.6 dB and there is no isolation null anywhere in the sweep** — the signature of an uncompensated coupled-line coupler, and the reason the comb exists.
-
-
-## Step 2 — find the capacitance
-
-```
-python cap_opt.py results/sparams_opt_nocomb_atcomb.npz
-```
-
-Adding lumped caps to a 4-port result is a circuit problem, so it needs no second EM run. `cap_opt.py` converts S to Y, adds $y = j\omega C$ across each end, converts back, and sweeps C. The same thing works by hand: drop the `_portref.s4p` file into a QUCS S-parameter block with a capacitor from port 1 to 3 and from port 2 to 4.
-
-- **Optimum C = 76 fF per end, giving 37.6 dB.**
-- 20 dB or better: 61 - 88 fF
-- Past 114 fF, compensation is worse than none at all.
-
-The capacitor pushes $S_{41}$ down across the whole band. Too little under-corrects, too much over-corrects straight past:
-
-![[15_Coupler_Cap_Effect.png]]
-
-![[16_Coupler_Cap_Window.png|640]]
-
-### Why this is 76 fF when the closed form said 41
-
-Three things change between the two numbers, and each is worth a row. Every capacitance in the first four rows comes from the same closed form,
-
-$$C = \frac{\theta_e - \theta_o}{2\,\omega\,Z_{0o}} \qquad\text{with}\qquad \theta_e - \theta_o = k_0 \left(\sqrt{\varepsilon_{\text{eff},e}} - \sqrt{\varepsilon_{\text{eff},o}}\right) L$$
-
-so the only thing differing between them is where $\varepsilon_{\text{eff}}$, $Z_{0o}$ and the dimensions came from:
-
-| what changes | W / S / L, mm | $\varepsilon_{\text{eff},o}$ | $Z_{0o}$ | $\theta_e - \theta_o$ | C | how C was obtained |
-|---|---|---|---|---|---|---|
-| Transcalc's model on Transcalc's geometry | 0.38 / 0.15 / 7.14 | 3.029 | 41.77 | 7.13 deg | 40.9 fF | closed form |
-| **same geometry, `coupled_2d` instead** | 0.38 / 0.15 / 7.14 | **2.754** | 39.09 | 9.76 deg | 59.8 fF | closed form |
-| design width and gap | **0.37** / **0.10** / 7.14 | 2.663 | 36.29 | 11.05 deg | 72.9 fF | closed form |
-| design length as well - the real section | 0.37 / 0.10 / **7.39** | 2.663 | 36.29 | 11.43 deg | **75.5 fF** | closed form |
-| the same section, solved in 3-D | 0.37 / 0.10 / 7.39 | - | - | - | **76 fF** | 4-port EM + circuit sweep |
-
-Reading down the rows: swapping the cross-section model is worth **x1.46**, the tighter gap and width **x1.22**, the slightly longer section **x1.04**.
-
-The last row is a different kind of calculation entirely. There is no $\varepsilon_{\text{eff}}$ and no formula in it — it is the measured 4-port from step 1 with a capacitor swept across ports 1-3 and 2-4 in `cap_opt.py`, exactly as a circuit simulator would do it. It lands 0.7 % from the closed-form prediction, which is what makes the first four rows believable.
-
-**The second row is the one worth knowing about.** Nothing about the geometry changed between rows one and two — only the source of $\varepsilon_{\text{eff},o}$ — and the answer moved by nearly half. Transcalc puts the odd mode at 3.029 where a direct solve of the same cross-section says 2.754, a 37 % larger velocity split. See [[Quasi-static 2-D Solver]] for why: the substrate is 0.21 mm, the copper is 17 % of that height, and the gap is 0.10-0.15 mm, so the strips are blocks whose 35 um sidewalls form a parallel-plate capacitor across the gap. For the odd mode that is a leading term, not the thin-conductor correction the closed forms assume.
-
-So use Transcalc to put W, S and L in the right neighbourhood, but do not take its $\varepsilon_{\text{eff}}$ into a compensation calculation on a stack like this one.
-
-
-## Step 3 — build the comb and tune it
-
-```
-python coupler_sim.py
-```
-
-![[17_Coupler_Geometry_with_Comb.png|560]]
-
-**What was optimised:** `W_C`, `S_GAP` and the comb overlap, maximising worst-case in-band directivity subject to $|S_{31}|$ within 0.3 dB of -15 dB. `W_50` is fixed at 0.37 by the 50 ohm requirement and `L_C` at its analytic quarter wave.
-
-### The coupled width, and a trap that cost real performance
-
-`W_C` looks like it should follow from theory. A coupler is matched when $\sqrt{Z_{0e}Z_{0o}} = Z_0$, and [[Quasi-static 2-D Solver|the cross-section solver]] puts that crossing at **W = 0.32** for this gap. That is not the answer.
-
-Measured in 3-D with the comb present and the coupling constraint enforced:
-
-| `W_C` | `S_GAP` | $S_{11}$ | $S_{31}$ | $S_{41}$ | D worst | coupling in spec |
-|---|---|---|---|---|---|---|
-| 0.32 | 0.10 | -20.00 | -14.71 | -31.04 | 15.60 | yes |
-| 0.35 | 0.10 | -24.22 | -15.04 | -34.02 | 18.25 | yes |
-| **0.37** | **0.10** | **-28.56** | **-15.00** | **-35.99** | **20.35** | **yes** |
-| 0.38 | 0.10 | -30.89 | -15.30 | -36.16 | 20.39 | borderline |
-| 0.39 | 0.10 | -34.40 | -15.39 | -36.84 | 21.10 | no, under-coupled |
-| 0.40 | 0.10 | -35.65 | -15.72 | -39.62 | 23.20 | no, under-coupled |
-| 0.40 | 0.09 | -35.34 | -14.66 | -35.59 | 20.85 | no, over-coupled |
-| 0.42 | 0.09 | -29.16 | -15.01 | -37.01 | 21.62 | yes |
-
-The theoretical 0.32 is **4.8 dB worse** than the adopted 0.37. Two things to take away:
-
-**Uncompensated directivity points the wrong way here.** Sweeping the same widths *without* the comb ranks them in the opposite order:
-
-| `W_C` | 0.30 | 0.31 | 0.32 | 0.33 | 0.34 | 0.36 | 0.37 |
-|---|---|---|---|---|---|---|---|
-| D worst, no comb | 10.5 | 10.0 | 9.7 | 9.5 | 9.2 | 8.8 | **8.6** |
-
-The width that looks worst bare (8.6 dB) is the best finished (20.4 dB); the one that looks best bare is 4.8 dB worse finished. Judge widths with the comb in place, or not at all.
-
-**Wider is better up to the coupling constraint.** Directivity keeps climbing past 0.37 — 0.42 with a 0.09 gap reaches 21.6 dB and is still in spec — because a wider coupled run weakens coupling and deepens isolation together. It was not adopted because 0.09 mm is at the fab's minimum spacing, and spending the entire etch margin before the tolerance study has run is the wrong order. **This is a real remaining gain, gated on that study.**
-
-`W_C` = 0.37 also happens to equal `W_50`, so the coupled section is the same width as the feed and there is no width step at either end. That is a genuine layout simplification, but it is not *why* it wins — the trend continues past it, where a step reappears with the opposite sign.
-
-### The gap and the comb
-
-With `W_C` settled, the other two knobs at the adopted width:
-
-| varying | value | $S_{11}$ | $S_{31}$ | $S_{41}$ | D worst |
-|---|---|---|---|---|---|
-| `S_GAP` | 0.09 | -25.0 | -14.05 | -32.9 | 18.9 |
-| | **0.10** | **-28.56** | **-15.00** | **-35.99** | **20.35** |
-| | 0.11 | -21.6 | -16.05 | -33.0 | 16.9 |
-| comb overlap | 0.25 | -30.31 | -14.69 | -33.91 | 18.96 |
-| | **0.27** | **-28.56** | **-15.00** | **-35.99** | **20.35** |
-| | 0.29 | -28.83 | -14.97 | -35.96 | 20.38 |
-
-The comb sits on a plateau — 0.27 and 0.29 are indistinguishable, and only 0.25 falls off — which is the same flat optimum the capacitance sweep predicted in step 2.
-
-**A consequence of the 0.01 mm grid worth knowing:** the gap now moves coupling by about 1 dB per step, against a spec window of ±0.3 dB. The gap alone can no longer trim coupling to target — it has to be chosen together with `W_C`. That was hidden when the dimensions carried micron resolution.
-
-![[18_Coupler_Sparams_Final.png]]
-
-The isolation null has appeared at 5.50 GHz where the uncompensated response had none, and coupling has come down to -15.00 dB, both as step 2 predicted.
-
-
-## Three traps
-
-- **Do not widen the line spacing.** `Y_COMB` = 1.3 mm looks like a free routing choice and is not — it sets how far the comb fingers reach. Widening it to 2.2 mm lengthens them from 0.60 to 1.05 mm, at which point they stop behaving as a lumped capacitor: measured, that costs about 6 dB of directivity and 8 dB of return loss, and retuning the comb does not get it back.
-- **Do not judge the coupled width without the comb.** See above — the ranking inverts completely.
-- **Do not size the comb from the formula.** The nominal $(2n-1) \times \text{overlap} \times C_m$ value is roughly half what step 2 actually wants. $C_m$ itself is right to 1 %; it is the edge-counting that is crude. Use the formula for a starting point and let the EM search finish.
-
-
-## Why the comb only gets 20.4 dB when ideal caps get 37.6
-
-This is the dominant limitation, and it *grew* when the coupled width improved:
-the ideal-cap ceiling rose 9 dB while the realised comb captured only 2 dB of it.
-
-**What the 17 dB is, precisely.** Step 2's 37.6 dB is an ideal lumped capacitor
-placed *at the comb plane* - the `--at-comb` ports sit exactly where the comb
-goes. Step 3's 20.4 dB is the real comb at that same plane. Both sides of the
-comparison are in the same place, so this gap is **not** about where the comb
-sits. About 1 dB of it is the feed lines, which the truncated model does not
-have. The remaining ~16 dB is the comb failing to behave as a lumped capacitor.
-
-**The likely mechanism is series inductance.** Current entering a finger runs
-0.60 mm out and 0.60 mm back, around 15 degrees of line at 5.8 GHz, so the comb
-is really C in series with L rather than a clean C. A series resonance limits
-how deep the isolation null goes and how wide it stays. The one experiment that
-bears on it agrees: widening `Y_COMB` from 1.3 to 2.2 mm stretched the fingers
-from 0.60 to 1.05 mm and cost about 6 dB of directivity, which no amount of
-re-tuning recovered.
-
-**So the lever is a more compact comb, not a relocated one.** Shorter fingers
-mean a smaller `Y_COMB`, or a capacitor topology with a shorter current path.
-
-There is an awkward constraint in the way, and it is a modelling one rather than
-a physical one: `Y_COMB` cannot shrink much below 1.3 mm because the step 1
-ports are placed on the comb plane, and their faces would overlap. That is a
-limit of how the baseline is measured, not of the board. Breaking it needs a
-different step 1 - narrower port faces, or reference planes taken somewhere else
-and de-embedded back.
-
-### Where the comb sits, and what that separately costs
-
-The offset is real even though it is not the 17 dB:
-
-| | |
-|---|---|
-| comb centre | x = 2.57 mm |
-| coupled section starts | x = 3.64 mm |
-| offset | 1.07 mm, about 13 degrees of line |
-
-The comb has to be there because the coupled section's own gap is 0.10 mm, with
-no room for interdigital fingers between the lines; the jog opens them to
-1.30 mm where a comb can be built. What that offset costs is **coupling, not
-directivity**: out on the jog the comb is partly plain shunt capacitance across
-the line pair, which de-couples them by 3.3 dB and is why `S_GAP` has to start
-over-coupled (step 1). Moving the comb inward would let the gap open back up
-toward the analytic 0.15 mm, which is worth having, but it is not where the
-17 dB is hiding.
-
-## Known limitations
-
-- [ ] **The comb does not behave as a lumped capacitor** — see above. ~16 dB of headroom sits behind making it more compact (shorter fingers, less series inductance), which in turn needs a step 1 that does not force `Y_COMB` wide.
-- [ ] **No conductor loss.** Copper is PEC, so $S_{21}$ = -0.588 dB is a lower bound; conductor loss (28.7 dB/m) should exceed dielectric loss (16.1 dB/m). `--cu-loss` exists but is unusable — it drops the extracted port impedance by ~5 ohm and corrupts the S-parameters with it.
-- [ ] **Tolerance study outstanding** — permittivity, loss tangent, etch bias on width and gap. This is the fab-blocking item, and it also gates the wider-`W_C` gain above, which needs a 0.09 mm gap. The 0.01 mm rounding is one favourable data point on it, not a substitute.
-- [ ] Port impedance is not converged: EMerge reports 47.9 ohm where two agreeing quasi-static methods give 49.6. S-parameters are quoted at the solver's own port reference, never renormalised to 50 ohm, so that error is not spread over all sixteen terms. It is not merely cosmetic — twice in this study the port reference made a comparison look more decisive than it was.
-
-
-## Notes on running it
-
-Solves take ~11 minutes on the fine mesh (the default; `--fast` mis-read directivity by 8 dB in both directions and is for flow checks only). **Run them one at a time** — two concurrent fine-mesh sweeps exhaust memory and SuperLU dies, sometimes as a confusing `gstrf was called with invalid arguments`.
-
-Each run writes `sparams_<tag>.npz`, `.s4p` (50 ohm) and `_portref.s4p` (port reference — **use this one for circuit work**).
-
-```
-python coupler_sim.py --preview               # geometry then mesh, no solve
-python coupler_sim.py --wc 0.40 --gap 0.09    # sweep a dimension, tagged output
-python render_em.py comb                      # 3-D screenshots for this page
-python figs.py                                # every figure on this page
-```
-
-Figures land in `Notes/FunRad/images/`, so re-running `figs.py` after a solve refreshes this page.
+`validate_coupler_footprint.py` uses KiCad's bundled Python. Completed EM runs are reused. The previous six documents and illustrations are preserved in Git checkpoint **36d3c8a**; the symmetry, audit, comb and separate redesign pages are consolidated here.

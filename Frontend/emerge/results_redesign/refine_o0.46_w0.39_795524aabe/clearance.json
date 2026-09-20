@@ -1,0 +1,5 @@
+{
+  "minimum_opposite_net_edge_clearance_mm": 0.09999999999999787,
+  "passes_0p10mm": true,
+  "scope": "Opposite-net outline edge clearance only; not a full fabrication DRC"
+}

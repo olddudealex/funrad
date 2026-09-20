@@ -1,0 +1,25 @@
+{
+  "kicad": "9.0.7",
+  "pad_count": 4,
+  "net_tie_groups": [
+    "1,2",
+    "3,4"
+  ],
+  "copper_checks": [
+    {
+      "pad": "1",
+      "connected_outlines": 1,
+      "source_area_mm2": 5.50634182,
+      "exported_area_mm2": 5.50634232,
+      "error_mm2": 4.999999996257998e-07
+    },
+    {
+      "pad": "3",
+      "connected_outlines": 1,
+      "source_area_mm2": 5.50634182,
+      "exported_area_mm2": 5.50634232,
+      "error_mm2": 4.999999996257998e-07
+    }
+  ],
+  "fixture": "Import/DRC fixture only; not a fabrication board"
+}

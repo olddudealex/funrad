@@ -1,0 +1,19 @@
+{
+  "w": 0.37,
+  "length": 5.1,
+  "gap": 0.13,
+  "fingers": 3,
+  "jog": 1.2,
+  "overlap": 0.48,
+  "trace_mesh": 0.15,
+  "port_mesh": 0.1,
+  "resolution": 0.12,
+  "name": "final51_copper9",
+  "edge_mesh": 0.04,
+  "nf": 9,
+  "fmin": 5.7,
+  "fmax": 5.9,
+  "y": 1.05,
+  "copper_loss": true,
+  "conductivity": 58000000
+}

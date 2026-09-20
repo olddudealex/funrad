@@ -1,0 +1,3 @@
+# Preserve saved evidence byte-for-byte, including recorded artifact hashes.
+results_redesign/** -text
+results/*.npz -text

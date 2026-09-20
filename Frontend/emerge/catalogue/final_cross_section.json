@@ -1,0 +1,28 @@
+{
+  "purpose": "Post-design diagnostic, not synthesis of the final comb",
+  "width_mm": 0.37,
+  "gap_mm": 0.13,
+  "length_mm": 5.1,
+  "rows": [
+    {
+      "grid_um": 10.0,
+      "even_ohm": 58.112289826617975,
+      "odd_ohm": 37.80363643430198,
+      "eps_even": 3.4344671272549387,
+      "eps_odd": 2.6963233584620157,
+      "geometric_mean_ohm": 46.87062915056988,
+      "delta_theta_deg": 7.5013416483175535,
+      "quarter_wave_estimate_fF": 47.51654752986813
+    },
+    {
+      "grid_um": 5.0,
+      "even_ohm": 58.42524797931562,
+      "odd_ohm": 38.44841041296742,
+      "eps_even": 3.4369107929855702,
+      "eps_odd": 2.7163460044232948,
+      "geometric_mean_ohm": 47.39575838393265,
+      "delta_theta_deg": 7.308593110608586,
+      "quarter_wave_estimate_fF": 45.51922978361083
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "compare": [
+    "s45_initial",
+    "proposal_edges",
+    "final51"
+  ],
+  "final": "final51",
+  "sensitivity": [
+    "final51_er42",
+    "final51_er46",
+    "final51_narrow",
+    "final51_wide"
+  ]
+}

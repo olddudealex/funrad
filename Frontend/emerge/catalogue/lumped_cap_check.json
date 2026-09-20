@@ -1,0 +1,7 @@
+{
+  "cap_fF": 85.0,
+  "d_min_db": 25.77527847195109,
+  "reference_ohm": 50,
+  "source": "results/sparams_opt_nocomb_atcomb.npz",
+  "sampling": "legacy fitted S-matrix + circuit calculation"
+}

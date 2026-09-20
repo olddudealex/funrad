@@ -1,0 +1,18 @@
+{
+  "w": 0.37,
+  "length": 5.1,
+  "gap": 0.13,
+  "fingers": 3,
+  "jog": 1.2,
+  "overlap": 0.48,
+  "trace_mesh": 0.15,
+  "port_mesh": 0.1,
+  "resolution": 0.12,
+  "name": "final51_er46",
+  "edge_mesh": 0.04,
+  "nf": 1,
+  "fmin": 5.8,
+  "fmax": 5.8,
+  "y": 1.05,
+  "er": 4.6
+}

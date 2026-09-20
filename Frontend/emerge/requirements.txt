@@ -1,0 +1,14 @@
+# EMerge needs Python >=3.10,<3.14
+emerge>=2.8,<3
+# pulled in by emerge, pinned loosely here so the venv is reproducible:
+numpy>=2.2,<2.5
+scipy>=1.14
+gmsh>=4.13,<4.15
+pyvista>=0.45.2
+matplotlib>=3.8
+pillow>=10
+numba>=0.60
+loguru>=0.7.3
+# optional but a big speed-up for the sparse solve on Windows:
+# see UMFPACK_Install_windows.md in the EMerge repo
+# scikit-umfpack

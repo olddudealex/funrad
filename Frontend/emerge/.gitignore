@@ -1,0 +1,12 @@
+.venv/
+venv/
+__pycache__/
+# Retain historical NPZ source matrices; omit duplicate exports.
+results/*
+!results/*.npz
+catalogue/*.sqlite*
+catalogue/gif_*.png
+*.log
+*.msh
+*.vtk
+*.pyc
