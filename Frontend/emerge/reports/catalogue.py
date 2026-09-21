@@ -12,7 +12,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from PIL import Image
 
-HERE=Path(__file__).resolve().parent
+HERE=Path(__file__).resolve().parents[1]
 OUT=HERE/'catalogue';OUT.mkdir(exist_ok=True)
 IMG=HERE.parents[1]/'Notes/FunRad/images/coupler';IMG.mkdir(parents=True,exist_ok=True)
 plt.rcParams.update({'font.size':10,'axes.spines.top':False,'axes.spines.right':False,'figure.facecolor':'white'})
@@ -139,7 +139,7 @@ def database(runs):
             z=np.asarray(d['Z0']);z=np.broadcast_to(z,(len(d['f']),m.get('ports',4)))
             db.executemany('INSERT INTO port_references VALUES (?,?,?,?,?)',((r['id'],float(f),i+1,float(v.real),float(v.imag)) for f,zs in zip(d['f'],z) for i,v in enumerate(zs)))
     check=OUT/'final_cross_section.json'
-    from coupler_decision_tree import RELATIONS
+    from reports.decision_tree import RELATIONS
     present={r['id'] for r in runs}
     relations=RELATIONS+[('R052','R058','model check','Same geometry, finite copper conductivity and nine directly solved band frequencies.')]
     db.executemany('INSERT INTO decision_relations VALUES (?,?,?,?)',[row for row in relations if row[0] in present and row[1] in present])
@@ -214,7 +214,7 @@ def visuals(runs):
             ax.annotate('',(.5,y-.65),(1.5,y-.32),arrowprops=dict(arrowstyle='-|>',mutation_scale=24,lw=2.5,color='#385c74',connectionstyle='angle,angleA=-90,angleB=0,rad=12'))
     fig.suptitle('Physics-guided parameter sweeps and refinement checks — not gradient descent',fontsize=15)
     fig.tight_layout();fig.savefig(IMG/'decision_path.png',dpi=160);plt.close(fig)
-    from coupler_decision_tree import render
+    from reports.decision_tree import render
     render(runs,IMG)
     return new,good
 
@@ -244,7 +244,7 @@ def documents(runs,new):
     (OUT/'index.html').write_text('''<!doctype html><meta charset="utf-8"><title>FunRad coupler simulations</title><style>body{font:14px system-ui;margin:24px;color:#183244}input{padding:10px;width:500px}table{border-collapse:collapse}th{position:sticky;top:0;background:#dceaf3}td,th{padding:8px;border-bottom:1px solid #ddd;text-align:left}tr:nth-child(even){background:#f6f9fb}img{max-width:260px} </style><h1>FunRad coupler simulation catalogue</h1><p>50 Ω results. Mixed meshes; one frequency is not a band result. Historical data are fitted. Unknown geometry is shown as ?.</p><input id="q" placeholder="Filter ID, geometry, alias or stage…"><span id="count"></span><table><thead><tr>'''+''.join('<th>'+x+'</th>' for x in ['ID','Description','Alias','Stage','Status','Sampling','L mm','W mm','gap mm','overlap mm','edge mm','band samples','S31 dB','Dmin dB','Geometry'])+'</tr></thead><tbody>'+''.join(rows)+'''</tbody></table><script>const q=document.querySelector('#q'), rows=[...document.querySelectorAll('tbody tr')];function filter(){let n=0;for(const r of rows){r.hidden=!r.textContent.toLowerCase().includes(q.value.toLowerCase());if(!r.hidden)n++}document.querySelector('#count').textContent=' '+n+' / '+rows.length+' records'}q.addEventListener('input',filter);filter()</script>''',encoding='utf-8')
     (OUT/'README.md').write_text('''# Simulation database
 
-Rebuild with `python coupler_catalogue.py` from the EMerge directory. No EM runs are performed. The generated SQLite file is excluded from Git; all source matrices are committed. `catalogue_ids.json` preserves IDs and `run_timestamps.json` preserves original configuration timestamps across checkouts. The DB contains redesign attempts (including the incomplete port-mode run), straight controls, all legacy NPZ files, complete complex S matrices where present, port impedances, parameters and source hashes. Paths are relative to `Frontend/emerge`.
+Rebuild with `python -m reports.catalogue` from the EMerge directory. No EM runs are performed. The generated SQLite file is excluded from Git; all source matrices are committed. `catalogue_ids.json` preserves IDs and `run_timestamps.json` preserves original configuration timestamps across checkouts. The DB contains redesign attempts (including the incomplete port-mode run), straight controls, all legacy NPZ files, complete complex S matrices where present, port impedances, parameters and source hashes. Paths are relative to `Frontend/emerge`.
 
 `simulations`: geometry in mm, status, sampling provenance, mesh sizes and scalar metrics. `config_json` retains every original parameter including lower-stack and solver settings. Historical parameters are parsed only when encoded explicitly; unknown values are NULL. `samples`: complex S entries, frequency in Hz, 1-based ports, modal or 50-ohm reference. `port_references`: complex modal impedances. `artifacts`: file provenance and SHA-256. `comparison`: convenient view.
 

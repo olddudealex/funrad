@@ -206,19 +206,19 @@ The useful next step is a prototype coupon with a through/reference structure, f
 - [KiCad footprint](../../Frontend/kicad/FunRad_RF.pretty/FunRad_Coupler_5GHz8_Symmetric_15dB.kicad_mod) · [Import instructions](../../Frontend/kicad/README.md)
 - [SQLite database](../../Frontend/emerge/catalogue/coupler_simulations.sqlite) · [Searchable table](../../Frontend/emerge/catalogue/index.html) · [[Coupler Simulation Catalogue]]
 
-The SQLite file is generated locally and excluded from Git; rebuild it with `python coupler_catalogue.py`. Its source matrices, stable IDs and original run timestamps are committed.
+The SQLite file is generated locally and excluded from Git; rebuild it with `python -m reports.catalogue`. Its source matrices, stable IDs and original run timestamps are committed.
 - [[Quasi-static 2-D Solver]] — cross-section theory and final-geometry diagnostic.
 
 Run in `Frontend/emerge` using the existing EMerge environment:
 
 ```text
-python redesign.py redesign_configs/final51.json
-python redesign.py redesign_configs/final51_bare.json
-python redesign.py redesign_configs/final51_copper9.json
-python final_cross_section_check.py
-python coupler_catalogue.py
-python coupler_story_figures.py
-python export_coupler_footprint.py
+python -m simulation.run redesign_configs/final51.json
+python -m simulation.run redesign_configs/final51_bare.json
+python -m simulation.run redesign_configs/final51_copper9.json
+python -m tests.cross_section
+python -m reports.catalogue
+python -m reports.story_figures
+python -m exports.footprint
 ```
 
-`validate_coupler_footprint.py` uses KiCad's bundled Python. Completed EM runs are reused. The previous six documents and illustrations are preserved in Git checkpoint **36d3c8a**; the symmetry, audit, comb and separate redesign pages are consolidated here.
+`tests/footprint.py` uses KiCad's bundled Python. Completed EM runs are reused. The previous six documents and illustrations are preserved in Git checkpoint **36d3c8a**; the symmetry, audit, comb and separate redesign pages are consolidated here.

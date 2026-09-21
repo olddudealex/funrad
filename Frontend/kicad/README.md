@@ -41,4 +41,4 @@ Loaded with KiCad 9.0.7. Each custom pad merges to one connected outline. Polygo
 
 `validation/coupler_import_check.kicad_pcb` is only an import/net-tie DRC fixture. It has no RF launches or fabrication-ready ground design and must not be ordered. `validation/drc.json`, `geometry_check.json` and `footprint_preview.svg` retain the checks. They do not validate the real board, mask process limits or RF performance.
 
-Recreate with `python export_coupler_footprint.py` in `Frontend/emerge`; run `validate_coupler_footprint.py` with KiCad's bundled Python. `coupler_export.json` records the source hash and port coordinates.
+Recreate with `python -m exports.footprint` in `Frontend/emerge`; from the same directory run `python -m tests.footprint` with KiCad's bundled Python. `coupler_export.json` records the source hash and port coordinates.

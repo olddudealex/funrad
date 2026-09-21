@@ -1,0 +1,246 @@
+{
+  "scope": "Geometry and mesh regression only; no new S-parameter solve",
+  "layouts": [
+    {
+      "name": "a90_n3",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "candidate_A",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "core_refined_control",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "edge_short53",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "edge_tune_o48",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "edge_tune_o60",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "final51",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "final51_bare",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "final51_copper9",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "final51_er42",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "final51_er46",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "final51_narrow",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "final51_wide",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "line_p05",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "line_p10",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "proposal",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "proposal_edges",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "refine_o0.36_w0.40",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "refine_o0.46_w0.39",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "refine_o0.46_w0.41",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "refine_o0.48_w0.41",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "relief_refined",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_check_coarse",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_check_fine",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_check_medium",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_core_control",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_core_relief",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_initial",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_L6.5_w0.4",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_L6_w0.37",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_L6_w0.4",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_L7.8_w0.37",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n2_long_s0.10",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n2_long_s0.12",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n2_long_s0.14",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n2_o43",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n3_long_s0.10",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n3_long_s0.12",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n3_long_s0.14",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n3_o0.30_s0.12",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n3_o0.30_s0.14",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n3_o0.30_s0.16",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n3_o0.40_s0.12",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n3_o0.40_s0.14",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_n3_o0.40_s0.16",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_short_jog",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_trim_w0.37",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_trim_w0.39",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_trim_w0.41",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s45_trim_w0.43",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "s90_n3",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "short55_fine",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "short_fine",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "short_ref_o43",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "short_ref_s0.12",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "short_ref_s0.13",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "straight_corrected",
+      "max_vertex_error_mm": 0.0
+    },
+    {
+      "name": "straight_legacy",
+      "max_vertex_error_mm": 0.0
+    }
+  ],
+  "checked_domains": [
+    "core_refined_control",
+    "final51_copper9",
+    "relief_refined"
+  ],
+  "R058_mesh": {
+    "nodes": 49862,
+    "volume_elements": 283633
+  }
+}

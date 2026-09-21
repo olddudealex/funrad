@@ -14,5 +14,5 @@ if ($py -eq "py") { & py -3.12 -m venv .venv } else { & python -m venv .venv }
 
 Write-Host ""
 Write-Host "done. activate with:  .\.venv\Scripts\Activate.ps1" -ForegroundColor Green
-Write-Host "then:                 python coupler_catalogue.py"
-Write-Host "                      python redesign.py redesign_configs/final51_copper9.json"
+Write-Host "then:                 python -m reports.catalogue"
+Write-Host "                      python -m simulation.run redesign_configs/final51_copper9.json"

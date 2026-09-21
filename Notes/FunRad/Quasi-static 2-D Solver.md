@@ -1,6 +1,6 @@
 # Quasi-static 2-D Solver
 
-`Frontend/emerge/coupled_2d.py` solves the uniform microstrip cross-section. It estimates even/odd impedances and effective permittivities; the complete design is in [[TX Coupler EM Method]].
+`Frontend/emerge/simulation/coupled_2d.py` solves the uniform microstrip cross-section. It estimates even/odd impedances and effective permittivities; the complete design is in [[TX Coupler EM Method]].
 
 **Did it produce the final geometry? No.** It informed earlier line-width and compensation estimates. The final 0.37 mm width, 0.13 mm gap, 5.10 mm length and comb were selected by 3-D sweeps. This solver checked the final cross-section **after selection**, on 2026-09-20. That check is a diagnostic, not a retroactive account of how the optimum was found.
 
@@ -64,9 +64,9 @@ The condition $\sqrt{Z_{0e}Z_{0o}}=50\ \Omega$ belongs to ideal uniform coupled-
 ## Reproduce
 
 ```python
-from coupled_2d import modes
+from simulation.coupled_2d import modes
 ze, zo, ee, eo = modes(370.0, 130.0, t_um=35.0,
                        er=4.4, h_um=210.4, d_um=5.0)
 ```
 
-Run `python final_cross_section_check.py` in `Frontend/emerge` for both rows. [Saved parameters and results](../../Frontend/emerge/catalogue/final_cross_section.json). The original `coupled_2d.py` demonstration uses historical geometries, not the final configuration.
+Run `python -m tests.cross_section` in `Frontend/emerge` for both rows. [Saved parameters and results](../../Frontend/emerge/catalogue/final_cross_section.json). The original `simulation/coupled_2d.py` demonstration uses historical geometries, not the final configuration.
