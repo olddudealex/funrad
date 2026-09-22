@@ -6,59 +6,65 @@
       <description>Last 10 notes on FunRad</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Quasi-static 2-D Solver</title>
+    <link>https://quartz.jzhao.xyz/Quasi-static-2-D-Solver</link>
+    <guid>https://quartz.jzhao.xyz/Quasi-static-2-D-Solver</guid>
+    <description><![CDATA[ Quasi-static 2-D Solver Frontend/emerge/simulation/coupled_2d.py solves the uniform microstrip cross-section. ]]></description>
+    <pubDate>Mon, 21 Sep 2026 06:05:40 GMT</pubDate>
+  </item><item>
+    <title>Coupler Simulation Catalogue</title>
+    <link>https://quartz.jzhao.xyz/Coupler-Simulation-Catalogue</link>
+    <guid>https://quartz.jzhao.xyz/Coupler-Simulation-Catalogue</guid>
+    <description><![CDATA[ Coupler simulation catalogue The design argument is in TX Coupler EM Method. ]]></description>
+    <pubDate>Mon, 21 Sep 2026 06:05:24 GMT</pubDate>
+  </item><item>
+    <title>TX Coupler EM Method</title>
+    <link>https://quartz.jzhao.xyz/TX-Coupler-EM-Method</link>
+    <guid>https://quartz.jzhao.xyz/TX-Coupler-EM-Method</guid>
+    <description><![CDATA[ TX Coupler EM Method 5.8 GHz symmetric TX monitoring coupler · prototype candidate, not production released. ]]></description>
+    <pubDate>Mon, 21 Sep 2026 06:03:46 GMT</pubDate>
+  </item><item>
     <title>RF Architecture</title>
     <link>https://quartz.jzhao.xyz/RF-Architecture</link>
     <guid>https://quartz.jzhao.xyz/RF-Architecture</guid>
-    <description><![CDATA[ General Here is the latest version of RF architecture of FunRad project: TX Channel Calculation StagePart#Gain/Loss (db)Gain/Loss Tolerance (dB)Typ Out (dBm)Abs Min Out (dBm)Abs Max Out (dBm)P1dB (dBm)Max RF Input (dBm)VCOHMC431-2-13Wilkinson DividerPlanar Component-3-1-40Step AttennuatorPE43711B-Z-... ]]></description>
-    <pubDate>Sat, 27 Jun 2026 17:53:56 GMT</pubDate>
+    <description><![CDATA[ RF Architecture FunRad is a small 5.8 GHz FMCW radar. This page describes the signal path and the decisions behind it. ]]></description>
+    <pubDate>Sun, 13 Sep 2026 15:13:07 GMT</pubDate>
+  </item><item>
+    <title>FunRad Rev.A Specification</title>
+    <link>https://quartz.jzhao.xyz/FunRad-Rev.A-Specification</link>
+    <guid>https://quartz.jzhao.xyz/FunRad-Rev.A-Specification</guid>
+    <description><![CDATA[ FunRad Rev.A Specification This is the working configuration of the first FunRad implementation. ]]></description>
+    <pubDate>Sun, 30 Aug 2026 19:01:26 GMT</pubDate>
+  </item><item>
+    <title>FunRad Rev.A Results</title>
+    <link>https://quartz.jzhao.xyz/Generated/FunRad-Rev.A-Results</link>
+    <guid>https://quartz.jzhao.xyz/Generated/FunRad-Rev.A-Results</guid>
+    <description><![CDATA[ FunRad Rev.A — Generated Results Generated file Do not edit this page manually. Regenerate it from the executable .toyradar configuration. ]]></description>
+    <pubDate>Sun, 23 Aug 2026 09:22:26 GMT</pubDate>
+  </item><item>
+    <title>Simulation Closure Checklist</title>
+    <link>https://quartz.jzhao.xyz/Simulation-Closure-Checklist</link>
+    <guid>https://quartz.jzhao.xyz/Simulation-Closure-Checklist</guid>
+    <description><![CDATA[ Simulation Closure Checklist This page preserves the work to do before the simulator becomes the verified reference model. ]]></description>
+    <pubDate>Sat, 22 Aug 2026 16:48:34 GMT</pubDate>
+  </item><item>
+    <title>RF Calculations</title>
+    <link>https://quartz.jzhao.xyz/RF-Calculations</link>
+    <guid>https://quartz.jzhao.xyz/RF-Calculations</guid>
+    <description><![CDATA[ RF Calculations This page explains the equations used by FunRad Stages Calculations.ods. ]]></description>
+    <pubDate>Sun, 16 Aug 2026 20:12:43 GMT</pubDate>
+  </item><item>
+    <title>Implementation Readiness Suggestions</title>
+    <link>https://quartz.jzhao.xyz/Implementation-Readiness-Suggestions</link>
+    <guid>https://quartz.jzhao.xyz/Implementation-Readiness-Suggestions</guid>
+    <description><![CDATA[ Before starting the hardware implementation The immediate direction remains sensible: close the model definitions that affect architecture, make the documentation readable, and start a rough KiCad floorplan early enough for mechanical constraints to influence the circuit. ]]></description>
+    <pubDate>Sun, 16 Aug 2026 19:35:48 GMT</pubDate>
   </item><item>
     <title>FunRadBlockDiagram.excalidraw</title>
     <link>https://quartz.jzhao.xyz/Excalidraw/FunRadBlockDiagram.excalidraw</link>
     <guid>https://quartz.jzhao.xyz/Excalidraw/FunRadBlockDiagram.excalidraw</guid>
     <description><![CDATA[ ⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ]]></description>
-    <pubDate>Sun, 21 Jun 2026 19:31:32 GMT</pubDate>
-  </item><item>
-    <title>Frontend Description</title>
-    <link>https://quartz.jzhao.xyz/Frontend-Description</link>
-    <guid>https://quartz.jzhao.xyz/Frontend-Description</guid>
-    <description><![CDATA[  RF Architecture . ]]></description>
-    <pubDate>Wed, 17 Jun 2026 18:05:11 GMT</pubDate>
-  </item><item>
-    <title>TxPathWithPLL.excalidraw</title>
-    <link>https://quartz.jzhao.xyz/Excalidraw/TxPathWithPLL.excalidraw</link>
-    <guid>https://quartz.jzhao.xyz/Excalidraw/TxPathWithPLL.excalidraw</guid>
-    <description><![CDATA[ ⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ]]></description>
-    <pubDate>Thu, 14 May 2026 14:47:52 GMT</pubDate>
-  </item><item>
-    <title>Antenna Rev.A Directivity</title>
-    <link>https://quartz.jzhao.xyz/Antenna-Rev.A-Directivity</link>
-    <guid>https://quartz.jzhao.xyz/Antenna-Rev.A-Directivity</guid>
-    <description><![CDATA[ Measurement Process Description The setup was designed to get the directivity measurements from the Antenna Array Rev.A: On the left side of the setup the rotational tower made out of Plexiglas and plastic standoffs is used for fixing the AUT (Antenna under Test). ]]></description>
-    <pubDate>Sun, 10 May 2026 20:13:45 GMT</pubDate>
-  </item><item>
-    <title>TxPathWithDAC.excalidraw</title>
-    <link>https://quartz.jzhao.xyz/Excalidraw/TxPathWithDAC.excalidraw</link>
-    <guid>https://quartz.jzhao.xyz/Excalidraw/TxPathWithDAC.excalidraw</guid>
-    <description><![CDATA[ ⚠ Switch to EXCALIDRAW VIEW in the MORE OPTIONS menu of this document. ]]></description>
-    <pubDate>Wed, 06 May 2026 21:06:43 GMT</pubDate>
-  </item><item>
-    <title>Antenna Rev.A</title>
-    <link>https://quartz.jzhao.xyz/Antenna-Rev.A</link>
-    <guid>https://quartz.jzhao.xyz/Antenna-Rev.A</guid>
-    <description><![CDATA[ The first prototype of antenna with center frequency of 5.8GHz: Antenna Rev.A S11 parameters Antenna Rev.A Directivity . ]]></description>
-    <pubDate>Mon, 27 Apr 2026 21:41:23 GMT</pubDate>
-  </item><item>
-    <title>Antenna Rev.A S11 parameters</title>
-    <link>https://quartz.jzhao.xyz/Antenna-Rev.A-S11-parameters</link>
-    <guid>https://quartz.jzhao.xyz/Antenna-Rev.A-S11-parameters</guid>
-    <description><![CDATA[ Small update regarding the 5.8GHz patch antenna array. ]]></description>
-    <pubDate>Thu, 23 Apr 2026 19:25:46 GMT</pubDate>
-  </item><item>
-    <title>FunRad — Fun Radar Project</title>
-    <link>https://quartz.jzhao.xyz/</link>
-    <guid>https://quartz.jzhao.xyz/</guid>
-    <description><![CDATA[ Welcome to the FunRad antenna project notes. Notes Antenna Rev.A Frontend Description . ]]></description>
-    <pubDate>Wed, 23 Aug 2023 19:09:04 GMT</pubDate>
+    <pubDate>Sat, 08 Aug 2026 19:21:31 GMT</pubDate>
   </item>
     </channel>
   </rss>
