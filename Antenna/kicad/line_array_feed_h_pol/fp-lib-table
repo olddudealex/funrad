@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "PatchLineArray")(type "KiCad")(uri "${KIPRJMOD}/../library/PatchLineArray.pretty")(options "")(descr "5.8GHz patch line array footprints"))
+)
