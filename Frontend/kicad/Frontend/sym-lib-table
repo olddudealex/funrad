@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "Frontend")(type "KiCad")(uri "${KIPRJMOD}/../library/FunRad.kicad_sym")(options "")(descr "FunRad shared symbols"))
+)

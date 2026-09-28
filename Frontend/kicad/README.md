@@ -1,10 +1,10 @@
 # FunRad symmetric coupler footprint
 
-`FunRad_RF.pretty/FunRad_Coupler_5GHz8_Symmetric_15dB.kicad_mod` is ready to load as a KiCad footprint. It is a **prototype RF layout**, not a production-qualified design.
+`library/FunRad_RF.pretty/FunRad_Coupler_5GHz8_Symmetric_15dB.kicad_mod` is ready to load as a KiCad footprint. It is a **prototype RF layout**, not a production-qualified design.
 
 ## Import
 
-In the Footprint Editor, use **File → Import → Footprint** and select the `.kicad_mod`, or add `FunRad_RF.pretty` through **Preferences → Manage Footprint Libraries**. Use the project-specific library table if it should travel with the project. Place it on the top side.
+In the Footprint Editor, use **File → Import → Footprint** and select the `.kicad_mod`, or add `library/FunRad_RF.pretty` through **Preferences → Manage Footprint Libraries**. Use the project-specific library table if it should travel with the project. Place it on the top side.
 
 | Pad | Function | Pad centre, mm |
 |---|---|---|

@@ -4,7 +4,7 @@ import json
 import pcbnew as pcb
 
 ROOT=Path(__file__).resolve().parents[2]
-LIB=ROOT/'kicad/FunRad_RF.pretty'
+LIB=ROOT/'kicad/library/FunRad_RF.pretty'
 NAME='FunRad_Coupler_5GHz8_Symmetric_15dB'
 fp=pcb.FootprintLoad(str(LIB),NAME)
 assert fp is not None and fp.GetPadCount()==4 and fp.IsNetTie()
