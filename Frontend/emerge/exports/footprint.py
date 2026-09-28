@@ -5,7 +5,7 @@ import hashlib
 
 HERE=Path(__file__).resolve().parents[1]
 SOURCE=HERE/'results_redesign/final51_3857a21020'
-OUT=HERE.parent/'kicad/library/FunRad_RF.pretty'
+OUT=HERE.parent/'kicad/library/FunRad.pretty'
 NAME='FunRad_Coupler_5GHz8_Symmetric_15dB'
 
 def export():

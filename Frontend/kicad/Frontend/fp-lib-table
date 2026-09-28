@@ -1,5 +1,4 @@
 (fp_lib_table
 	(version 7)
 	(lib (name "Frontend")(type "KiCad")(uri "${KIPRJMOD}/../library/FunRad.pretty")(options "")(descr "FunRad shared footprints"))
-	(lib (name "FunRad_RF")(type "KiCad")(uri "${KIPRJMOD}/../library/FunRad_RF.pretty")(options "")(descr "FunRad EM-derived RF footprints"))
 )

@@ -1,10 +1,10 @@
 # FunRad symmetric coupler footprint
 
-`library/FunRad_RF.pretty/FunRad_Coupler_5GHz8_Symmetric_15dB.kicad_mod` is ready to load as a KiCad footprint. It is a **prototype RF layout**, not a production-qualified design.
+`library/FunRad.pretty/FunRad_Coupler_5GHz8_Symmetric_15dB.kicad_mod` is ready to load as a KiCad footprint. It is a **prototype RF layout**, not a production-qualified design.
 
 ## Import
 
-In the Footprint Editor, use **File → Import → Footprint** and select the `.kicad_mod`, or add `library/FunRad_RF.pretty` through **Preferences → Manage Footprint Libraries**. Use the project-specific library table if it should travel with the project. Place it on the top side.
+In the Footprint Editor, use **File → Import → Footprint** and select the `.kicad_mod`, or add `library/FunRad.pretty` through **Preferences → Manage Footprint Libraries**. Use the project-specific library table if it should travel with the project. Place it on the top side.
 
 | Pad | Function | Pad centre, mm |
 |---|---|---|
@@ -39,6 +39,6 @@ These are internal simulation dimensions, not a shield ordering specification. A
 
 Loaded with KiCad 9.0.7. Each custom pad merges to one connected outline. Polygon unions agree with saved EM geometry within 0.000001 mm² per conductor; only coordinate rounding is intended. The import fixture reports **0 DRC violations and 0 unconnected items**.
 
-`validation/coupler_import_check.kicad_pcb` is only an import/net-tie DRC fixture. It has no RF launches or fabrication-ready ground design and must not be ordered. `validation/drc.json`, `geometry_check.json` and `footprint_preview.svg` retain the checks. They do not validate the real board, mask process limits or RF performance.
+The fixture and its check files are not kept in the repository; `python -m tests.footprint` regenerates them into `validation/`. `coupler_import_check.kicad_pcb` is only an import/net-tie DRC fixture: it has no RF launches or fabrication-ready ground design and must not be ordered. `drc.json`, `geometry_check.json` and `footprint_preview.svg` record the checks. They do not validate the real board, mask process limits or RF performance.
 
 Recreate with `python -m exports.footprint` in `Frontend/emerge`; from the same directory run `python -m tests.footprint` with KiCad's bundled Python. `coupler_export.json` records the source hash and port coordinates.
