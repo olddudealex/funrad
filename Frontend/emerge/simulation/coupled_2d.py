@@ -109,7 +109,8 @@ def field(W_um, S_um, odd, t_um=35.0, er=4.4, h_um=210.4, d_um=5.0,
                   return_field=True)
 
 
-def _solve_single(W_um, t_um, er, h_um, d_um, lid_um, xpad_um):
+def _solve_single(W_um, t_um, er, h_um, d_um, lid_um, xpad_um,
+                  mask_um=0.0, er_mask=1.0):
     """One strip, so the domain stays small -- a wide-gap pair is wasteful."""
     d = d_um
     W = int(round(W_um / d)); t = int(round(t_um / d))
@@ -119,6 +120,10 @@ def _solve_single(W_um, t_um, er, h_um, d_um, lid_um, xpad_um):
     NX, NY = nx + 1, ny + 1
 
     eps = np.ones((nx, ny)); eps[:, :h] = er
+    if mask_um > 0.0:
+        m = int(round(mask_um / d))
+        # conformal coating: beside the strip and over it
+        eps[:, h:min(h + t + m, ny)] = er_mask
     up = np.zeros((nx, NY)); up[:, :ny] = eps
     dn = np.zeros((nx, NY)); dn[:, 1:] = eps
     cE = np.zeros((nx, NY)); cE[:, :ny] += 1; cE[:, 1:] += 1
@@ -168,10 +173,17 @@ def _solve_single(W_um, t_um, er, h_um, d_um, lid_um, xpad_um):
 
 
 def single(W_um, t_um=35.0, er=4.4, h_um=210.4, d_um=5.0,
-           lid_um=2500.0, xpad_um=1500.0):
-    """-> Z0, eps_eff for one isolated microstrip."""
-    C = _solve_single(W_um, t_um, er, h_um, d_um, lid_um, xpad_um)
-    Ca = _solve_single(W_um, t_um, 1.0, h_um, d_um, lid_um, xpad_um)
+           lid_um=2500.0, xpad_um=1500.0, mask_um=0.0, er_mask=3.8):
+    """-> Z0, eps_eff for one isolated microstrip.
+
+    mask_um > 0 adds a conformal soldermask coating of relative permittivity
+    er_mask over and beside the strip.  The air reference solve keeps the
+    coating region at 1.0, so eps_eff stays C / C_air as before.
+    """
+    C = _solve_single(W_um, t_um, er, h_um, d_um, lid_um, xpad_um,
+                      mask_um, er_mask)
+    Ca = _solve_single(W_um, t_um, 1.0, h_um, d_um, lid_um, xpad_um,
+                       mask_um, 1.0)
     return 1.0 / (C_LIGHT * np.sqrt(C * Ca)), C / Ca
 
 

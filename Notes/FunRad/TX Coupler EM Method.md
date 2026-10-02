@@ -201,6 +201,28 @@ We retain the stated stack and material values, 50 Ω detector/P4 loads and the 
 
 The useful next step is a prototype coupon with a through/reference structure, followed by coupling and directivity measurements. If −15±0.3 dB must be met without calibration, first retune the small coupling offset exposed by R058. Residual mesh error remains a limitation, but every possible board detail or another solver is not a prerequisite for making the coupon. Production release should follow measured performance; simulation is not hardware qualification.
 
+### Lid height: the 2.5 mm box assumption
+
+Every run in §2–§4 uses the same ideal metal box, with the lid 2.5 mm above the board. A fitted shield can puts the lid somewhere else, so the question is whether those runs still describe the part. `tests/lid_height.py` answers it with the quasi-static cross-section solver, sweeping lid height over the final51 coupled section: W = 0.370 mm, S = 0.130 mm, measured at $x=0$ on the exported footprint.
+
+| Lid above board | $Z_{0e}$, Ω | $Z_{0o}$, Ω | $\varepsilon_{\mathrm{eff},e}$ | $\varepsilon_{\mathrm{eff},o}$ | Coupling, dB | vs 2.5 mm, dB |
+|---|---:|---:|---:|---:|---:|---:|
+| Open (25 mm) | 58.228 | 37.804 | 3.44282 | 2.69635 | −13.446 | +0.039 |
+| 5.08 mm — TE 2118718-2 | 58.226 | 37.804 | 3.44269 | 2.69635 | −13.446 | +0.038 |
+| 3.60 mm — TE 2118716-2 | 58.208 | 37.804 | 3.44143 | 2.69635 | −13.452 | +0.032 |
+| **2.50 mm — as simulated** | 58.112 | 37.804 | 3.43447 | 2.69632 | −13.484 | — |
+| 2.00 mm | 57.963 | 37.802 | 3.42372 | 2.69619 | −13.534 | −0.050 |
+| 1.00 mm | 56.656 | 37.747 | 3.33160 | 2.69173 | −13.966 | −0.482 |
+| 0.50 mm | 53.230 | 37.313 | 3.10686 | 2.65960 | −15.100 | −1.616 |
+
+Only the even mode responds. From open to 0.50 mm, $\varepsilon_{\mathrm{eff},o}$ moves 1.4% and $Z_{0o}$ by 0.5 Ω, against 9.8% and 5.0 Ω for the even mode: the odd-mode field closes between the conductors across the 0.130 mm gap and never reaches the lid. Since $k=(Z_{0e}-Z_{0o})/(Z_{0e}+Z_{0o})$, the entire lid sensitivity rides on $Z_{0e}$ alone.
+
+At 2.5 mm the even mode is already within 0.24% of its open-air value, so the simulated box sits essentially at the unshielded limit rather than at some intermediate loading. **Both candidate cans place the lid further from the board than 2.5 mm**, which makes the existing runs the slightly pessimistic end: a real can returns 0.03–0.04 dB more coupling, moving towards open air. Against the ±0.3 dB window — and the 0.119 dB by which R058 already misses the upper-band limit — that is below the model's own error. **No re-run at the real can height is warranted.**
+
+The lid becomes a design variable only below about 2 mm: −0.050 dB at 2.00 mm, −0.482 dB at 1.00 mm, −1.616 dB at 0.50 mm. Any enclosure at 2 mm or above is covered by §2–§4; below 1.5 mm the campaign must be repeated at the real height.
+
+Limitations. The solver is quasi-static and two-dimensional: the comb fingers are absent, so absolute coupling comes out at −13.4 dB instead of −15 dB and the table is a sensitivity, not a prediction. Radiation and cavity resonance are likewise absent, but the lowest box mode of the candidate cans is 13.2 GHz for the 16.10 mm cavity and 8.2 GHz for the 25.81 mm one, both clear of the band, so no in-band cavity effect is being missed. Side walls are not modelled: TE 2118718-2 keeps its nearest wall 6.35 mm from the end of the coupler copper, but TE 2118716-2 leaves only 1.49 mm, close enough to justify a three-dimensional check if the small can is selected. Both parts are two-piece frames with an internal cross and a 6.00 mm pick-up pad at the top face; the numbers assume the cover is fitted.
+
 ## Files and reproduction
 
 - [KiCad footprint](../../Frontend/kicad/library/FunRad.pretty/FunRad_Coupler_5GHz8_Symmetric_15dB.kicad_mod) · [Import instructions](../../Frontend/kicad/README.md)
@@ -216,6 +238,7 @@ python -m simulation.run redesign_configs/final51.json
 python -m simulation.run redesign_configs/final51_bare.json
 python -m simulation.run redesign_configs/final51_copper9.json
 python -m tests.cross_section
+python -m tests.lid_height
 python -m reports.catalogue
 python -m reports.story_figures
 python -m exports.footprint

@@ -116,3 +116,53 @@ Checks every saved layout vertex, three representative 3-D domain bounds, and R0
 Deleted: `legacy/` (including unrun proposals), old `coupler_sim.py`, redundant `redesign_summary.py`, temporary refactoring code, and duplicate generated exports. Relevant raw measurements and report-generating tools are retained. Environments, meshes, logs and caches stay outside Git.
 
 [Design report](../../Notes/FunRad/TX%20Coupler%20EM%20Method.md) · [Simulation catalogue](../../Notes/FunRad/Coupler%20Simulation%20Catalogue.md)
+
+## Soldermask loading on the coupon line
+
+`tests/masked_line.py` quantifies what soldermask does to the coupon's 50 ohm
+microstrip, so the masked reference line can be compared against the bare ones.
+`simulation/coupled_2d.single` takes an optional conformal coating via
+`mask_um` and `er_mask`; with `mask_um=0` (the default) it behaves exactly as
+before, and the air-reference solve always keeps the coating at 1.0 so
+`eps_eff` stays `C / C_air`.
+
+Stack JLC04161H-7628: h = 210.4 um, er = 4.4, t = 35 um, 5 um grid, 5.8 GHz.
+Soldermask taken as er = 3.8 (LPI is 3.5-4.2 at these frequencies).
+
+| line | Z0 | eps_eff | phase vs bare, over 40 mm |
+|---|---|---|---|
+| bare, W = 370 um | 49.67 ohm | 3.169 | reference |
+| +10 um mask, W = 370 um | 47.64 ohm | 3.444 | +21.1 deg |
+| +20 um mask, W = 370 um | 47.33 ohm | 3.489 | +24.5 deg |
+| +30 um mask, W = 370 um | 47.07 ohm | 3.529 | +27.4 deg |
+| +20 um mask, W = 335 um | 49.82 ohm | 3.474 | - |
+
+**Re-tuned width: 335 um**, 33 um narrower than bare (-8.8%). Width resolution
+is one grid cell, so 335 +/- 5 um; re-run at a finer grid before committing to
+a value.
+
+Two ways to use this on the coupon, and they are not the same experiment:
+
+- **Same width (370 um) masked and bare.** The phase difference between the
+  two 40 mm lines is then attributable to the mask alone, which is the point of
+  having the pair. Cost: the masked line sits at 47.3 ohm, a -2.4 ohm mismatch
+  that adds ripple to its own S21.
+- **Re-tuned width (335 um).** Well matched, but the phase difference now mixes
+  the mask with a 35 um width change, so it no longer isolates the mask.
+
+For characterisation the same-width pair is the right choice. The 335 um figure
+is what to use if a masked 50 ohm line is needed on the real board.
+
+Caveats: the coating is modelled as conformal over and beside the strip, with
+no meniscus and no thinning at the trace shoulder; real LPI is thicker in the
+gaps than over copper. Mask er is a literature range, not a measured value for
+JLC's ink - which is exactly what the masked/bare pair on the coupon measures.
+
+## Shield can (lid) height
+
+`tests/lid_height.py` sweeps a grounded lid over the coupled section and writes
+`catalogue/lid_height.json`. Short answer: only the even mode responds, at
+2.5 mm it is already within 0.24% of its open-air value, and both candidate
+shield cans sit further away - so the existing 2.5 mm runs stand, with
+0.03-0.04 dB to spare. Table, reasoning and limitations are in the design
+report, [TX Coupler EM Method](../../Notes/FunRad/TX%20Coupler%20EM%20Method.md).
