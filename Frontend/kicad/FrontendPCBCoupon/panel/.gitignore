@@ -1,0 +1,7 @@
+# Throwaway boards used to render/verify footprints, not part of the design
+hdronly.*
+shieldfit.*
+testA.*
+testB.*
+# superseded by panel3_edgecuts.json (the 2-design staircase outline)
+panel2_edgecuts.json
