@@ -14,7 +14,7 @@ referenced as `Frontend:<name>` everywhere.
 
 `FunRad_Coupler_5GHz8_Symmetric_15dB` in `FunRad.pretty/` is not an ordinary
 footprint — it is etched copper exported from the EM model, with net ties and
-stack-up requirements. Read `../README.md` before placing it.
+stack-up requirements. Read the [coupler workflow and integration notes](../../emerge/README.md) before placing it.
 
 ## How projects reach these
 

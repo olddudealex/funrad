@@ -225,7 +225,7 @@ Limitations. The solver is quasi-static and two-dimensional: the comb fingers ar
 
 ## Files and reproduction
 
-- [KiCad footprint](../../Frontend/kicad/library/FunRad.pretty/FunRad_Coupler_5GHz8_Symmetric_15dB.kicad_mod) · [Import instructions](../../Frontend/kicad/README.md)
+- [KiCad footprint](../../Frontend/kicad/library/FunRad.pretty/FunRad_Coupler_5GHz8_Symmetric_15dB.kicad_mod) · [Export and integration](../../Frontend/emerge/README.md)
 - [SQLite database](../../Frontend/emerge/catalogue/coupler_simulations.sqlite) · [Searchable table](../../Frontend/emerge/catalogue/index.html) · [[Coupler Simulation Catalogue]]
 
 The SQLite file is generated locally and excluded from Git; rebuild it with `python -m reports.catalogue`. Its source matrices, stable IDs and original run timestamps are committed.

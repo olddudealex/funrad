@@ -1,72 +1,176 @@
-# Quasi-static 2-D Solver
+# Quasi-static 2-D solver
 
-`Frontend/emerge/simulation/coupled_2d.py` solves the uniform microstrip cross-section. It estimates even/odd impedances and effective permittivities; the complete design is in [[TX Coupler EM Method]].
+The solver turns a **uniform microstrip cross-section into even/odd impedances and phase velocities**. The sequence is:
 
-**Did it produce the final geometry? No.** It informed earlier line-width and compensation estimates. The final 0.37 mm width, 0.13 mm gap, 5.10 mm length and comb were selected by 3-D sweeps. This solver checked the final cross-section **after selection**, on 2026-09-20. That check is a diagnostic, not a retroactive account of how the optimum was found.
+$$\text{geometry}\ \longrightarrow\ V(x,y)\ \longrightarrow\ Q'\ \longrightarrow\ C'_e,C'_o\ \longrightarrow\ L'_m,Z_{0m},\varepsilon_{\mathrm{eff},m}.$$
 
-## Physics
+[Implementation](../../Frontend/emerge/simulation/coupled_2d.py) · [Final diagnostic](../../Frontend/emerge/catalogue/final_cross_section.json) · [[TX Coupler EM Method]]
 
-For nonmagnetic materials under the quasi-TEM approximation, solve the same cross-section with the actual dielectric and then with air. The capacitances per unit length are $C$ and $C_a$. Since the air-filled line propagates at $c$:
+**Role in this design.** It informed early line-width and compensation estimates. The final $W=0.37$ mm, $S=0.13$ mm, $\ell=5.10$ mm and comb geometry were selected by 3-D EM sweeps. The results below are a cross-section check performed **after selection**, on 2026-09-20.
 
-$$L'\simeq\frac{1}{c^2C_a},\qquad Z_0\simeq\frac{1}{c\sqrt{CC_a}},\qquad\varepsilon_{\mathrm{eff}}\simeq\frac{C}{C_a}.$$
+## 1. Define the cross-section and modal voltages
 
-| Excitation | Strip voltages | Extracted quantities |
-|---|---|---|
-| Even | $+1,+1$ V | $C_e,C_{ae}\rightarrow Z_{0e},\varepsilon_e$ |
-| Odd | $+1,-1$ V | $C_o,C_{ao}\rightarrow Z_{0o},\varepsilon_o$ |
+The model is invariant along the propagation direction $z$. Two rectangular conductors of width $W$ and thickness $t$ sit on a dielectric of thickness $h$, above a ground plane. Their edge gap is $S$. Air fills the region above the substrate. Copper is an equipotential boundary; the electrostatic solve uses real permittivity and contains no conductor or dielectric loss.
 
-Charge is integrated on one strip; capacitances are per line, with each strip at unit voltage relative to the modal symmetry reference.
+| Boundary | Even mode | Odd mode |
+|---|---:|---:|
+| Strip A | $+V_t$ | $+V_t$ |
+| Strip B | $+V_t$ | $-V_t$ |
+| Ground, lid and side walls | 0 | 0 |
 
-## Numerical method
+The code uses $V_t=1$ V. In the even mode the symmetry plane between strips has zero normal electric field. In the odd mode it is a virtual ground, $V=0$. The implementation solves the **whole pair**, so these symmetry conditions emerge without imposing a separate centre boundary.
 
-$$\nabla\cdot(\varepsilon\nabla V)=0,\qquad\sum_{n\in\{E,W,N,S\}}\varepsilon_{0n}(V_n-V_0)=0.$$
+![Grid, materials and fixed-potential boundaries](images/20_2D_Solver_Domain.png)
 
-The code uses a uniform finite-difference grid, fixed strip potentials and grounded outer boundaries. Copper has finite cross-sectional thickness. Sparse linear solves give potentials, then flux integration gives charge. The implemented interface averaging is a discretization approximation, not proof of exact interface-flux treatment or grid convergence.
+*Illustration: historical $W=0.37$ mm, $S=0.10$ mm example, coarse 20 µm grid and reduced box for visibility. It shows the boundary construction, not the final diagnostic's dimensions.*
 
-![Historical domain illustration](images/20_2D_Solver_Domain.png)
+## 2. Solve for potential, then integrate charge
 
-![Historical even/odd field illustration](images/21_2D_Solver_Fields.png)
+There is no free charge inside the dielectric or air. With $\mathbf E=-\nabla V$ and $\mathbf D=\varepsilon_0\varepsilon_r\mathbf E$, Gauss's law gives
 
-These illustrations show the earlier example, not new field maps of the final 0.13 mm gap.
+$$\nabla\cdot\mathbf D=0
+\quad\Rightarrow\quad
+\boxed{\nabla\cdot(\varepsilon_r\nabla V)=0.}$$
 
-## Final cross-section: new diagnostic
+A uniform square grid replaces this equation by a five-point stencil. At an unknown node $P$,
 
-$W=370$ µm, $S=130$ µm, $t=35$ µm, $h=210.4$ µm, $\varepsilon_r=4.4$. Grounded lid at 2.5 mm and lateral padding 1.5 mm. The grid snaps dimensions; even 5 µm does not exactly represent the 210.4 µm substrate.
+$$\sum_{n\in\{E,W,N,S\}}\bar\varepsilon_{Pn}(V_n-V_P)=0.$$
 
-| Grid, µm | $Z_{0e}$, Ω | $Z_{0o}$, Ω | $\varepsilon_e$ | $\varepsilon_o$ | $\sqrt{Z_{0e}Z_{0o}}$, Ω |
-|---|---:|---:|---:|---:|---:|
-| 10 | 58.112 | 37.804 | 3.4345 | 2.6963 | 46.871 |
-| 5 | 58.425 | 38.448 | 3.4369 | 2.7163 | 47.396 |
+Here $\bar\varepsilon_{Pn}$ is the relative permittivity assigned to the connection between nodes. The code averages the adjacent cell values arithmetically. Fixed-potential nodes supply the boundary terms of the sparse system $\mathbf A\mathbf V=\mathbf b$, solved by `scipy.sparse.linalg.spsolve`.
 
-For $L=5.10$ mm at 5.8 GHz, the 5 µm result gives
+The charge **per unit propagation length** on strip A follows from the outward electric flux:
 
-$$\Delta\theta=\frac{\omega L}{c}(\sqrt{\varepsilon_e}-\sqrt{\varepsilon_o})=7.309^\circ.$$
+$$Q'_A=\oint_{\partial A}\mathbf D\cdot\hat{\mathbf n}\,ds
+\simeq\varepsilon_0\sum_{\substack{P\in A\\n\notin A}}\bar\varepsilon_{Pn}(V_A-V_n).$$
 
-The velocity split remains: route symmetry does not eliminate microstrip inhomogeneity. Grid refinement moves odd-mode impedance by 0.64 Ω. These two points are not a rigorous uncertainty interval or asymptotic convergence study.
+The sum includes connections crossing the strip boundary. On a square grid of spacing $d$, the normal field is $E_n\simeq(V_A-V_n)/d$, and the corresponding boundary segment has length $d$. Its charge per unit conductor length is therefore $\Delta Q'\simeq\varepsilon E_n d=\varepsilon(V_A-V_n)$: the two explicit $d$ factors cancel. Grid spacing still affects the voltages and represented geometry. Thus $Q'_A$ has units C/m. This is the charge extraction in `_solve()`.
 
-Putting these numbers into the **quarter-wave** capacitor estimate gives 45.5 fF/end. The final section is shorter than a quarter wave and includes distributed loading: **45.5 fF is not the extracted capacitance of the final comb** and was not used to size it.
+![Historical even- and odd-mode potentials](images/21_2D_Solver_Fields.png)
 
-## Scope and validation
+*These maps also use the historical 0.10 mm gap. The even mode has both strips positive; the odd mode puts a strong field across the gap.*
 
-| Useful for | Not represented |
+## 3. Obtain the modal capacitances — four electrostatic solves
+
+For either excitation, the **per-line modal capacitance** is
+
+$$C'_m=\frac{Q'_A}{V_t},\qquad m\in\{e,o\}.$$
+
+The odd mode has a 2 V difference between strips, but the modal voltage of strip A relative to the virtual ground is **1 V**. Dividing its charge by 2 V would instead give the differential-pair capacitance $C'_{\mathrm{diff}}=C'_o/2$; that is not the normalization used here.
+
+For a symmetric pair, this can also be read from the capacitance matrix:
+
+$$\begin{bmatrix}Q'_A\\Q'_B\end{bmatrix}
+=\begin{bmatrix}C'_{11}&C'_{12}\\C'_{12}&C'_{11}\end{bmatrix}
+\begin{bmatrix}V_A\\V_B\end{bmatrix},
+\qquad C'_{12}<0,$$
+
+The first row is $Q'_A=C'_{11}V_A+C'_{12}V_B$. Substitute the voltages for each excitation:
+
+**Even mode:** $V_A=V_B=V_t$, hence
+
+$$Q'_{A,e}=(C'_{11}+C'_{12})V_t
+\quad\Rightarrow\quad C'_e=\frac{Q'_{A,e}}{V_t}=C'_{11}+C'_{12}.$$
+
+**Odd mode:** $V_A=V_t$, $V_B=-V_t$, hence
+
+$$Q'_{A,o}=(C'_{11}-C'_{12})V_t
+\quad\Rightarrow\quad C'_o=\frac{Q'_{A,o}}{V_t}=C'_{11}-C'_{12}.$$
+
+Both capacitances use the same strip voltage $V_t$, but **different charges**, because the neighbouring strip's voltage changes. Since $C'_{12}<0$, $C'_e<C'_o$.
+
+Repeat both excitations with **all dielectric replaced by air**, keeping geometry, grid and grounded boundaries identical:
+
+| Solve | Dielectric | Excitation | Output |
+|---|---|---|---|
+| 1 | Actual substrate | Even | $C'_e$ |
+| 2 | Air everywhere | Even | $C'_{ae}$ |
+| 3 | Actual substrate | Odd | $C'_o$ |
+| 4 | Air everywhere | Odd | $C'_{ao}$ |
+
+This is exactly what `modes()` does. The auxiliary air solves supply the inductance information needed next.
+
+## 4. Derive inductance, impedance and effective permittivity
+
+For a lossless modal transmission line, the telegrapher equations are
+
+$$\frac{\partial V_m}{\partial z}=-L'_m\frac{\partial I_m}{\partial t},\qquad
+\frac{\partial I_m}{\partial z}=-C'_m\frac{\partial V_m}{\partial t}.$$
+
+Differentiating once more gives a wave equation with speed and travelling-wave impedance
+
+$$v_m=\frac{1}{\sqrt{L'_mC'_m}},\qquad Z_{0m}=\sqrt{\frac{L'_m}{C'_m}}.$$
+
+These are the standard lossless-line results; see [Ellingson, *Electromagnetics I*, §3.9](https://phys.libretexts.org/Bookshelves/Electricity_and_Magnetism/Electromagnetics_I_%28Ellingson%29/03%3A_Transmission_Lines/3.09%3A__Lossless_and_Low-Loss_Transmission_Lines).
+
+For the **air-filled reference**, propagation is TEM at $c$, hence
+
+$$L'_mC'_{am}=\frac{1}{c^2}.$$
+
+Under the quasi-TEM approximation, replacing air with a **nonmagnetic dielectric** changes electric energy and capacitance, while the external inductance is taken from the same air-filled geometry. Therefore
+
+$$\boxed{L'_m\simeq\frac{1}{c^2C'_{am}}}\qquad[\mathrm{H/m}].$$
+
+The air-capacitance relation is also stated in [Goel, *High-Speed VLSI Interconnections*, 2nd ed., Eq. (1.11.1), printed p. 34](https://catalogimages.wiley.com/images/db/pdf/9780471780465.excerpt.pdf#page=34). Here it is applied separately to each mode, with the same per-line normalization.
+
+Substituting this inductance into the preceding line equations yields
+
+$$\boxed{Z_{0m}\simeq\frac{1}{c\sqrt{C'_mC'_{am}}}},\qquad
+v_m\simeq c\sqrt{\frac{C'_{am}}{C'_m}}.$$
+
+Define effective relative permittivity by $v_m=c/\sqrt{\varepsilon_{\mathrm{eff},m}}$. Then
+
+$$\boxed{\varepsilon_{\mathrm{eff},m}\simeq\frac{C'_m}{C'_{am}}},\qquad
+\beta_m=\frac{\omega}{c}\sqrt{\varepsilon_{\mathrm{eff},m}}.$$
+
+Thus the first three quantities all follow from the same four capacitance calculations. The resulting $Z_{0o}$ is a **per-line odd-mode impedance**; the corresponding differential impedance is $2Z_{0o}$.
+
+## 5. Apply the calculation to the selected cross-section
+
+Nominal inputs: $W=370$ µm, $S=130$ µm, $t=35$ µm, $h=210.4$ µm and $\varepsilon_r=4.4$. The diagnostic uses 1.5 mm lateral padding per side and a grounded lid **2.5 mm above the copper top**. This 2-D box differs from the 3-D box, whose roof is 2.5 mm above the substrate surface.
+
+| Grid $d$, µm | Represented $t$, µm | Represented $h$, µm | $Z_{0e}$, Ω | $Z_{0o}$, Ω | $\varepsilon_e$ | $\varepsilon_o$ | $\sqrt{Z_{0e}Z_{0o}}$, Ω |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 10 | 40 | 210 | 58.112 | 37.804 | 3.4345 | 2.6963 | 46.871 |
+| 5 | 35 | 210 | 58.425 | 38.448 | 3.4369 | 2.7163 | 47.396 |
+
+Dimensions are rounded to grid nodes. The refinement changes both discretization and represented copper thickness; it is not a pure fixed-geometry convergence test. The 210.4 µm dielectric is represented as 210 µm on both grids.
+
+For the selected length $\ell=5.10$ mm and $f=5.8$ GHz, the modal phase difference follows directly from $\theta_m=\beta_m\ell$:
+
+$$\Delta\theta=(\beta_e-\beta_o)\ell
+=\frac{2\pi f\ell}{c}(\sqrt{\varepsilon_e}-\sqrt{\varepsilon_o})
+=7.309^\circ\quad(d=5\ \mathrm{\mu m}).$$
+
+The modes travel at different speeds because they distribute their electric fields differently between air and substrate. Route symmetry permits the even/odd decomposition; it does not remove this velocity split. The compensation argument and finite-length EM results are developed in [[TX Coupler EM Method]].
+
+## 6. What the result establishes
+
+| Available from this model | Requires the complete 3-D network |
 |---|---|
-| Single-line starting width | Finite-length bends and transitions |
-| Even/odd velocity split | Finger inductance, end fringing and comb placement |
-| Thickness and gap trends | Full four-port cancellation and broadband match |
-| Cross-section checks | Real enclosure, launches and detector/termination loads |
+| Uniform-line impedances and effective permittivities | Bends, transitions and finite-length matching |
+| Modal velocity difference | Comb capacitance, inductance and end fringing |
+| Trends with thickness, width, gap and lid position | Four-port coupling, isolation and directivity |
 
-The historical 0.37 mm single-line result was about 49.7 Ω versus about 49.9 Ω from a closed-form calculator. EMerge port results moved from about 47.9 to 48.75 Ω with refinement, then about 49.1 Ω in the edge-refined final model. Agreement between approximations is useful evidence, not an absolute calibration.
+The two grids move $Z_{0o}$ by 0.64 Ω; they do not establish an uncertainty interval. Grid rounding, the permittivity stencil and finite box boundaries all affect the result. A convergence study would vary grid and box size while controlling the represented geometry.
 
-Transcalc and this solver disagree on the coupled-line effective permittivities. Finite thickness and narrow gaps are plausible contributors, but the old claim that one particular thickness correction was decisively proved wrong exceeded the evidence. Both models need their assumptions and numerical limits stated.
+The geometric mean in the last column is a diagnostic. The condition $\sqrt{Z_{0e}Z_{0o}}=50\ \Omega$ applies to ideal uniform coupled-line synthesis; a comb-loaded network with transitions must be assessed by its complete S-matrix. This cross-section solve does not extract the final comb's capacitance or reproduce the 3-D performance.
 
-The condition $\sqrt{Z_{0e}Z_{0o}}=50\ \Omega$ belongs to ideal uniform coupled-line synthesis. It does not require the same geometric-mean impedance in a structure loaded with combs and transitions. Optimize the complete 3-D network against the system objectives.
+## 7. Reproduce
 
-## Reproduce
+From `Frontend/emerge`:
+
+```powershell
+.\.venv\Scripts\python.exe -m tests.cross_section
+```
+
+Or call the solver explicitly:
 
 ```python
 from simulation.coupled_2d import modes
-ze, zo, ee, eo = modes(370.0, 130.0, t_um=35.0,
-                       er=4.4, h_um=210.4, d_um=5.0)
+ze, zo, ee, eo = modes(
+    370.0, 130.0, t_um=35.0, er=4.4, h_um=210.4,
+    d_um=5.0, lid_um=2500.0, xpad_um=1500.0,
+)
 ```
 
-Run `python -m tests.cross_section` in `Frontend/emerge` for both rows. [Saved parameters and results](../../Frontend/emerge/catalogue/final_cross_section.json). The original `simulation/coupled_2d.py` demonstration uses historical geometries, not the final configuration.
+The values and phase calculation are saved in [final_cross_section.json](../../Frontend/emerge/catalogue/final_cross_section.json). Regenerate the first illustration with `python -m reports.cross_section_figures domain`; its reduced box and coarse grid are intentional illustration settings.

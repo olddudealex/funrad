@@ -55,16 +55,16 @@ def domain_fig(out="20_2D_Solver_Domain.png"):
                 (x[np.argwhere(tags == 2)[:, 0].mean().astype(int)], (H + T) / 1e3),
                 xytext=(-140, 38), textcoords="offset points", fontsize=10,
                 color="#d62728", arrowprops=dict(arrowstyle="->", color="#d62728"))
-    ax.annotate("box walls, V = 0\n(ground plane along the bottom)",
-                (x[len(x) // 2], 0), xytext=(-60, 55), textcoords="offset points",
-                fontsize=9.5, color="#222222", ha="center",
-                bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="0.7", alpha=.85),
-                arrowprops=dict(arrowstyle="->", color="#333333"))
+    ax.text(.08, -.23, "box walls: V = 0; bottom boundary: ground plane",
+                transform=ax.transAxes,
+                fontsize=9.5, color="#222222", ha="left",
+                bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="0.7", alpha=.85))
     ax.set_xlabel("x, mm"); ax.set_ylabel("y, mm")
     ax.set_title("Domain: uniform grid, permittivity per cell, Dirichlet nodes marked "
                  f"(shown coarse at d = {d:.0f} um)")
     ax.set_aspect("equal")
-    fig.tight_layout(); fig.savefig(f"{IMG}/{out}", dpi=120); plt.close(fig)
+    fig.tight_layout(); fig.subplots_adjust(bottom=.25)
+    fig.savefig(f"{IMG}/{out}", dpi=160); plt.close(fig)
     print("wrote", out)
 
 

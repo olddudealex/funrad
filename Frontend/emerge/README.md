@@ -98,7 +98,7 @@ Use the existing environment, or `setup.ps1`, `setup.bat` or `setup.sh`. The sav
 .\.venv\Scripts\python.exe -m exports.footprint
 ```
 
-These commands rebuild artifacts without EM solves. `tests/cross_section.py` recomputes the separate 2-D diagnostic. Footprint validation requires KiCad's bundled Python; see [integration instructions](../kicad/README.md).
+These commands rebuild artifacts without EM solves. `tests/cross_section.py` recomputes the separate 2-D diagnostic. Footprint validation requires KiCad's bundled Python, run as `python -m tests.footprint` from this directory. The exporter writes only the footprint in `Frontend/kicad/library/FunRad.pretty/`. Use four schematic pins numbered 1–4; keep L2 ground continuous, preserve the mask opening, and connect the terminals with 0.37 mm traces. Net-tie groups are 1–2 and 3–4; terminate P4 in 50 Ω. Full design context is in the design report linked below.
 
 ## Saved results and regression
 

@@ -1,7 +1,6 @@
 """Export saved solver polygons, without rebuilding the geometry. Standard Python."""
 from pathlib import Path
 import json
-import hashlib
 
 HERE=Path(__file__).resolve().parents[1]
 SOURCE=HERE/'results_redesign/final51_3857a21020'
@@ -28,7 +27,7 @@ def export():
            '(layer "F.Cu")',
            '(descr "Prototype; exact final51 EM copper. L2 intact ground at h=0.2104 mm; er=4.4; top copper 35um. No soldermask over RF region.")',
            '(tags "RF directional coupler 5.8GHz 15dB net-tie prototype")',
-           '(attr smd exclude_from_pos_files exclude_from_bom)',
+           '(attr smd exclude_from_pos_files exclude_from_bom allow_soldermask_bridges)',
            '(net_tie_pad_groups "1,2" "3,4")',
            '(clearance 0.09) (zone_connect 0)',
            f'(fp_text reference "REF**" (at 0 {-ymax-2.6:.6f}) (layer "F.SilkS") (effects (font (size 0.8 0.8) (thickness 0.12))))',
@@ -51,11 +50,6 @@ def export():
     lines.append(f'(zone (net 0) (net_name "") (layer "F.Cu") (hatch edge 0.5) (connect_pads (clearance 0)) (min_thickness 0.25) (keepout (tracks allowed) (vias not_allowed) (pads allowed) (copperpour not_allowed) (footprints allowed)) (fill (thermal_gap 0.3) (thermal_bridge_width 0.3)) (polygon (pts (xy {x0:.6f} {y0:.6f}) (xy {x1:.6f} {y0:.6f}) (xy {x1:.6f} {y1:.6f}) (xy {x0:.6f} {y1:.6f}))))')
     lines.append(')')
     path=OUT/(NAME+'.kicad_mod');path.write_text('\n'.join(lines)+'\n',encoding='utf-8')
-    manifest=dict(source=str(SOURCE.relative_to(HERE)),layout_sha256=hashlib.sha256((SOURCE/'layout.json').read_bytes()).hexdigest(),
-                  footprint=path.name,coordinate_transform='x_kicad=x_em-total_x/2; y_kicad=-y_em',
-                  coordinate_rounding_mm=0.000001,ports_mm=ports,net_ties=[[1,2],[3,4]],copper_layers=['F.Cu'],paste=False,
-                  ground='Continuous board L2, not embedded in footprint',production_ready=False)
-    (OUT.parent/'coupler_export.json').write_text(json.dumps(manifest,indent=2))
     print(path)
 
 if __name__=='__main__':export()
