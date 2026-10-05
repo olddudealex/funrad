@@ -55,7 +55,11 @@ The sum includes connections crossing the strip boundary. On a square grid of sp
 
 ![Historical even- and odd-mode potentials](images/21_2D_Solver_Fields.png)
 
-*These maps also use the historical 0.10 mm gap. The even mode has both strips positive; the odd mode puts a strong field across the gap.*
+**How this illustration is generated.** [`fields_fig()`](../../Frontend/emerge/reports/cross_section_figures.py) calls `field()` twice on the same cross-section: first with $(V_A,V_B)=(+1,+1)$ V, then with $(+1,-1)$ V. Each call solves the sparse potential system from Step 2 and returns the node values $V_{ij}$. Matplotlib plots these values as colours on a common $-1$ to $+1$ V scale; the black curves are equipotentials, spaced by 0.1 V from $-0.9$ to $+0.9$ V. The dashed horizontal line marks the substrate–air interface.
+
+The electric field is $\mathbf E=-\nabla V$: it points perpendicular to the equipotentials, towards lower potential. Closer contours mean a stronger field. Thus the odd-mode contours show the strong field across the gap; colour alone represents **potential**, not field strength or energy density.
+
+Figure inputs: historical $W=370$ µm, $S=100$ µm, $t=35$ µm, $h=210.4$ µm, $\varepsilon_r=4.4$ and $d=5$ µm. The lid is 900 µm above the copper top, with 900 µm lateral padding per side; all outer boundaries are grounded. The displayed view is cropped around the strips. These illustration settings differ from the final diagnostic in Step 5.
 
 ## 3. Obtain the modal capacitances — four electrostatic solves
 
@@ -120,7 +124,7 @@ $$
 v_m=\frac{1}{\sqrt{L'_mC'_m}},\qquad Z_{0m}=\sqrt{\frac{L'_m}{C'_m}}.
 $$
 
-These are the standard lossless-line results; see [Ellingson, *Electromagnetics I*, §3.9](https://phys.libretexts.org/Bookshelves/Electricity_and_Magnetism/Electromagnetics_I_%28Ellingson%29/03%3A_Transmission_Lines/3.09%3A__Lossless_and_Low-Loss_Transmission_Lines).
+These are the standard lossless-line results; see David M. Pozar, [*Microwave Engineering*, 4th ed., Chapter 2, “Transmission Line Theory”](https://bcs.wiley.com/he-bcs/Books?action=chapter&bcsId=6874&chapterId=74177&itemId=0470631554). Links point to Wiley's book companion pages; the derivation is included here so the calculation remains self-contained.
 
 For the **air-filled reference**, propagation is TEM at $c$, hence
 
@@ -134,7 +138,7 @@ $$
 \boxed{L'_m\simeq\frac{1}{c^2C'_{am}}}\qquad[\mathrm{H/m}].
 $$
 
-The air-capacitance relation is also stated in [Goel, *High-Speed VLSI Interconnections*, 2nd ed., Eq. (1.11.1), printed p. 34](https://catalogimages.wiley.com/images/db/pdf/9780471780465.excerpt.pdf#page=34). Here it is applied separately to each mode, with the same per-line normalization.
+This air-reference relation follows from the TEM speed identity above. For the underlying TEM/quasi-TEM treatment, see Pozar, [*Microwave Engineering*, 4th ed., Chapter 3, “Transmission Lines and Waveguides”](https://bcs.wiley.com/he-bcs/Books?action=chapter&bcsId=6874&chapterId=74178&itemId=0470631554); for coupled-line even/odd analysis, see [Chapter 7, “Power Dividers and Directional Couplers”](https://bcs.wiley.com/he-bcs/Books?action=chapter&bcsId=6874&chapterId=74182&itemId=0470631554). Here the air-reference calculation is applied separately to each mode, with the same per-line normalization.
 
 Substituting this inductance into the preceding line equations yields
 
@@ -203,4 +207,4 @@ ze, zo, ee, eo = modes(
 )
 ```
 
-The values and phase calculation are saved in [final_cross_section.json](../../Frontend/emerge/catalogue/final_cross_section.json). Regenerate the first illustration with `python -m reports.cross_section_figures domain`; its reduced box and coarse grid are intentional illustration settings.
+The values and phase calculation are saved in [final_cross_section.json](../../Frontend/emerge/catalogue/final_cross_section.json). Regenerate the first illustration with `python -m reports.cross_section_figures domain`, or the second with `python -m reports.cross_section_figures fields`. Their reduced boxes and the first figure's coarse grid are intentional illustration settings.
