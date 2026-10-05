@@ -1,3 +1,7 @@
+---
+permalink: Antenna-Rev.A-S11-parameters
+---
+
 Small update regarding the 5.8GHz patch antenna array.
 
 On first image you can see the differences between the measurements result made with professional ZNB20 VNA from R&S and LiteVNA toy. Surprisingly, it matches very well, of course if you calibrate LiteVNA right :) 

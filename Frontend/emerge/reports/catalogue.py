@@ -219,18 +219,18 @@ def visuals(runs):
     return new,good
 
 def documents(runs,new):
-    note=HERE.parents[1]/'Notes/FunRad/Coupler Simulation Catalogue.md'
-    lines=['# Coupler simulation catalogue','',
+    note=HERE.parents[1]/'Notes/FunRad/Frontend/Coupler/Coupler Simulation Catalogue.md'
+    lines=['---','permalink: Coupler-Simulation-Catalogue','---','','# Coupler simulation catalogue','',
       'The design argument is in [[TX Coupler EM Method]]. This page is the complete redesign variant matrix; the database also retains the older fitted studies. IDs are stable; original filenames remain searchable aliases.', '',
-      '[SQLite database](../../Frontend/emerge/catalogue/coupler_simulations.sqlite) · [Searchable local table](../../Frontend/emerge/catalogue/index.html) · [Database schema and queries](../../Frontend/emerge/catalogue/README.md)','',
+      '[SQLite database](../../../../Frontend/emerge/catalogue/coupler_simulations.sqlite) · [Searchable local table](../../../../Frontend/emerge/catalogue/index.html) · [Database schema and queries](../../../../Frontend/emerge/catalogue/README.md)','',
       '**Reading the data:** all reported metrics use 50 Ω. One-point experiments do not establish a band minimum. Exploration, surface-refined and edge-refined runs are different fidelity levels. Historical fitted curves are not independent EM samples. Chronology uses saved configuration timestamps; stage/rationale labels are a retrospective reconstruction of the actual search, not an optimizer log.','',
       '## Decision tree','',
-      '![Complete exploration tree: every redesign attempt](images/coupler/solution_tree_full.png)','','[Open the full tree as a zoomable SVG](images/coupler/solution_tree_full.svg)','',
+      '![Complete exploration tree: every redesign attempt](../../images/coupler/solution_tree_full.png)','','[Open the full tree as a zoomable SVG](../../images/coupler/solution_tree_full.svg)','',
       '**54 coupler runs + 4 numerical controls.** Arrow labels summarize changes relative to the preceding node; ↑ / ↓ mean increase / decrease. L = coupled length, W = trace width, g = line gap, Y = comb spacing, O = overlap, N = finger count, J = jog. M+ / M− = finer / coarser surface or port mesh; E+ = explicit edge refinement; F↑ / F↓ = more / fewer frequency samples. Other changes are named directly. Exact values remain in the table and database.','',
       'Solid arrows are documented follow-ups; dashed arrows are retrospective comparison baselines, not a claimed chronological ancestry. Dmin is the minimum over sampled frequencies; D@5.8 is a single-frequency result. Green marks the selected geometry, amber unresolved checks or a target miss, and red rejected results.','',
       'The selected path is **R044 → R045 (reject the apparent peak) → R048 → R050 → R052**. R043/R046 remain without edge validation. R058 adds copper loss and denser sampling, exposing a small coupling-target miss. The ground branch compares R051 (intact) with R047 (aperture) at matching refinement.','']
-    lines += ['## Animated search and geometry matrix','','![Geometry and accumulating search results](images/coupler/search_history.gif)','']
-    for p in sorted(IMG.glob('variants_*.png')):lines+= [f'![Variant matrix {p.stem}](images/coupler/{p.name})','']
+    lines += ['## Animated search and geometry matrix','','![Geometry and accumulating search results](../../images/coupler/search_history.gif)','']
+    for p in sorted(IMG.glob('variants_*.png')):lines+= [f'![Variant matrix {p.stem}](../../images/coupler/{p.name})','']
     lines+=['| ID | Description | Original alias | Samples | Coupling at 5.8 (dB) | Min sampled D (dB) |','|---|---|---|---:|---:|---:|']
     for r in new:
         m=r['metrics'];lines.append(f"| {r['id']} | {r['label']} | `{r['name']}` | {m.get('band_samples','—')} | {m.get('coupling_center',float('nan')):.2f} | {m.get('d_min',float('nan')):.2f} |".replace('nan','—'))

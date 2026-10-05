@@ -40,6 +40,11 @@ echo [2/4] Copying FunRad to quartz\content...
 xcopy /E /I /Y /Q "%FUNRAD%\*" "%CONTENT%\"
 if errorlevel 1 ( echo ERROR: xcopy failed & exit /b 1 )
 
+:: Quartz's shortest-link resolver expects vault-root Markdown paths.
+:: Rewrite only the copied content; the original Obsidian notes stay relative.
+node "%ROOT%prepare_quartz_content.mjs"
+if errorlevel 1 ( echo ERROR: Quartz link preparation failed & exit /b 1 )
+
 :: 3. Build static site
 cd /d "%QUARTZ%"
 

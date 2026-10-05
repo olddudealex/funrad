@@ -1,52 +1,52 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url>
-    <loc>https://quartz.jzhao.xyz/Antenna-Rev.A-Directivity</loc>
-    <lastmod>2026-05-10T20:13:45.468Z</lastmod>
+    <loc>https://quartz.jzhao.xyz/Antenna/Antenna-Rev.A-Directivity</loc>
+    <lastmod>2026-10-05T20:23:38.276Z</lastmod>
   </url><url>
-    <loc>https://quartz.jzhao.xyz/Antenna-Rev.A-S11-parameters</loc>
-    <lastmod>2026-04-23T19:25:46.908Z</lastmod>
+    <loc>https://quartz.jzhao.xyz/Antenna/Antenna-Rev.A-S11-parameters</loc>
+    <lastmod>2026-10-05T20:23:38.290Z</lastmod>
   </url><url>
-    <loc>https://quartz.jzhao.xyz/Antenna-Rev.A</loc>
-    <lastmod>2026-04-27T21:41:23.152Z</lastmod>
-  </url><url>
-    <loc>https://quartz.jzhao.xyz/Coupler-Simulation-Catalogue</loc>
-    <lastmod>2026-09-28T13:20:58.464Z</lastmod>
+    <loc>https://quartz.jzhao.xyz/Antenna/Antenna-Rev.A</loc>
+    <lastmod>2026-10-05T20:23:38.290Z</lastmod>
   </url><url>
     <loc>https://quartz.jzhao.xyz/Excalidraw/FunRadBlockDiagram.excalidraw</loc>
-    <lastmod>2026-08-08T19:21:31.815Z</lastmod>
+    <lastmod>2026-10-05T20:23:38.436Z</lastmod>
   </url><url>
     <loc>https://quartz.jzhao.xyz/Excalidraw/TxPathWithDAC.excalidraw</loc>
-    <lastmod>2026-05-06T21:06:43.980Z</lastmod>
+    <lastmod>2026-10-05T20:23:38.451Z</lastmod>
   </url><url>
     <loc>https://quartz.jzhao.xyz/Excalidraw/TxPathWithPLL.excalidraw</loc>
-    <lastmod>2026-05-14T14:47:52.232Z</lastmod>
+    <lastmod>2026-10-05T20:23:38.461Z</lastmod>
   </url><url>
-    <loc>https://quartz.jzhao.xyz/Frontend-Description</loc>
-    <lastmod>2026-06-17T18:05:11.064Z</lastmod>
+    <loc>https://quartz.jzhao.xyz/Frontend/Coupler/Coupler-Simulation-Catalogue</loc>
+    <lastmod>2026-10-05T20:57:48.096Z</lastmod>
+  </url><url>
+    <loc>https://quartz.jzhao.xyz/Frontend/Coupler/Quasi-static-2-D-Solver</loc>
+    <lastmod>2026-10-05T20:57:48.099Z</lastmod>
+  </url><url>
+    <loc>https://quartz.jzhao.xyz/Frontend/Coupler/TX-Coupler-EM-Method</loc>
+    <lastmod>2026-10-05T20:57:48.102Z</lastmod>
+  </url><url>
+    <loc>https://quartz.jzhao.xyz/Frontend/Frontend-Description</loc>
+    <lastmod>2026-10-05T20:26:30.538Z</lastmod>
+  </url><url>
+    <loc>https://quartz.jzhao.xyz/Frontend/RF-Architecture</loc>
+    <lastmod>2026-10-05T20:47:17.746Z</lastmod>
+  </url><url>
+    <loc>https://quartz.jzhao.xyz/Frontend/RF-Calculations</loc>
+    <lastmod>2026-10-05T20:47:17.748Z</lastmod>
   </url><url>
     <loc>https://quartz.jzhao.xyz/FunRad-Rev.A-Specification</loc>
-    <lastmod>2026-08-30T19:01:26.559Z</lastmod>
+    <lastmod>2026-10-05T20:47:17.742Z</lastmod>
   </url><url>
     <loc>https://quartz.jzhao.xyz/Generated/FunRad-Rev.A-Results</loc>
-    <lastmod>2026-08-23T09:22:26.385Z</lastmod>
+    <lastmod>2026-10-05T20:23:38.475Z</lastmod>
   </url><url>
     <loc>https://quartz.jzhao.xyz/Implementation-Readiness-Suggestions</loc>
-    <lastmod>2026-08-16T19:35:48.475Z</lastmod>
-  </url><url>
-    <loc>https://quartz.jzhao.xyz/Quasi-static-2-D-Solver</loc>
-    <lastmod>2026-10-05T19:06:28.508Z</lastmod>
-  </url><url>
-    <loc>https://quartz.jzhao.xyz/RF-Architecture</loc>
-    <lastmod>2026-10-02T14:21:37.742Z</lastmod>
-  </url><url>
-    <loc>https://quartz.jzhao.xyz/RF-Calculations</loc>
-    <lastmod>2026-08-16T20:12:43.226Z</lastmod>
+    <lastmod>2026-10-05T20:47:17.742Z</lastmod>
   </url><url>
     <loc>https://quartz.jzhao.xyz/Simulation-Closure-Checklist</loc>
-    <lastmod>2026-08-22T16:48:34.255Z</lastmod>
-  </url><url>
-    <loc>https://quartz.jzhao.xyz/TX-Coupler-EM-Method</loc>
-    <lastmod>2026-10-04T09:53:57.711Z</lastmod>
+    <lastmod>2026-10-05T20:47:17.742Z</lastmod>
   </url><url>
     <loc>https://quartz.jzhao.xyz/</loc>
-    <lastmod>2026-09-28T13:21:02.339Z</lastmod>
+    <lastmod>2026-10-05T20:47:17.769Z</lastmod>
   </url></urlset>

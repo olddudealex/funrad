@@ -115,7 +115,7 @@ Checks every saved layout vertex, three representative 3-D domain bounds, and R0
 
 Deleted: `legacy/` (including unrun proposals), old `coupler_sim.py`, redundant `redesign_summary.py`, temporary refactoring code, and duplicate generated exports. Relevant raw measurements and report-generating tools are retained. Environments, meshes, logs and caches stay outside Git.
 
-[Design report](../../Notes/FunRad/TX%20Coupler%20EM%20Method.md) · [Simulation catalogue](../../Notes/FunRad/Coupler%20Simulation%20Catalogue.md)
+[Design report](../../Notes/FunRad/Frontend/Coupler/TX%20Coupler%20EM%20Method.md) · [Simulation catalogue](../../Notes/FunRad/Frontend/Coupler/Coupler%20Simulation%20Catalogue.md)
 
 ## Soldermask loading on the coupon line
 
@@ -165,4 +165,4 @@ JLC's ink - which is exactly what the masked/bare pair on the coupon measures.
 2.5 mm it is already within 0.24% of its open-air value, and both candidate
 shield cans sit further away - so the existing 2.5 mm runs stand, with
 0.03-0.04 dB to spare. Table, reasoning and limitations are in the design
-report, [TX Coupler EM Method](../../Notes/FunRad/TX%20Coupler%20EM%20Method.md).
+report, [TX Coupler EM Method](../../Notes/FunRad/Frontend/Coupler/TX%20Coupler%20EM%20Method.md).

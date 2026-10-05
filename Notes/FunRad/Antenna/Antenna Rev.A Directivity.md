@@ -1,3 +1,7 @@
+---
+permalink: Antenna-Rev.A-Directivity
+---
+
 # Measurement Process Description
 The setup was designed to get the directivity measurements from the Antenna Array Rev.A:
 

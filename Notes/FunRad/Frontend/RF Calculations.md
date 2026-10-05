@@ -1,3 +1,7 @@
+---
+permalink: RF-Calculations
+---
+
 # RF Calculations
 
 This page explains the equations used by [[FunRad Stages Calculations.ods]]. [[RF Architecture]] stays short and describes the design; [[FunRad Rev.A Specification]] holds configuration decisions.

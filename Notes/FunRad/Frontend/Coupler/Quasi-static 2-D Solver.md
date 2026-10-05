@@ -1,3 +1,7 @@
+---
+permalink: Quasi-static-2-D-Solver
+---
+
 # Quasi-static 2-D solver
 
 The solver turns a **uniform microstrip cross-section into even/odd impedances and phase velocities**. The sequence is:
@@ -6,7 +10,7 @@ $$
 \text{geometry}\ \longrightarrow\ V(x,y)\ \longrightarrow\ Q'\ \longrightarrow\ C'_e,C'_o\ \longrightarrow\ L'_m,Z_{0m},\varepsilon_{\mathrm{eff},m}.
 $$
 
-[Implementation](../../Frontend/emerge/simulation/coupled_2d.py) · [Final diagnostic](../../Frontend/emerge/catalogue/final_cross_section.json) · [[TX Coupler EM Method]]
+[Implementation](../../../../Frontend/emerge/simulation/coupled_2d.py) · [Final diagnostic](../../../../Frontend/emerge/catalogue/final_cross_section.json) · [[TX Coupler EM Method]]
 
 **Role in this design.** It informed early line-width and compensation estimates. The final $W=0.37$ mm, $S=0.13$ mm, $\ell=5.10$ mm and comb geometry were selected by 3-D EM sweeps. The results below are a cross-section check performed **after selection**, on 2026-09-20.
 
@@ -22,7 +26,7 @@ The model is invariant along the propagation direction $z$. Two rectangular cond
 
 The code uses $V_t=1$ V. In the even mode the symmetry plane between strips has zero normal electric field. In the odd mode it is a virtual ground, $V=0$. The implementation solves the **whole pair**, so these symmetry conditions emerge without imposing a separate centre boundary.
 
-![Grid, materials and fixed-potential boundaries](images/20_2D_Solver_Domain.png)
+![Grid, materials and fixed-potential boundaries](../../images/20_2D_Solver_Domain.png)
 
 *Illustration: historical $W=0.37$ mm, $S=0.10$ mm example, coarse 20 µm grid and reduced box for visibility. It shows the boundary construction, not the final diagnostic's dimensions.*
 
@@ -53,9 +57,9 @@ $$
 
 The sum includes connections crossing the strip boundary. On a square grid of spacing $d$, the normal field is $E_n\simeq(V_A-V_n)/d$, and the corresponding boundary segment has length $d$. Its charge per unit conductor length is therefore $\Delta Q'\simeq\varepsilon E_n d=\varepsilon(V_A-V_n)$: the two explicit $d$ factors cancel. Grid spacing still affects the voltages and represented geometry. Thus $Q'_A$ has units C/m. This is the charge extraction in `_solve()`.
 
-![Historical even- and odd-mode potentials](images/21_2D_Solver_Fields.png)
+![Historical even- and odd-mode potentials](../../images/21_2D_Solver_Fields.png)
 
-**How this illustration is generated.** [`fields_fig()`](../../Frontend/emerge/reports/cross_section_figures.py) calls `field()` twice on the same cross-section: first with $(V_A,V_B)=(+1,+1)$ V, then with $(+1,-1)$ V. Each call solves the sparse potential system from Step 2 and returns the node values $V_{ij}$. Matplotlib plots these values as colours on a common $-1$ to $+1$ V scale; the black curves are equipotentials, spaced by 0.1 V from $-0.9$ to $+0.9$ V. The dashed horizontal line marks the substrate–air interface.
+**How this illustration is generated.** [`fields_fig()`](../../../../Frontend/emerge/reports/cross_section_figures.py) calls `field()` twice on the same cross-section: first with $(V_A,V_B)=(+1,+1)$ V, then with $(+1,-1)$ V. Each call solves the sparse potential system from Step 2 and returns the node values $V_{ij}$. Matplotlib plots these values as colours on a common $-1$ to $+1$ V scale; the black curves are equipotentials, spaced by 0.1 V from $-0.9$ to $+0.9$ V. The dashed horizontal line marks the substrate–air interface.
 
 The electric field is $\mathbf E=-\nabla V$: it points perpendicular to the equipotentials, towards lower potential. Closer contours mean a stronger field. Thus the odd-mode contours show the strong field across the gap; colour alone represents **potential**, not field strength or energy density.
 
@@ -207,4 +211,4 @@ ze, zo, ee, eo = modes(
 )
 ```
 
-The values and phase calculation are saved in [final_cross_section.json](../../Frontend/emerge/catalogue/final_cross_section.json). Regenerate the first illustration with `python -m reports.cross_section_figures domain`, or the second with `python -m reports.cross_section_figures fields`. Their reduced boxes and the first figure's coarse grid are intentional illustration settings.
+The values and phase calculation are saved in [final_cross_section.json](../../../../Frontend/emerge/catalogue/final_cross_section.json). Regenerate the first illustration with `python -m reports.cross_section_figures domain`, or the second with `python -m reports.cross_section_figures fields`. Their reduced boxes and the first figure's coarse grid are intentional illustration settings.

@@ -1,16 +1,20 @@
+---
+permalink: Coupler-Simulation-Catalogue
+---
+
 # Coupler simulation catalogue
 
 The design argument is in [[TX Coupler EM Method]]. This page is the complete redesign variant matrix; the database also retains the older fitted studies. IDs are stable; original filenames remain searchable aliases.
 
-[SQLite database](../../Frontend/emerge/catalogue/coupler_simulations.sqlite) · [Searchable local table](../../Frontend/emerge/catalogue/index.html) · [Database schema and queries](../../Frontend/emerge/catalogue/README.md)
+[SQLite database](../../../../Frontend/emerge/catalogue/coupler_simulations.sqlite) · [Searchable local table](../../../../Frontend/emerge/catalogue/index.html) · [Database schema and queries](../../../../Frontend/emerge/catalogue/README.md)
 
 **Reading the data:** all reported metrics use 50 Ω. One-point experiments do not establish a band minimum. Exploration, surface-refined and edge-refined runs are different fidelity levels. Historical fitted curves are not independent EM samples. Chronology uses saved configuration timestamps; stage/rationale labels are a retrospective reconstruction of the actual search, not an optimizer log.
 
 ## Decision tree
 
-![Complete exploration tree: every redesign attempt](images/coupler/solution_tree_full.png)
+![Complete exploration tree: every redesign attempt](../../images/coupler/solution_tree_full.png)
 
-[Open the full tree as a zoomable SVG](images/coupler/solution_tree_full.svg)
+[Open the full tree as a zoomable SVG](../../images/coupler/solution_tree_full.svg)
 
 **54 coupler runs + 4 numerical controls.** Arrow labels summarize changes relative to the preceding node; ↑ / ↓ mean increase / decrease. L = coupled length, W = trace width, g = line gap, Y = comb spacing, O = overlap, N = finger count, J = jog. M+ / M− = finer / coarser surface or port mesh; E+ = explicit edge refinement; F↑ / F↓ = more / fewer frequency samples. Other changes are named directly. Exact values remain in the table and database.
 
@@ -20,21 +24,21 @@ The selected path is **R044 → R045 (reject the apparent peak) → R048 → R05
 
 ## Animated search and geometry matrix
 
-![Geometry and accumulating search results](images/coupler/search_history.gif)
+![Geometry and accumulating search results](../../images/coupler/search_history.gif)
 
-![Variant matrix variants_01](images/coupler/variants_01.png)
+![Variant matrix variants_01](../../images/coupler/variants_01.png)
 
-![Variant matrix variants_02](images/coupler/variants_02.png)
+![Variant matrix variants_02](../../images/coupler/variants_02.png)
 
-![Variant matrix variants_03](images/coupler/variants_03.png)
+![Variant matrix variants_03](../../images/coupler/variants_03.png)
 
-![Variant matrix variants_04](images/coupler/variants_04.png)
+![Variant matrix variants_04](../../images/coupler/variants_04.png)
 
-![Variant matrix variants_05](images/coupler/variants_05.png)
+![Variant matrix variants_05](../../images/coupler/variants_05.png)
 
-![Variant matrix variants_06](images/coupler/variants_06.png)
+![Variant matrix variants_06](../../images/coupler/variants_06.png)
 
-![Variant matrix variants_07](images/coupler/variants_07.png)
+![Variant matrix variants_07](../../images/coupler/variants_07.png)
 
 | ID | Description | Original alias | Samples | Coupling at 5.8 (dB) | Min sampled D (dB) |
 |---|---|---|---:|---:|---:|

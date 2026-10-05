@@ -6,65 +6,65 @@
       <description>Last 10 notes on FunRad</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
-    <title>Quasi-static 2-D Solver</title>
-    <link>https://quartz.jzhao.xyz/Quasi-static-2-D-Solver</link>
-    <guid>https://quartz.jzhao.xyz/Quasi-static-2-D-Solver</guid>
-    <description><![CDATA[ Quasi-static 2-D solver The solver turns a uniform microstrip cross-section into even/odd impedances and phase velocities. ]]></description>
-    <pubDate>Mon, 05 Oct 2026 19:06:28 GMT</pubDate>
-  </item><item>
     <title>TX Coupler EM Method</title>
-    <link>https://quartz.jzhao.xyz/TX-Coupler-EM-Method</link>
-    <guid>https://quartz.jzhao.xyz/TX-Coupler-EM-Method</guid>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupler/TX-Coupler-EM-Method</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupler/TX-Coupler-EM-Method</guid>
     <description><![CDATA[ TX Coupler EM Method 5.8 GHz symmetric TX monitoring coupler · prototype candidate, not production released. ]]></description>
-    <pubDate>Sun, 04 Oct 2026 09:53:57 GMT</pubDate>
+    <pubDate>Mon, 05 Oct 2026 20:57:48 GMT</pubDate>
   </item><item>
-    <title>RF Architecture</title>
-    <link>https://quartz.jzhao.xyz/RF-Architecture</link>
-    <guid>https://quartz.jzhao.xyz/RF-Architecture</guid>
-    <description><![CDATA[ RF Architecture FunRad is a small 5.8 GHz FMCW radar. This page describes the signal path and the decisions behind it. ]]></description>
-    <pubDate>Fri, 02 Oct 2026 14:21:37 GMT</pubDate>
+    <title>Quasi-static 2-D Solver</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupler/Quasi-static-2-D-Solver</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupler/Quasi-static-2-D-Solver</guid>
+    <description><![CDATA[ Quasi-static 2-D solver The solver turns a uniform microstrip cross-section into even/odd impedances and phase velocities. ]]></description>
+    <pubDate>Mon, 05 Oct 2026 20:57:48 GMT</pubDate>
+  </item><item>
+    <title>Coupler Simulation Catalogue</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupler/Coupler-Simulation-Catalogue</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupler/Coupler-Simulation-Catalogue</guid>
+    <description><![CDATA[ Coupler simulation catalogue The design argument is in TX Coupler EM Method. ]]></description>
+    <pubDate>Mon, 05 Oct 2026 20:57:48 GMT</pubDate>
   </item><item>
     <title>FunRad — Fun Radar Project</title>
     <link>https://quartz.jzhao.xyz/</link>
     <guid>https://quartz.jzhao.xyz/</guid>
-    <description><![CDATA[ Welcome to the FunRad antenna project notes. ]]></description>
-    <pubDate>Mon, 28 Sep 2026 13:21:02 GMT</pubDate>
+    <description><![CDATA[ Design notes, simulations and measurements for FunRad. The list below follows the vault’s folder structure and includes every page. ]]></description>
+    <pubDate>Mon, 05 Oct 2026 20:47:17 GMT</pubDate>
   </item><item>
-    <title>Coupler Simulation Catalogue</title>
-    <link>https://quartz.jzhao.xyz/Coupler-Simulation-Catalogue</link>
-    <guid>https://quartz.jzhao.xyz/Coupler-Simulation-Catalogue</guid>
-    <description><![CDATA[ Coupler simulation catalogue The design argument is in TX Coupler EM Method. ]]></description>
-    <pubDate>Mon, 28 Sep 2026 13:20:58 GMT</pubDate>
+    <title>RF Calculations</title>
+    <link>https://quartz.jzhao.xyz/Frontend/RF-Calculations</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/RF-Calculations</guid>
+    <description><![CDATA[ RF Calculations This page explains the equations used by FunRad Stages Calculations.ods. ]]></description>
+    <pubDate>Mon, 05 Oct 2026 20:47:17 GMT</pubDate>
+  </item><item>
+    <title>RF Architecture</title>
+    <link>https://quartz.jzhao.xyz/Frontend/RF-Architecture</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/RF-Architecture</guid>
+    <description><![CDATA[ RF Architecture FunRad is a small 5.8 GHz FMCW radar. This page describes the signal path and the decisions behind it. ]]></description>
+    <pubDate>Mon, 05 Oct 2026 20:47:17 GMT</pubDate>
   </item><item>
     <title>FunRad Rev.A Specification</title>
     <link>https://quartz.jzhao.xyz/FunRad-Rev.A-Specification</link>
     <guid>https://quartz.jzhao.xyz/FunRad-Rev.A-Specification</guid>
     <description><![CDATA[ FunRad Rev.A Specification This is the working configuration of the first FunRad implementation. ]]></description>
-    <pubDate>Sun, 30 Aug 2026 19:01:26 GMT</pubDate>
-  </item><item>
-    <title>FunRad Rev.A Results</title>
-    <link>https://quartz.jzhao.xyz/Generated/FunRad-Rev.A-Results</link>
-    <guid>https://quartz.jzhao.xyz/Generated/FunRad-Rev.A-Results</guid>
-    <description><![CDATA[ FunRad Rev.A — Generated Results Generated file Do not edit this page manually. Regenerate it from the executable .toyradar configuration. ]]></description>
-    <pubDate>Sun, 23 Aug 2026 09:22:26 GMT</pubDate>
-  </item><item>
-    <title>Simulation Closure Checklist</title>
-    <link>https://quartz.jzhao.xyz/Simulation-Closure-Checklist</link>
-    <guid>https://quartz.jzhao.xyz/Simulation-Closure-Checklist</guid>
-    <description><![CDATA[ Simulation Closure Checklist This page preserves the work to do before the simulator becomes the verified reference model. ]]></description>
-    <pubDate>Sat, 22 Aug 2026 16:48:34 GMT</pubDate>
-  </item><item>
-    <title>RF Calculations</title>
-    <link>https://quartz.jzhao.xyz/RF-Calculations</link>
-    <guid>https://quartz.jzhao.xyz/RF-Calculations</guid>
-    <description><![CDATA[ RF Calculations This page explains the equations used by FunRad Stages Calculations.ods. ]]></description>
-    <pubDate>Sun, 16 Aug 2026 20:12:43 GMT</pubDate>
+    <pubDate>Mon, 05 Oct 2026 20:47:17 GMT</pubDate>
   </item><item>
     <title>Implementation Readiness Suggestions</title>
     <link>https://quartz.jzhao.xyz/Implementation-Readiness-Suggestions</link>
     <guid>https://quartz.jzhao.xyz/Implementation-Readiness-Suggestions</guid>
     <description><![CDATA[ Before starting the hardware implementation The immediate direction remains sensible: close the model definitions that affect architecture, make the documentation readable, and start a rough KiCad floorplan early enough for mechanical constraints to influence the circuit. ]]></description>
-    <pubDate>Sun, 16 Aug 2026 19:35:48 GMT</pubDate>
+    <pubDate>Mon, 05 Oct 2026 20:47:17 GMT</pubDate>
+  </item><item>
+    <title>Simulation Closure Checklist</title>
+    <link>https://quartz.jzhao.xyz/Simulation-Closure-Checklist</link>
+    <guid>https://quartz.jzhao.xyz/Simulation-Closure-Checklist</guid>
+    <description><![CDATA[ Simulation Closure Checklist This page preserves the work to do before the simulator becomes the verified reference model. ]]></description>
+    <pubDate>Mon, 05 Oct 2026 20:47:17 GMT</pubDate>
+  </item><item>
+    <title>Frontend Description</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Frontend-Description</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Frontend-Description</guid>
+    <description><![CDATA[  RF Architecture . ]]></description>
+    <pubDate>Mon, 05 Oct 2026 20:26:30 GMT</pubDate>
   </item>
     </channel>
   </rss>
