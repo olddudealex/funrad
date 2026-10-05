@@ -2,7 +2,9 @@
 
 The solver turns a **uniform microstrip cross-section into even/odd impedances and phase velocities**. The sequence is:
 
-$$\text{geometry}\ \longrightarrow\ V(x,y)\ \longrightarrow\ Q'\ \longrightarrow\ C'_e,C'_o\ \longrightarrow\ L'_m,Z_{0m},\varepsilon_{\mathrm{eff},m}.$$
+$$
+\text{geometry}\ \longrightarrow\ V(x,y)\ \longrightarrow\ Q'\ \longrightarrow\ C'_e,C'_o\ \longrightarrow\ L'_m,Z_{0m},\varepsilon_{\mathrm{eff},m}.
+$$
 
 [Implementation](../../Frontend/emerge/simulation/coupled_2d.py) · [Final diagnostic](../../Frontend/emerge/catalogue/final_cross_section.json) · [[TX Coupler EM Method]]
 
@@ -28,20 +30,26 @@ The code uses $V_t=1$ V. In the even mode the symmetry plane between strips has 
 
 There is no free charge inside the dielectric or air. With $\mathbf E=-\nabla V$ and $\mathbf D=\varepsilon_0\varepsilon_r\mathbf E$, Gauss's law gives
 
-$$\nabla\cdot\mathbf D=0
+$$
+\nabla\cdot\mathbf D=0
 \quad\Rightarrow\quad
-\boxed{\nabla\cdot(\varepsilon_r\nabla V)=0.}$$
+\boxed{\nabla\cdot(\varepsilon_r\nabla V)=0.}
+$$
 
 A uniform square grid replaces this equation by a five-point stencil. At an unknown node $P$,
 
-$$\sum_{n\in\{E,W,N,S\}}\bar\varepsilon_{Pn}(V_n-V_P)=0.$$
+$$
+\sum_{n\in\{E,W,N,S\}}\bar\varepsilon_{Pn}(V_n-V_P)=0.
+$$
 
 Here $\bar\varepsilon_{Pn}$ is the relative permittivity assigned to the connection between nodes. The code averages the adjacent cell values arithmetically. Fixed-potential nodes supply the boundary terms of the sparse system $\mathbf A\mathbf V=\mathbf b$, solved by `scipy.sparse.linalg.spsolve`.
 
 The charge **per unit propagation length** on strip A follows from the outward electric flux:
 
-$$Q'_A=\oint_{\partial A}\mathbf D\cdot\hat{\mathbf n}\,ds
-\simeq\varepsilon_0\sum_{\substack{P\in A\\n\notin A}}\bar\varepsilon_{Pn}(V_A-V_n).$$
+$$
+Q'_A=\oint_{\partial A}\mathbf D\cdot\hat{\mathbf n}\,ds
+\simeq\varepsilon_0\sum_{\substack{P\in A\\n\notin A}}\bar\varepsilon_{Pn}(V_A-V_n).
+$$
 
 The sum includes connections crossing the strip boundary. On a square grid of spacing $d$, the normal field is $E_n\simeq(V_A-V_n)/d$, and the corresponding boundary segment has length $d$. Its charge per unit conductor length is therefore $\Delta Q'\simeq\varepsilon E_n d=\varepsilon(V_A-V_n)$: the two explicit $d$ factors cancel. Grid spacing still affects the voltages and represented geometry. Thus $Q'_A$ has units C/m. This is the charge extraction in `_solve()`.
 
@@ -53,28 +61,36 @@ The sum includes connections crossing the strip boundary. On a square grid of sp
 
 For either excitation, the **per-line modal capacitance** is
 
-$$C'_m=\frac{Q'_A}{V_t},\qquad m\in\{e,o\}.$$
+$$
+C'_m=\frac{Q'_A}{V_t},\qquad m\in\{e,o\}.
+$$
 
 The odd mode has a 2 V difference between strips, but the modal voltage of strip A relative to the virtual ground is **1 V**. Dividing its charge by 2 V would instead give the differential-pair capacitance $C'_{\mathrm{diff}}=C'_o/2$; that is not the normalization used here.
 
 For a symmetric pair, this can also be read from the capacitance matrix:
 
-$$\begin{bmatrix}Q'_A\\Q'_B\end{bmatrix}
+$$
+\begin{bmatrix}Q'_A\\Q'_B\end{bmatrix}
 =\begin{bmatrix}C'_{11}&C'_{12}\\C'_{12}&C'_{11}\end{bmatrix}
 \begin{bmatrix}V_A\\V_B\end{bmatrix},
-\qquad C'_{12}<0,$$
+\qquad C'_{12}<0,
+$$
 
 The first row is $Q'_A=C'_{11}V_A+C'_{12}V_B$. Substitute the voltages for each excitation:
 
 **Even mode:** $V_A=V_B=V_t$, hence
 
-$$Q'_{A,e}=(C'_{11}+C'_{12})V_t
-\quad\Rightarrow\quad C'_e=\frac{Q'_{A,e}}{V_t}=C'_{11}+C'_{12}.$$
+$$
+Q'_{A,e}=(C'_{11}+C'_{12})V_t
+\quad\Rightarrow\quad C'_e=\frac{Q'_{A,e}}{V_t}=C'_{11}+C'_{12}.
+$$
 
 **Odd mode:** $V_A=V_t$, $V_B=-V_t$, hence
 
-$$Q'_{A,o}=(C'_{11}-C'_{12})V_t
-\quad\Rightarrow\quad C'_o=\frac{Q'_{A,o}}{V_t}=C'_{11}-C'_{12}.$$
+$$
+Q'_{A,o}=(C'_{11}-C'_{12})V_t
+\quad\Rightarrow\quad C'_o=\frac{Q'_{A,o}}{V_t}=C'_{11}-C'_{12}.
+$$
 
 Both capacitances use the same strip voltage $V_t$, but **different charges**, because the neighbouring strip's voltage changes. Since $C'_{12}<0$, $C'_e<C'_o$.
 
@@ -93,34 +109,46 @@ This is exactly what `modes()` does. The auxiliary air solves supply the inducta
 
 For a lossless modal transmission line, the telegrapher equations are
 
-$$\frac{\partial V_m}{\partial z}=-L'_m\frac{\partial I_m}{\partial t},\qquad
-\frac{\partial I_m}{\partial z}=-C'_m\frac{\partial V_m}{\partial t}.$$
+$$
+\frac{\partial V_m}{\partial z}=-L'_m\frac{\partial I_m}{\partial t},\qquad
+\frac{\partial I_m}{\partial z}=-C'_m\frac{\partial V_m}{\partial t}.
+$$
 
 Differentiating once more gives a wave equation with speed and travelling-wave impedance
 
-$$v_m=\frac{1}{\sqrt{L'_mC'_m}},\qquad Z_{0m}=\sqrt{\frac{L'_m}{C'_m}}.$$
+$$
+v_m=\frac{1}{\sqrt{L'_mC'_m}},\qquad Z_{0m}=\sqrt{\frac{L'_m}{C'_m}}.
+$$
 
 These are the standard lossless-line results; see [Ellingson, *Electromagnetics I*, §3.9](https://phys.libretexts.org/Bookshelves/Electricity_and_Magnetism/Electromagnetics_I_%28Ellingson%29/03%3A_Transmission_Lines/3.09%3A__Lossless_and_Low-Loss_Transmission_Lines).
 
 For the **air-filled reference**, propagation is TEM at $c$, hence
 
-$$L'_mC'_{am}=\frac{1}{c^2}.$$
+$$
+L'_mC'_{am}=\frac{1}{c^2}.
+$$
 
 Under the quasi-TEM approximation, replacing air with a **nonmagnetic dielectric** changes electric energy and capacitance, while the external inductance is taken from the same air-filled geometry. Therefore
 
-$$\boxed{L'_m\simeq\frac{1}{c^2C'_{am}}}\qquad[\mathrm{H/m}].$$
+$$
+\boxed{L'_m\simeq\frac{1}{c^2C'_{am}}}\qquad[\mathrm{H/m}].
+$$
 
 The air-capacitance relation is also stated in [Goel, *High-Speed VLSI Interconnections*, 2nd ed., Eq. (1.11.1), printed p. 34](https://catalogimages.wiley.com/images/db/pdf/9780471780465.excerpt.pdf#page=34). Here it is applied separately to each mode, with the same per-line normalization.
 
 Substituting this inductance into the preceding line equations yields
 
-$$\boxed{Z_{0m}\simeq\frac{1}{c\sqrt{C'_mC'_{am}}}},\qquad
-v_m\simeq c\sqrt{\frac{C'_{am}}{C'_m}}.$$
+$$
+\boxed{Z_{0m}\simeq\frac{1}{c\sqrt{C'_mC'_{am}}}},\qquad
+v_m\simeq c\sqrt{\frac{C'_{am}}{C'_m}}.
+$$
 
 Define effective relative permittivity by $v_m=c/\sqrt{\varepsilon_{\mathrm{eff},m}}$. Then
 
-$$\boxed{\varepsilon_{\mathrm{eff},m}\simeq\frac{C'_m}{C'_{am}}},\qquad
-\beta_m=\frac{\omega}{c}\sqrt{\varepsilon_{\mathrm{eff},m}}.$$
+$$
+\boxed{\varepsilon_{\mathrm{eff},m}\simeq\frac{C'_m}{C'_{am}}},\qquad
+\beta_m=\frac{\omega}{c}\sqrt{\varepsilon_{\mathrm{eff},m}}.
+$$
 
 Thus the first three quantities all follow from the same four capacitance calculations. The resulting $Z_{0o}$ is a **per-line odd-mode impedance**; the corresponding differential impedance is $2Z_{0o}$.
 
@@ -137,9 +165,11 @@ Dimensions are rounded to grid nodes. The refinement changes both discretization
 
 For the selected length $\ell=5.10$ mm and $f=5.8$ GHz, the modal phase difference follows directly from $\theta_m=\beta_m\ell$:
 
-$$\Delta\theta=(\beta_e-\beta_o)\ell
+$$
+\Delta\theta=(\beta_e-\beta_o)\ell
 =\frac{2\pi f\ell}{c}(\sqrt{\varepsilon_e}-\sqrt{\varepsilon_o})
-=7.309^\circ\quad(d=5\ \mathrm{\mu m}).$$
+=7.309^\circ\quad(d=5\ \mathrm{\mu m}).
+$$
 
 The modes travel at different speeds because they distribute their electric fields differently between air and substrate. Route symmetry permits the even/odd decomposition; it does not remove this velocity split. The compensation argument and finite-length EM results are developed in [[TX Coupler EM Method]].
 
