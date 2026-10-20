@@ -37,8 +37,8 @@ mkdir "%CONTENT%"
 
 :: 2. Copy FunRad vault into quartz content
 echo [2/4] Copying FunRad to quartz\content...
-xcopy /E /I /Y /Q "%FUNRAD%\*" "%CONTENT%\"
-if errorlevel 1 ( echo ERROR: xcopy failed & exit /b 1 )
+node "%ROOT%copy_quartz_content.mjs"
+if errorlevel 1 ( echo ERROR: vault copy failed & exit /b 1 )
 
 :: Quartz's shortest-link resolver expects vault-root Markdown paths.
 :: Rewrite only the copied content; the original Obsidian notes stay relative.

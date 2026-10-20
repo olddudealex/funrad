@@ -1,0 +1,3694 @@
+{
+  "report_schema_version": 3,
+  "source_configuration": {
+    "schema_version": 1,
+    "design": {
+      "name": "FunRad",
+      "revision": "Rev.A",
+      "description": "Executable working configuration for the 5.8 GHz FunRad FMCW radar"
+    },
+    "environment": {
+      "reference_temperature_k": 290.0,
+      "rf_impedance_ohm": 50.0
+    },
+    "analyses": {},
+    "scenarios": [
+      {
+        "id": "close_0dbsm",
+        "label": "Close target, 0 dBsm",
+        "overrides": {
+          "target": {
+            "distance_m": 1.0,
+            "rcs_dbsm": 0.0
+          },
+          "tx_attenuator": {
+            "attenuation_db": 33.0
+          }
+        }
+      },
+      {
+        "id": "far_plus10dbsm",
+        "label": "Far target, +10 dBsm",
+        "overrides": {
+          "target": {
+            "distance_m": 75.0,
+            "rcs_dbsm": 10.0
+          },
+          "tx_attenuator": {
+            "attenuation_db": 16.0
+          }
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "type": "PLLChirpBlock",
+        "id": "pll_vco",
+        "name": "PLL/VCO",
+        "pos": [
+          53,
+          33
+        ],
+        "mirrored": false,
+        "params": {
+          "waveform": "Sawtooth",
+          "center_freq_ghz": 5.8,
+          "bandwidth_mhz": 150.0,
+          "chirp_duration_ms": 1.0,
+          "reset_idle_ms": 0.0,
+          "simulation_time_ms": 5.0,
+          "power_dbm": 2.0,
+          "phase_noise_dbc_hz": -90.0
+        },
+        "part_number": "LMX2491 + HMC431",
+        "parameter_metadata": {}
+      },
+      {
+        "type": "WilkinsonDividerBlock",
+        "id": "source_divider",
+        "name": "TX/LO Split",
+        "pos": [
+          198,
+          33
+        ],
+        "mirrored": false,
+        "params": {
+          "insertion_loss_db": 0.3
+        },
+        "part_number": "Planar Wilkinson",
+        "parameter_metadata": {
+          "insertion_loss_db": {
+            "tolerance": {
+              "minus": 0.1,
+              "plus": 0.1,
+              "status": "provisional",
+              "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+            }
+          }
+        }
+      },
+      {
+        "type": "AttenuatorBlock",
+        "id": "tx_attenuator",
+        "name": "TX Atten.",
+        "pos": [
+          353,
+          33
+        ],
+        "mirrored": false,
+        "params": {
+          "attenuation_db": 16.0
+        },
+        "part_number": "PE43711B-Z",
+        "parameter_metadata": {
+          "attenuation_db": {
+            "tolerance": {
+              "minus": 0.5,
+              "plus": 0.5,
+              "status": "provisional",
+              "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+            }
+          }
+        },
+        "level_limits": {
+          "rf_in": {
+            "unit": "dBm",
+            "source": "https://www.psemi.com/pdf/datasheets/pe43711ds.pdf",
+            "conditions": "Recommended CW input, >48 MHz–6 GHz, 50 ohm; 5 V architecture rail.",
+            "status": "datasheet operating",
+            "max": 23.0
+          }
+        },
+        "note": "attenuation_db: Effective TOTAL path loss, including insertion loss, not the digital command. 16/33 dB cases retained. Programmable span 0–31.75 dB; insertion loss at 4–6 GHz is 2.4 dB typical (datasheet at 3.3 V). Proposed 1.25 dB remains unverified at 5.8 GHz."
+      },
+      {
+        "type": "AmplifierBlock",
+        "id": "tx_pa",
+        "name": "TX PA",
+        "pos": [
+          498,
+          33
+        ],
+        "mirrored": false,
+        "params": {
+          "gain_db": 19.0,
+          "nf_db": 1.4
+        },
+        "part_number": "QPA9127",
+        "parameter_metadata": {
+          "gain_db": {
+            "tolerance": {
+              "minus": 1.0,
+              "plus": 1.0,
+              "status": "provisional",
+              "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+            }
+          }
+        },
+        "level_limits": {
+          "rf_out": {
+            "unit": "dBm",
+            "source": "Notes/FunRad/Excalidraw/FunRadBlockDiagram.excalidraw.svg; https://www.mouser.com/pdfDocs/QPA9127DataSheet.pdf",
+            "conditions": "5 V architecture rail, 5.8 GHz. Diagram screening value; datasheet tabulated 19.5 dBm is at 3.5 GHz.",
+            "status": "provisional architecture screening",
+            "max": 17.0,
+            "note": "5.8 GHz compression ceiling is not yet independently qualified; do not substitute the 3.5 GHz datasheet number."
+          }
+        }
+      },
+      {
+        "type": "CouplerBlock",
+        "id": "tx_coupler",
+        "name": "TX Coupler",
+        "pos": [
+          643,
+          33
+        ],
+        "mirrored": false,
+        "params": {
+          "coupling_db": 20.0,
+          "through_loss_db": 0.5
+        },
+        "parameter_metadata": {
+          "through_loss_db": {
+            "tolerance": {
+              "minus": 0.2,
+              "plus": 0.2,
+              "status": "provisional",
+              "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+            }
+          }
+        }
+      },
+      {
+        "type": "AntennaBlock",
+        "id": "tx_antenna",
+        "name": "TX Ant.",
+        "pos": [
+          788,
+          33
+        ],
+        "mirrored": false,
+        "params": {
+          "gain_dbi": 12.0,
+          "direction": "TX"
+        },
+        "part_number": "Custom Rev.A",
+        "parameter_metadata": {
+          "gain_dbi": {
+            "tolerance": {
+              "minus": 1.0,
+              "plus": 1.0,
+              "status": "provisional",
+              "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+            }
+          }
+        }
+      },
+      {
+        "type": "TargetBlock",
+        "id": "target",
+        "name": "Target",
+        "pos": [
+          924,
+          34
+        ],
+        "mirrored": false,
+        "params": {
+          "distance_m": 45.0,
+          "rcs_dbsm": 0.0
+        },
+        "parameter_metadata": {}
+      },
+      {
+        "type": "AmplifierBlock",
+        "id": "lo_level_trim",
+        "name": "LO Amplifier",
+        "pos": [
+          198,
+          163
+        ],
+        "mirrored": false,
+        "params": {
+          "gain_db": 12.0,
+          "nf_db": 3.0
+        },
+        "part_number": "GALI-84+",
+        "level_limits": {
+          "rf_out": {
+            "unit": "dBm",
+            "source": "https://www.mouser.com/datasheet/3/3705/1/GALI_84_.pdf",
+            "conditions": "6 GHz typical OP1dB, 25 C, 100 mA device bias; device voltage 5.4–6.2 V.",
+            "status": "conditional typical screening",
+            "max": 15.5,
+            "note": "Diagram assigns 5 V upstream rail: insufficient for the specified 100 mA bias without another supply arrangement. Gain and this screening ceiling remain conditional."
+          }
+        },
+        "note": "gain_db: RF Architecture diagram assigns 5 V rail; GALI-84+ specifies 5.4–6.2 V device voltage at 100 mA and a higher feed supply with bias resistor. Resolve rail/bias before qualifying 12 dB gain or P1dB.\ngain_db: FunRad Rev.A Specification: LO amplifier 12 dB working value\nnf_db: Placeholder 3 dB; LO noise is not used by current demodulator performance model.",
+        "parameter_metadata": {}
+      },
+      {
+        "type": "AntennaBlock",
+        "id": "rx_antenna",
+        "name": "RX Ant.",
+        "pos": [
+          931,
+          347
+        ],
+        "mirrored": true,
+        "params": {
+          "gain_dbi": 12.0,
+          "direction": "RX"
+        },
+        "part_number": "Custom Rev.A",
+        "parameter_metadata": {
+          "gain_dbi": {
+            "tolerance": {
+              "minus": 1.0,
+              "plus": 1.0,
+              "status": "provisional",
+              "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+            }
+          }
+        }
+      },
+      {
+        "type": "LNABlock",
+        "id": "rx_lna",
+        "name": "RX LNA",
+        "pos": [
+          816,
+          348
+        ],
+        "mirrored": true,
+        "params": {
+          "gain_db": 17.9,
+          "nf_db": 0.66
+        },
+        "part_number": "QPL9504",
+        "parameter_metadata": {
+          "gain_db": {
+            "tolerance": {
+              "minus": 0.8,
+              "plus": 0.8,
+              "status": "provisional",
+              "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+            }
+          }
+        },
+        "level_limits": {
+          "rf_out": {
+            "unit": "dBm",
+            "source": "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/6309/QPL9504EVB-01.pdf",
+            "conditions": "5 V, 25 C, EVB-01 matching, 5–6 GHz. Lowest tabulated typical OP1dB across this band.",
+            "status": "provisional typical screening",
+            "max": 17.5,
+            "note": "Not a guaranteed worst-case ceiling; actual matching and temperature need qualification. Diagram 8.2 dBm is not used as LNA output P1dB."
+          }
+        },
+        "note": "nf_db: Value at 5.8 GHz"
+      },
+      {
+        "type": "MixerBlock",
+        "id": "iq_demodulator",
+        "name": "I/Q Demod.",
+        "pos": [
+          680,
+          346
+        ],
+        "mirrored": true,
+        "params": {
+          "voltage_gain_db": 5.8,
+          "nf_db": 15.5,
+          "mode": "downconvert"
+        },
+        "part_number": "ADL5380",
+        "parameter_metadata": {
+          "voltage_gain_db": {
+            "tolerance": {
+              "minus": 0.5,
+              "plus": 0.5,
+              "status": "provisional",
+              "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+            }
+          }
+        },
+        "level_limits": {
+          "lo_in": {
+            "unit": "dBm",
+            "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+            "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+            "status": "datasheet operating",
+            "min": -6.0,
+            "max": 6.0
+          },
+          "rf_in": {
+            "unit": "dBm",
+            "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+            "conditions": "5 V, 25 C, 5800 MHz, LO 0 dBm, ADJ open (~2.4 V), Table 1.",
+            "status": "typical compression screening",
+            "max": 8.2
+          },
+          "I_out": {
+            "unit": "V_peak",
+            "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+            "conditions": "Differential I/Q output swing 2 Vpp into 200 ohm; 5 V, datasheet Table 1.",
+            "status": "conditional typical swing",
+            "max": 1.0,
+            "note": "Signal magnitude only; common mode and actual load remain separate interface checks."
+          },
+          "Q_out": {
+            "unit": "V_peak",
+            "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+            "conditions": "Differential I/Q output swing 2 Vpp into 200 ohm; 5 V, datasheet Table 1.",
+            "status": "conditional typical swing",
+            "max": 1.0,
+            "note": "Signal magnitude only; common mode and actual load remain separate interface checks."
+          }
+        }
+      },
+      {
+        "type": "IFFilterBlock",
+        "id": "if_filter_1",
+        "name": "IF Filter",
+        "pos": [
+          550,
+          346
+        ],
+        "mirrored": true,
+        "params": {
+          "cutoff_hz": 1000000.0,
+          "order": 4,
+          "insertion_loss_db": 1.0
+        },
+        "part_number": "TBD",
+        "parameter_metadata": {
+          "insertion_loss_db": {
+            "tolerance": {
+              "minus": 0.2,
+              "plus": 0.2,
+              "status": "provisional",
+              "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+            }
+          }
+        }
+      },
+      {
+        "type": "IQAmplifierBlock",
+        "id": "if_fda",
+        "name": "IF FDA",
+        "pos": [
+          420,
+          346
+        ],
+        "mirrored": true,
+        "params": {
+          "gain_db": 20.0,
+          "added_noise_dbv": -87.74
+        },
+        "part_number": "THS4551",
+        "parameter_metadata": {
+          "gain_db": {
+            "tolerance": {
+              "minus": 0.5,
+              "plus": 0.5,
+              "status": "provisional",
+              "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+            }
+          }
+        },
+        "level_limits": {
+          "I_out": {
+            "unit": "V_peak",
+            "source": "https://www.ti.com/lit/ds/symlink/ths4551.pdf",
+            "conditions": "5 V architecture rail, provisional VOCM=2.5 V and differential RL=1 kohm, 25 C. Rail headroom 0.23 V per output (Table 7.5).",
+            "status": "conditional datasheet swing",
+            "max": 4.54,
+            "note": "Differential peak = 2*min(VOCM-0.23, 5-0.23-VOCM). Static swing screening; distortion, gain=10 circuit and filter loading require qualification."
+          },
+          "Q_out": {
+            "unit": "V_peak",
+            "source": "https://www.ti.com/lit/ds/symlink/ths4551.pdf",
+            "conditions": "5 V architecture rail, provisional VOCM=2.5 V and differential RL=1 kohm, 25 C. Rail headroom 0.23 V per output (Table 7.5).",
+            "status": "conditional datasheet swing",
+            "max": 4.54,
+            "note": "Differential peak = 2*min(VOCM-0.23, 5-0.23-VOCM). Static swing screening; distortion, gain=10 circuit and filter loading require qualification."
+          }
+        }
+      },
+      {
+        "type": "IFFilterBlock",
+        "id": "if_filter_2",
+        "name": "AA Filter",
+        "pos": [
+          290,
+          346
+        ],
+        "mirrored": true,
+        "params": {
+          "cutoff_hz": 1000000.0,
+          "order": 4,
+          "insertion_loss_db": 1.0
+        },
+        "part_number": "TBD",
+        "parameter_metadata": {
+          "insertion_loss_db": {
+            "tolerance": {
+              "minus": 0.2,
+              "plus": 0.2,
+              "status": "provisional",
+              "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+            }
+          }
+        }
+      },
+      {
+        "type": "ADCBlock",
+        "id": "adc",
+        "name": "ADC",
+        "pos": [
+          170,
+          346
+        ],
+        "mirrored": true,
+        "params": {
+          "minimum_signal_lsb": 0.5,
+          "bits": 14,
+          "sample_rate_mhz": 3.5,
+          "full_scale_pm_v": 4.096
+        },
+        "part_number": "TBD",
+        "note": "full_scale_pm_v: Peak magnitude of the provisional Â±4.096 V differential input convention",
+        "parameter_metadata": {}
+      },
+      {
+        "type": "RangeFFTBlock",
+        "id": "range_fft",
+        "name": "Range FFT",
+        "pos": [
+          50,
+          345
+        ],
+        "mirrored": true,
+        "params": {
+          "snr_min_db": 10.0,
+          "window": "Hanning",
+          "nfft": 1024,
+          "acquisition_start_us": 0.0,
+          "acquisition_duration_us": 0.0
+        },
+        "note": "acquisition_start_us: 0 start; duration 0 means remainder of first ramp, truncated by FFT length. Hardware settling remains open.\nacquisition_duration_us: 0 start; duration 0 means remainder of first ramp, truncated by FFT length. Hardware settling remains open.",
+        "parameter_metadata": {}
+      },
+      {
+        "type": "WilkinsonDividerBlock",
+        "id": "lo_split",
+        "name": "LO split 1:2",
+        "pos": [
+          350,
+          155
+        ],
+        "mirrored": false,
+        "params": {
+          "insertion_loss_db": 0.3
+        },
+        "part_number": "Planar Wilkinson",
+        "note": "insertion_loss_db: 0.3 dB per two-way splitter; hardware loss and imbalance remain unverified.",
+        "parameter_metadata": {}
+      },
+      {
+        "type": "WilkinsonDividerBlock",
+        "id": "lo_split_a",
+        "name": "LO outputs 1/2",
+        "pos": [
+          490,
+          125
+        ],
+        "mirrored": false,
+        "params": {
+          "insertion_loss_db": 0.3
+        },
+        "part_number": "Planar Wilkinson",
+        "level_limits": {
+          "out1": {
+            "unit": "dBm",
+            "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+            "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+            "status": "datasheet operating",
+            "min": -6.0,
+            "max": 6.0
+          },
+          "out2": {
+            "unit": "dBm",
+            "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+            "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+            "status": "datasheet operating",
+            "min": -6.0,
+            "max": 6.0
+          }
+        },
+        "note": "insertion_loss_db: 0.3 dB per two-way splitter; hardware loss and imbalance remain unverified.",
+        "parameter_metadata": {}
+      },
+      {
+        "type": "WilkinsonDividerBlock",
+        "id": "lo_split_b",
+        "name": "LO outputs 3/4",
+        "pos": [
+          489,
+          234
+        ],
+        "mirrored": false,
+        "params": {
+          "insertion_loss_db": 0.3
+        },
+        "part_number": "Planar Wilkinson",
+        "level_limits": {
+          "out1": {
+            "unit": "dBm",
+            "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+            "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+            "status": "datasheet operating",
+            "min": -6.0,
+            "max": 6.0
+          },
+          "out2": {
+            "unit": "dBm",
+            "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+            "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+            "status": "datasheet operating",
+            "min": -6.0,
+            "max": 6.0
+          }
+        },
+        "note": "insertion_loss_db: 0.3 dB per two-way splitter; hardware loss and imbalance remain unverified.",
+        "parameter_metadata": {}
+      },
+      {
+        "type": "AttenuatorBlock",
+        "id": "tx_rx_leakage",
+        "name": "TX-RX Leakage",
+        "pos": [
+          720,
+          190
+        ],
+        "mirrored": false,
+        "params": {
+          "attenuation_db": 25.0
+        },
+        "parameter_metadata": {}
+      },
+      {
+        "type": "SumBlock",
+        "id": "rx_sum",
+        "name": "RX Sum",
+        "pos": [
+          930,
+          210
+        ],
+        "mirrored": false,
+        "params": {
+          "add_enabled": true
+        },
+        "parameter_metadata": {}
+      }
+    ],
+    "connections": [
+      {
+        "src_block": "pll_vco",
+        "src_port": "rf_out",
+        "dst_block": "source_divider",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "source_divider",
+        "src_port": "out1",
+        "dst_block": "tx_attenuator",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "tx_attenuator",
+        "src_port": "rf_out",
+        "dst_block": "tx_pa",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "tx_pa",
+        "src_port": "rf_out",
+        "dst_block": "tx_coupler",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "tx_coupler",
+        "src_port": "through",
+        "dst_block": "tx_antenna",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "tx_antenna",
+        "src_port": "rf_out",
+        "dst_block": "target",
+        "dst_port": "tx_in"
+      },
+      {
+        "src_block": "source_divider",
+        "src_port": "out2",
+        "dst_block": "lo_level_trim",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "rx_antenna",
+        "src_port": "rf_out",
+        "dst_block": "rx_lna",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "rx_lna",
+        "src_port": "rf_out",
+        "dst_block": "iq_demodulator",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "iq_demodulator",
+        "src_port": "I_out",
+        "dst_block": "if_filter_1",
+        "dst_port": "I_in"
+      },
+      {
+        "src_block": "iq_demodulator",
+        "src_port": "Q_out",
+        "dst_block": "if_filter_1",
+        "dst_port": "Q_in"
+      },
+      {
+        "src_block": "if_filter_1",
+        "src_port": "I_out",
+        "dst_block": "if_fda",
+        "dst_port": "I_in"
+      },
+      {
+        "src_block": "if_filter_1",
+        "src_port": "Q_out",
+        "dst_block": "if_fda",
+        "dst_port": "Q_in"
+      },
+      {
+        "src_block": "if_fda",
+        "src_port": "I_out",
+        "dst_block": "if_filter_2",
+        "dst_port": "I_in"
+      },
+      {
+        "src_block": "if_fda",
+        "src_port": "Q_out",
+        "dst_block": "if_filter_2",
+        "dst_port": "Q_in"
+      },
+      {
+        "src_block": "if_filter_2",
+        "src_port": "I_out",
+        "dst_block": "adc",
+        "dst_port": "I_in"
+      },
+      {
+        "src_block": "if_filter_2",
+        "src_port": "Q_out",
+        "dst_block": "adc",
+        "dst_port": "Q_in"
+      },
+      {
+        "src_block": "adc",
+        "src_port": "I_out",
+        "dst_block": "range_fft",
+        "dst_port": "I_in"
+      },
+      {
+        "src_block": "adc",
+        "src_port": "Q_out",
+        "dst_block": "range_fft",
+        "dst_port": "Q_in"
+      },
+      {
+        "src_block": "lo_level_trim",
+        "src_port": "rf_out",
+        "dst_block": "lo_split",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "lo_split",
+        "src_port": "out1",
+        "dst_block": "lo_split_a",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "lo_split",
+        "src_port": "out2",
+        "dst_block": "lo_split_b",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "lo_split_a",
+        "src_port": "out1",
+        "dst_block": "iq_demodulator",
+        "dst_port": "lo_in"
+      },
+      {
+        "src_block": "target",
+        "src_port": "rx_out",
+        "dst_block": "rx_sum",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "tx_antenna",
+        "src_port": "rf_out",
+        "dst_block": "tx_rx_leakage",
+        "dst_port": "rf_in"
+      },
+      {
+        "src_block": "tx_rx_leakage",
+        "src_port": "rf_out",
+        "dst_block": "rx_sum",
+        "dst_port": "add_in"
+      },
+      {
+        "src_block": "rx_sum",
+        "src_port": "rf_out",
+        "dst_block": "rx_antenna",
+        "dst_port": "rf_in"
+      }
+    ]
+  },
+  "engine_version": "1.4",
+  "source_configuration_sha256": "ea1c13ea484442c6fa8863758c42c2344a0de80087ed64e3809868a3b0103851",
+  "design": {
+    "name": "FunRad",
+    "revision": "Rev.A",
+    "description": "Executable working configuration for the 5.8 GHz FunRad FMCW radar"
+  },
+  "environment": {
+    "reference_temperature_k": 290.0,
+    "rf_impedance_ohm": 50.0
+  },
+  "analysis_settings": {},
+  "configuration_warnings": [],
+  "open_definitions": [
+    {
+      "location": "Hardware qualification",
+      "note": "Gain/loss tolerances and typical operating screens require validation at actual supply, temperature and loading."
+    },
+    {
+      "location": "RF summation / leakage",
+      "note": "Budget levels include the combined signal; detection SNR tracks the wanted rf_in input. Waveforms add coherently and the ADC clips. Analytical levels use phase-averaged powers and independent noise, without predicting leakage sidelobes, coherent cancellation, or analog compression distortion."
+    },
+    {
+      "location": "ADC model",
+      "note": "Ideal quantization; engineering RMS signal threshold. Leakage, DC offset, jitter and measured ENOB are not modeled."
+    },
+    {
+      "location": "FFT model",
+      "note": "White uncorrelated noise and one-ramp acquisition; detection uses the selected FFT block threshold."
+    },
+    {
+      "location": "Analog model",
+      "note": "Linear signal propagation; compression limits flag violations without modeling distortion. LO drive checks are static; phase noise and settling are not propagated into detection."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "close_0dbsm",
+      "label": "Close target, 0 dBsm",
+      "overrides": {
+        "target": {
+          "distance_m": 1.0,
+          "rcs_dbsm": 0.0
+        },
+        "tx_attenuator": {
+          "attenuation_db": 33.0
+        }
+      },
+      "metrics": {
+        "snr_threshold_db": 10.0,
+        "detectable": false,
+        "snr_limit_range_m": 34.847020280131794,
+        "adc_limit_range_m": 18.011979890144204,
+        "adc_margin_db": 50.222458136556355,
+        "acquired_samples": 1024,
+        "range_bin_spacing_m": 3.4156041764322915,
+        "observed_bandwidth_hz": 43885714.28571428,
+        "window_coherent_gain": 0.49951171875,
+        "window_enbw_bins": 1.501466275659824,
+        "range_resolution_m": 3.415604176432292,
+        "max_range_m": 18.011979890144204,
+        "max_doppler_velocity_ms": 12.922088706896552,
+        "beat_freq_hz": 1000.6922855944562,
+        "snr_db": 71.68662592436588,
+        "bandwidth_hz": 150000000.0,
+        "center_freq_hz": 5800000000.0,
+        "chirp_duration_s": 0.001
+      },
+      "fft_metrics": {
+        "range_fft": {
+          "snr_threshold_db": 10.0,
+          "detectable": false,
+          "snr_limit_range_m": 34.847020280131794,
+          "adc_limit_range_m": 18.011979890144204,
+          "adc_margin_db": 50.222458136556355,
+          "acquired_samples": 1024,
+          "range_bin_spacing_m": 3.4156041764322915,
+          "observed_bandwidth_hz": 43885714.28571428,
+          "window_coherent_gain": 0.49951171875,
+          "window_enbw_bins": 1.501466275659824,
+          "range_resolution_m": 3.415604176432292,
+          "max_range_m": 18.011979890144204,
+          "max_doppler_velocity_ms": 12.922088706896552,
+          "beat_freq_hz": 1000.6922855944562,
+          "snr_db": 71.68662592436588,
+          "bandwidth_hz": 150000000.0,
+          "center_freq_hz": 5800000000.0,
+          "chirp_duration_s": 0.001
+        }
+      },
+      "budget": [
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "pll_vco",
+          "block_type": "PLLChirpBlock",
+          "label": "PLL/VCO",
+          "part_number": "LMX2491 + HMC431",
+          "signal_level": 2.0,
+          "noise_level": -92.2142746036713,
+          "snr_db": 94.2142746036713,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "out1",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "source_divider",
+          "block_type": "WilkinsonDividerBlock",
+          "label": "TX/LO Split",
+          "part_number": "Planar Wilkinson",
+          "signal_level": -1.2999999999999998,
+          "noise_level": -92.2142746036713,
+          "snr_db": 90.9142746036713,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "tx_attenuator",
+          "block_type": "AttenuatorBlock",
+          "label": "TX Atten.",
+          "part_number": "PE43711B-Z",
+          "signal_level": -34.3,
+          "noise_level": -92.2142746036713,
+          "snr_db": 57.9142746036713,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "lo_level_trim",
+          "block_type": "AmplifierBlock",
+          "label": "LO Amplifier",
+          "part_number": "GALI-84+",
+          "signal_level": 10.7,
+          "noise_level": -77.2142746036713,
+          "snr_db": 87.9142746036713,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "tx_pa",
+          "block_type": "AmplifierBlock",
+          "label": "TX PA",
+          "part_number": "QPA9127",
+          "signal_level": -15.299999999999997,
+          "noise_level": -71.8142746036713,
+          "snr_db": 56.514274603671296,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "out1",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "lo_split",
+          "block_type": "WilkinsonDividerBlock",
+          "label": "LO split 1:2",
+          "part_number": "Planar Wilkinson",
+          "signal_level": 7.3999999999999995,
+          "noise_level": -80.36073774669192,
+          "snr_db": 87.76073774669193,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "through",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "tx_coupler",
+          "block_type": "CouplerBlock",
+          "label": "TX Coupler",
+          "part_number": "",
+          "signal_level": -15.799999999999997,
+          "noise_level": -72.30944436827312,
+          "snr_db": 56.50944436827312,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "out1",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "lo_split_a",
+          "block_type": "WilkinsonDividerBlock",
+          "label": "LO outputs 1/2",
+          "part_number": "Planar Wilkinson",
+          "signal_level": 4.1,
+          "noise_level": -83.34963044829638,
+          "snr_db": 87.44963044829638,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "out1",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "lo_split_b",
+          "block_type": "WilkinsonDividerBlock",
+          "label": "LO outputs 3/4",
+          "part_number": "Planar Wilkinson",
+          "signal_level": 4.1,
+          "noise_level": -83.34963044829638,
+          "snr_db": 87.44963044829638,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "tx_antenna",
+          "block_type": "AntennaBlock",
+          "label": "TX Ant.",
+          "part_number": "Custom Rev.A",
+          "signal_level": -3.799999999999997,
+          "noise_level": -60.30944436827312,
+          "snr_db": 56.50944436827312,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rx_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "target",
+          "block_type": "TargetBlock",
+          "label": "Target",
+          "part_number": "",
+          "signal_level": -62.50844173336307,
+          "noise_level": -119.0178861016362,
+          "snr_db": 56.50944436827312,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "tx_rx_leakage",
+          "block_type": "AttenuatorBlock",
+          "label": "TX-RX Leakage",
+          "part_number": "",
+          "signal_level": -28.799999999999997,
+          "noise_level": -84.50569833836241,
+          "snr_db": 55.70569833836241,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "rx_sum",
+          "block_type": "SumBlock",
+          "label": "RX Sum",
+          "part_number": "",
+          "signal_level": -28.798151379760064,
+          "noise_level": -84.50416199348936,
+          "snr_db": 55.7060106137293,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "rx_antenna",
+          "block_type": "AntennaBlock",
+          "label": "RX Ant.",
+          "part_number": "Custom Rev.A",
+          "signal_level": -16.798151379760064,
+          "noise_level": -72.4579811393174,
+          "snr_db": 55.65982975955733,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "rx_lna",
+          "block_type": "LNABlock",
+          "label": "RX LNA",
+          "part_number": "QPL9504",
+          "signal_level": 1.1018486202399345,
+          "noise_level": -54.55044835150669,
+          "snr_db": 55.65229697174662,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "I_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "iq_demodulator",
+          "block_type": "MixerBlock",
+          "label": "I/Q Demod.",
+          "part_number": "ADL5380",
+          "signal_level": -6.108451336399878,
+          "noise_level": -61.73517971982011,
+          "snr_db": 55.62672838342023,
+          "unit": "dBV",
+          "domain": "IF"
+        },
+        {
+          "port": "I_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "if_filter_1",
+          "block_type": "IFFilterBlock",
+          "label": "IF Filter",
+          "part_number": "TBD",
+          "signal_level": -7.108451336399878,
+          "noise_level": -84.49609231037692,
+          "snr_db": 77.38764097397704,
+          "unit": "dBV",
+          "domain": "IF"
+        },
+        {
+          "port": "I_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "if_fda",
+          "block_type": "IQAmplifierBlock",
+          "label": "IF FDA",
+          "part_number": "THS4551",
+          "signal_level": 12.891548663600123,
+          "noise_level": -64.4755633625674,
+          "snr_db": 77.36711202616752,
+          "unit": "dBV",
+          "domain": "IF"
+        },
+        {
+          "port": "I_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "if_filter_2",
+          "block_type": "IFFilterBlock",
+          "label": "AA Filter",
+          "part_number": "TBD",
+          "signal_level": 11.891548663600123,
+          "noise_level": -65.4755633625674,
+          "snr_db": 77.36711202616752,
+          "unit": "dBV",
+          "domain": "IF"
+        },
+        {
+          "port": "I_out",
+          "headroom_db": -2.6546496608844476,
+          "validity": "combined-signal overload",
+          "block_id": "adc",
+          "block_type": "ADCBlock",
+          "label": "ADC",
+          "part_number": "TBD",
+          "signal_level": 11.891548663600123,
+          "noise_level": -65.167523867804,
+          "snr_db": 77.05907253140411,
+          "unit": "dBV",
+          "domain": "IF"
+        },
+        {
+          "port": "range_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "range_fft",
+          "block_type": "RangeFFTBlock",
+          "label": "Range FFT",
+          "part_number": "",
+          "signal_level": 14.901848620239935,
+          "noise_level": -90.49506765772897,
+          "snr_db": 105.3969162779689,
+          "unit": "dBV",
+          "domain": "IF"
+        }
+      ],
+      "lo_outputs": [],
+      "level_checks": [
+        {
+          "id": "tx_attenuator.rf_in.configured",
+          "block": "TX Atten.",
+          "port": "rf_in",
+          "unit": "dBm",
+          "value": -1.2999999999999998,
+          "minimum": null,
+          "maximum": 23.0,
+          "lower_margin": null,
+          "upper_margin": 24.3,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.psemi.com/pdf/datasheets/pe43711ds.pdf",
+          "conditions": "Recommended CW input, >48 MHz–6 GHz, 50 ohm; 5 V architecture rail.",
+          "evidence": "datasheet operating"
+        },
+        {
+          "id": "tx_pa.rf_out.configured",
+          "block": "TX PA",
+          "port": "rf_out",
+          "unit": "dBm",
+          "value": -15.299999999999997,
+          "minimum": null,
+          "maximum": 17.0,
+          "lower_margin": null,
+          "upper_margin": 32.3,
+          "status": "pass",
+          "origin": "configured",
+          "source": "Notes/FunRad/Excalidraw/FunRadBlockDiagram.excalidraw.svg; https://www.mouser.com/pdfDocs/QPA9127DataSheet.pdf",
+          "conditions": "5 V architecture rail, 5.8 GHz. Diagram screening value; datasheet tabulated 19.5 dBm is at 3.5 GHz.",
+          "note": "5.8 GHz compression ceiling is not yet independently qualified; do not substitute the 3.5 GHz datasheet number.",
+          "evidence": "provisional architecture screening"
+        },
+        {
+          "id": "lo_level_trim.rf_out.configured",
+          "block": "LO Amplifier",
+          "port": "rf_out",
+          "unit": "dBm",
+          "value": 10.7,
+          "minimum": null,
+          "maximum": 15.5,
+          "lower_margin": null,
+          "upper_margin": 4.800000000000001,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.mouser.com/datasheet/3/3705/1/GALI_84_.pdf",
+          "conditions": "6 GHz typical OP1dB, 25 C, 100 mA device bias; device voltage 5.4–6.2 V.",
+          "note": "Diagram assigns 5 V upstream rail: insufficient for the specified 100 mA bias without another supply arrangement. Gain and this screening ceiling remain conditional.",
+          "evidence": "conditional typical screening"
+        },
+        {
+          "id": "rx_lna.rf_out.configured",
+          "block": "RX LNA",
+          "port": "rf_out",
+          "unit": "dBm",
+          "value": 1.1018486202399345,
+          "minimum": null,
+          "maximum": 17.5,
+          "lower_margin": null,
+          "upper_margin": 16.398151379760066,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/6309/QPL9504EVB-01.pdf",
+          "conditions": "5 V, 25 C, EVB-01 matching, 5–6 GHz. Lowest tabulated typical OP1dB across this band.",
+          "note": "Not a guaranteed worst-case ceiling; actual matching and temperature need qualification. Diagram 8.2 dBm is not used as LNA output P1dB.",
+          "evidence": "provisional typical screening"
+        },
+        {
+          "id": "iq_demodulator.lo_in.configured",
+          "block": "I/Q Demod.",
+          "port": "lo_in",
+          "unit": "dBm",
+          "value": 4.1,
+          "minimum": -6.0,
+          "maximum": 6.0,
+          "lower_margin": 10.1,
+          "upper_margin": 1.9000000000000004,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+          "evidence": "datasheet operating"
+        },
+        {
+          "id": "iq_demodulator.rf_in.configured",
+          "block": "I/Q Demod.",
+          "port": "rf_in",
+          "unit": "dBm",
+          "value": 1.1018486202399345,
+          "minimum": null,
+          "maximum": 8.2,
+          "lower_margin": null,
+          "upper_margin": 7.098151379760065,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "5 V, 25 C, 5800 MHz, LO 0 dBm, ADJ open (~2.4 V), Table 1.",
+          "evidence": "typical compression screening"
+        },
+        {
+          "id": "iq_demodulator.I_out.configured",
+          "block": "I/Q Demod.",
+          "port": "I_out",
+          "unit": "V_peak",
+          "value": 0.6999909594148872,
+          "minimum": null,
+          "maximum": 1.0,
+          "lower_margin": null,
+          "upper_margin": 0.3000090405851128,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "Differential I/Q output swing 2 Vpp into 200 ohm; 5 V, datasheet Table 1.",
+          "note": "Signal magnitude only; common mode and actual load remain separate interface checks.",
+          "evidence": "conditional typical swing"
+        },
+        {
+          "id": "iq_demodulator.Q_out.configured",
+          "block": "I/Q Demod.",
+          "port": "Q_out",
+          "unit": "V_peak",
+          "value": 0.6999909594148872,
+          "minimum": null,
+          "maximum": 1.0,
+          "lower_margin": null,
+          "upper_margin": 0.3000090405851128,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "Differential I/Q output swing 2 Vpp into 200 ohm; 5 V, datasheet Table 1.",
+          "note": "Signal magnitude only; common mode and actual load remain separate interface checks.",
+          "evidence": "conditional typical swing"
+        },
+        {
+          "id": "if_fda.I_out.configured",
+          "block": "IF FDA",
+          "port": "I_out",
+          "unit": "V_peak",
+          "value": 6.238675992636589,
+          "minimum": null,
+          "maximum": 4.54,
+          "lower_margin": null,
+          "upper_margin": -1.6986759926365886,
+          "status": "above maximum",
+          "origin": "configured",
+          "source": "https://www.ti.com/lit/ds/symlink/ths4551.pdf",
+          "conditions": "5 V architecture rail, provisional VOCM=2.5 V and differential RL=1 kohm, 25 C. Rail headroom 0.23 V per output (Table 7.5).",
+          "note": "Differential peak = 2*min(VOCM-0.23, 5-0.23-VOCM). Static swing screening; distortion, gain=10 circuit and filter loading require qualification.",
+          "evidence": "conditional datasheet swing"
+        },
+        {
+          "id": "if_fda.Q_out.configured",
+          "block": "IF FDA",
+          "port": "Q_out",
+          "unit": "V_peak",
+          "value": 6.238675992636589,
+          "minimum": null,
+          "maximum": 4.54,
+          "lower_margin": null,
+          "upper_margin": -1.6986759926365886,
+          "status": "above maximum",
+          "origin": "configured",
+          "source": "https://www.ti.com/lit/ds/symlink/ths4551.pdf",
+          "conditions": "5 V architecture rail, provisional VOCM=2.5 V and differential RL=1 kohm, 25 C. Rail headroom 0.23 V per output (Table 7.5).",
+          "note": "Differential peak = 2*min(VOCM-0.23, 5-0.23-VOCM). Static swing screening; distortion, gain=10 circuit and filter loading require qualification.",
+          "evidence": "conditional datasheet swing"
+        },
+        {
+          "id": "adc.I_in.ADC threshold",
+          "block": "ADC",
+          "port": "I_in",
+          "unit": "V_rms",
+          "value": 3.9316733901346557,
+          "minimum": 0.00025,
+          "maximum": null,
+          "lower_margin": 3.931423390134656,
+          "upper_margin": null,
+          "status": "pass",
+          "origin": "ADC threshold"
+        },
+        {
+          "id": "adc.I_in.ADC full scale",
+          "block": "ADC",
+          "port": "I_in",
+          "unit": "V_peak",
+          "value": 5.560225831149835,
+          "minimum": null,
+          "maximum": 4.096,
+          "lower_margin": null,
+          "upper_margin": -1.464225831149835,
+          "status": "above maximum",
+          "origin": "ADC full scale"
+        },
+        {
+          "id": "adc.Q_in.ADC threshold",
+          "block": "ADC",
+          "port": "Q_in",
+          "unit": "V_rms",
+          "value": 3.9316733901346557,
+          "minimum": 0.00025,
+          "maximum": null,
+          "lower_margin": 3.931423390134656,
+          "upper_margin": null,
+          "status": "pass",
+          "origin": "ADC threshold"
+        },
+        {
+          "id": "adc.Q_in.ADC full scale",
+          "block": "ADC",
+          "port": "Q_in",
+          "unit": "V_peak",
+          "value": 5.560225831149835,
+          "minimum": null,
+          "maximum": 4.096,
+          "lower_margin": null,
+          "upper_margin": -1.464225831149835,
+          "status": "above maximum",
+          "origin": "ADC full scale"
+        },
+        {
+          "id": "lo_split_a.out1.configured",
+          "block": "LO outputs 1/2",
+          "port": "out1",
+          "unit": "dBm",
+          "value": 4.1,
+          "minimum": -6.0,
+          "maximum": 6.0,
+          "lower_margin": 10.1,
+          "upper_margin": 1.9000000000000004,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+          "evidence": "datasheet operating"
+        },
+        {
+          "id": "lo_split_a.out2.configured",
+          "block": "LO outputs 1/2",
+          "port": "out2",
+          "unit": "dBm",
+          "value": 4.1,
+          "minimum": -6.0,
+          "maximum": 6.0,
+          "lower_margin": 10.1,
+          "upper_margin": 1.9000000000000004,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+          "evidence": "datasheet operating"
+        },
+        {
+          "id": "lo_split_b.out1.configured",
+          "block": "LO outputs 3/4",
+          "port": "out1",
+          "unit": "dBm",
+          "value": 4.1,
+          "minimum": -6.0,
+          "maximum": 6.0,
+          "lower_margin": 10.1,
+          "upper_margin": 1.9000000000000004,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+          "evidence": "datasheet operating"
+        },
+        {
+          "id": "lo_split_b.out2.configured",
+          "block": "LO outputs 3/4",
+          "port": "out2",
+          "unit": "dBm",
+          "value": 4.1,
+          "minimum": -6.0,
+          "maximum": 6.0,
+          "lower_margin": 10.1,
+          "upper_margin": 1.9000000000000004,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+          "evidence": "datasheet operating"
+        }
+      ],
+      "tolerance_envelope": {
+        "method": "exhaustive independent endpoint corners plus nominal",
+        "interpretation": "Model corner envelope; not a confidence interval or hardware guarantee. Interior extrema are not proven.",
+        "parameters": [
+          {
+            "block_id": "source_divider",
+            "parameter": "insertion_loss_db",
+            "nominal": 0.3,
+            "minus": 0.1,
+            "plus": 0.1,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "tx_attenuator",
+            "parameter": "attenuation_db",
+            "nominal": 33.0,
+            "minus": 0.5,
+            "plus": 0.5,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "tx_pa",
+            "parameter": "gain_db",
+            "nominal": 19.0,
+            "minus": 1.0,
+            "plus": 1.0,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "tx_coupler",
+            "parameter": "through_loss_db",
+            "nominal": 0.5,
+            "minus": 0.2,
+            "plus": 0.2,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "tx_antenna",
+            "parameter": "gain_dbi",
+            "nominal": 12.0,
+            "minus": 1.0,
+            "plus": 1.0,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "rx_antenna",
+            "parameter": "gain_dbi",
+            "nominal": 12.0,
+            "minus": 1.0,
+            "plus": 1.0,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "rx_lna",
+            "parameter": "gain_db",
+            "nominal": 17.9,
+            "minus": 0.8,
+            "plus": 0.8,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "iq_demodulator",
+            "parameter": "voltage_gain_db",
+            "nominal": 5.8,
+            "minus": 0.5,
+            "plus": 0.5,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "if_filter_1",
+            "parameter": "insertion_loss_db",
+            "nominal": 1.0,
+            "minus": 0.2,
+            "plus": 0.2,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "if_fda",
+            "parameter": "gain_db",
+            "nominal": 20.0,
+            "minus": 0.5,
+            "plus": 0.5,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "if_filter_2",
+            "parameter": "insertion_loss_db",
+            "nominal": 1.0,
+            "minus": 0.2,
+            "plus": 0.2,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          }
+        ],
+        "corner_count": 2048,
+        "fft_metrics": {
+          "range_fft": {
+            "passed": 198,
+            "evaluated": 2048,
+            "snr_threshold_db": {
+              "min": 10.0,
+              "max": 10.0
+            },
+            "snr_limit_range_m": {
+              "min": 31.516140489203945,
+              "max": 37.269852467704006
+            },
+            "adc_limit_range_m": {
+              "min": 12.751505231639467,
+              "max": 25.442597847818742
+            },
+            "adc_margin_db": {
+              "min": 44.22245813655636,
+              "max": 56.22245813655637
+            },
+            "acquired_samples": {
+              "min": 1024,
+              "max": 1024
+            },
+            "range_bin_spacing_m": {
+              "min": 3.4156041764322915,
+              "max": 3.4156041764322915
+            },
+            "observed_bandwidth_hz": {
+              "min": 43885714.28571428,
+              "max": 43885714.28571428
+            },
+            "window_coherent_gain": {
+              "min": 0.49951171875,
+              "max": 0.49951171875
+            },
+            "window_enbw_bins": {
+              "min": 1.501466275659824,
+              "max": 1.501466275659824
+            },
+            "range_resolution_m": {
+              "min": 3.415604176432292,
+              "max": 3.415604176432292
+            },
+            "max_range_m": {
+              "min": 12.751505231639467,
+              "max": 25.442597847818742
+            },
+            "max_doppler_velocity_ms": {
+              "min": 12.922088706896552,
+              "max": 12.922088706896552
+            },
+            "beat_freq_hz": {
+              "min": 1000.6922855944562,
+              "max": 1000.6922855944562
+            },
+            "snr_db": {
+              "min": 69.94132111047978,
+              "max": 72.85430694429486
+            },
+            "bandwidth_hz": {
+              "min": 150000000.0,
+              "max": 150000000.0
+            },
+            "center_freq_hz": {
+              "min": 5800000000.0,
+              "max": 5800000000.0
+            },
+            "chirp_duration_s": {
+              "min": 0.001,
+              "max": 0.001
+            }
+          }
+        },
+        "metrics": {
+          "snr_threshold_db": {
+            "min": 10.0,
+            "max": 10.0
+          },
+          "snr_limit_range_m": {
+            "min": 31.516140489203945,
+            "max": 37.269852467704006
+          },
+          "adc_limit_range_m": {
+            "min": 12.751505231639467,
+            "max": 25.442597847818742
+          },
+          "adc_margin_db": {
+            "min": 44.22245813655636,
+            "max": 56.22245813655637
+          },
+          "acquired_samples": {
+            "min": 1024,
+            "max": 1024
+          },
+          "range_bin_spacing_m": {
+            "min": 3.4156041764322915,
+            "max": 3.4156041764322915
+          },
+          "observed_bandwidth_hz": {
+            "min": 43885714.28571428,
+            "max": 43885714.28571428
+          },
+          "window_coherent_gain": {
+            "min": 0.49951171875,
+            "max": 0.49951171875
+          },
+          "window_enbw_bins": {
+            "min": 1.501466275659824,
+            "max": 1.501466275659824
+          },
+          "range_resolution_m": {
+            "min": 3.415604176432292,
+            "max": 3.415604176432292
+          },
+          "max_range_m": {
+            "min": 12.751505231639467,
+            "max": 25.442597847818742
+          },
+          "max_doppler_velocity_ms": {
+            "min": 12.922088706896552,
+            "max": 12.922088706896552
+          },
+          "beat_freq_hz": {
+            "min": 1000.6922855944562,
+            "max": 1000.6922855944562
+          },
+          "snr_db": {
+            "min": 69.94132111047978,
+            "max": 72.85430694429486
+          },
+          "bandwidth_hz": {
+            "min": 150000000.0,
+            "max": 150000000.0
+          },
+          "center_freq_hz": {
+            "min": 5800000000.0,
+            "max": 5800000000.0
+          },
+          "chirp_duration_s": {
+            "min": 0.001,
+            "max": 0.001
+          }
+        },
+        "budget": {
+          "pll_vco": {
+            "signal_level": {
+              "min": 2.0,
+              "max": 2.0
+            },
+            "noise_level": {
+              "min": -92.2142746036713,
+              "max": -92.2142746036713
+            },
+            "snr_db": {
+              "min": 94.2142746036713,
+              "max": 94.2142746036713
+            }
+          },
+          "source_divider": {
+            "signal_level": {
+              "min": -1.4,
+              "max": -1.2000000000000002
+            },
+            "noise_level": {
+              "min": -92.2142746036713,
+              "max": -92.2142746036713
+            },
+            "snr_db": {
+              "min": 90.8142746036713,
+              "max": 91.0142746036713
+            }
+          },
+          "tx_attenuator": {
+            "signal_level": {
+              "min": -34.9,
+              "max": -33.7
+            },
+            "noise_level": {
+              "min": -92.2142746036713,
+              "max": -92.2142746036713
+            },
+            "snr_db": {
+              "min": 57.3142746036713,
+              "max": 58.514274603671296
+            }
+          },
+          "lo_level_trim": {
+            "signal_level": {
+              "min": 10.6,
+              "max": 10.8
+            },
+            "noise_level": {
+              "min": -77.2142746036713,
+              "max": -77.2142746036713
+            },
+            "snr_db": {
+              "min": 87.8142746036713,
+              "max": 88.0142746036713
+            }
+          },
+          "tx_pa": {
+            "signal_level": {
+              "min": -16.9,
+              "max": -13.700000000000003
+            },
+            "noise_level": {
+              "min": -72.8142746036713,
+              "max": -70.8142746036713
+            },
+            "snr_db": {
+              "min": 55.914274603671295,
+              "max": 57.11427460367129
+            }
+          },
+          "lo_split": {
+            "signal_level": {
+              "min": 7.3,
+              "max": 7.500000000000001
+            },
+            "noise_level": {
+              "min": -80.36073774669192,
+              "max": -80.36073774669192
+            },
+            "snr_db": {
+              "min": 87.66073774669192,
+              "max": 87.86073774669192
+            }
+          },
+          "tx_coupler": {
+            "signal_level": {
+              "min": -17.599999999999998,
+              "max": -14.000000000000004
+            },
+            "noise_level": {
+              "min": -73.5055623128891,
+              "max": -71.11202505643998
+            },
+            "snr_db": {
+              "min": 55.9055623128891,
+              "max": 57.112025056439975
+            }
+          },
+          "lo_split_a": {
+            "signal_level": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "noise_level": {
+              "min": -83.34963044829638,
+              "max": -83.34963044829638
+            },
+            "snr_db": {
+              "min": 87.34963044829638,
+              "max": 87.54963044829638
+            }
+          },
+          "lo_split_b": {
+            "signal_level": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "noise_level": {
+              "min": -83.34963044829638,
+              "max": -83.34963044829638
+            },
+            "snr_db": {
+              "min": 87.34963044829638,
+              "max": 87.54963044829638
+            }
+          },
+          "tx_antenna": {
+            "signal_level": {
+              "min": -6.599999999999998,
+              "max": -1.0000000000000036
+            },
+            "noise_level": {
+              "min": -62.5055623128891,
+              "max": -58.112025056439975
+            },
+            "snr_db": {
+              "min": 55.9055623128891,
+              "max": 57.112025056439975
+            }
+          },
+          "target": {
+            "signal_level": {
+              "min": -65.30844173336308,
+              "max": -59.70844173336308
+            },
+            "noise_level": {
+              "min": -121.21400404625219,
+              "max": -116.82046678980305
+            },
+            "snr_db": {
+              "min": 55.905562312889096,
+              "max": 57.11202505643997
+            }
+          },
+          "tx_rx_leakage": {
+            "signal_level": {
+              "min": -31.599999999999998,
+              "max": -26.000000000000004
+            },
+            "noise_level": {
+              "min": -86.2439373348312,
+              "max": -82.60987400721469
+            },
+            "snr_db": {
+              "min": 54.64393733483121,
+              "max": 56.609874007214685
+            }
+          },
+          "rx_sum": {
+            "signal_level": {
+              "min": -31.59815137976006,
+              "max": -25.99815137976007
+            },
+            "noise_level": {
+              "min": -86.24255469677487,
+              "max": -82.6082272002688
+            },
+            "snr_db": {
+              "min": 54.64440331701481,
+              "max": 56.610075820508726
+            }
+          },
+          "rx_antenna": {
+            "signal_level": {
+              "min": -20.59815137976006,
+              "max": -12.99815137976007
+            },
+            "noise_level": {
+              "min": -75.15619971102447,
+              "max": -69.5844593099614
+            },
+            "snr_db": {
+              "min": 54.55804833126441,
+              "max": 56.58630793020133
+            }
+          },
+          "rx_lna": {
+            "signal_level": {
+              "min": -3.4981513797600634,
+              "max": 5.701848620239929
+            },
+            "noise_level": {
+              "min": -58.04218921304437,
+              "max": -50.88057077682839
+            },
+            "snr_db": {
+              "min": 54.54403783328431,
+              "max": 56.58241939706832
+            }
+          },
+          "iq_demodulator": {
+            "signal_level": {
+              "min": -11.208451336399873,
+              "max": -1.0084513363998822
+            },
+            "noise_level": {
+              "min": -65.69556319363922,
+              "max": -57.57986933578787
+            },
+            "snr_db": {
+              "min": 54.487111857239334,
+              "max": 56.57141799938799
+            }
+          },
+          "if_filter_1": {
+            "signal_level": {
+              "min": -12.408451336399873,
+              "max": -1.8084513363998822
+            },
+            "noise_level": {
+              "min": -88.65647578419603,
+              "max": -80.14078192634469
+            },
+            "snr_db": {
+              "min": 76.24802444779614,
+              "max": 78.3323305899448
+            }
+          },
+          "if_fda": {
+            "signal_level": {
+              "min": 7.091548663600127,
+              "max": 18.691548663600116
+            },
+            "noise_level": {
+              "min": -69.09671170138976,
+              "max": -59.63405949556477
+            },
+            "snr_db": {
+              "min": 76.18826036498989,
+              "max": 78.32560815916489
+            }
+          },
+          "if_filter_2": {
+            "signal_level": {
+              "min": 5.891548663600127,
+              "max": 17.891548663600116
+            },
+            "noise_level": {
+              "min": -70.29671170138977,
+              "max": -60.43405949556477
+            },
+            "snr_db": {
+              "min": 76.18826036498989,
+              "max": 78.32560815916489
+            }
+          },
+          "adc": {
+            "signal_level": {
+              "min": 5.891548663600127,
+              "max": 17.891548663600116
+            },
+            "noise_level": {
+              "min": -69.42221905391789,
+              "max": -60.33520488773297
+            },
+            "snr_db": {
+              "min": 75.31376771751802,
+              "max": 78.22675355133309
+            },
+            "headroom_db": {
+              "min": -8.654649660884441,
+              "max": 3.345350339115548
+            }
+          },
+          "range_fft": {
+            "signal_level": {
+              "min": 8.901848620239939,
+              "max": 20.901848620239928
+            },
+            "noise_level": {
+              "min": -94.74976284384286,
+              "max": -85.66274867765794
+            },
+            "snr_db": {
+              "min": 103.6516114640828,
+              "max": 106.56459729789788
+            }
+          }
+        },
+        "level_checks": {
+          "tx_attenuator.rf_in.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": -1.4,
+              "max": -1.2000000000000002
+            },
+            "upper_margin": {
+              "min": 24.2,
+              "max": 24.4
+            }
+          },
+          "tx_pa.rf_out.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": -16.9,
+              "max": -13.700000000000003
+            },
+            "upper_margin": {
+              "min": 30.700000000000003,
+              "max": 33.9
+            }
+          },
+          "lo_level_trim.rf_out.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 10.6,
+              "max": 10.8
+            },
+            "upper_margin": {
+              "min": 4.699999999999999,
+              "max": 4.9
+            }
+          },
+          "rx_lna.rf_out.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": -3.4981513797600634,
+              "max": 5.701848620239929
+            },
+            "upper_margin": {
+              "min": 11.798151379760071,
+              "max": 20.998151379760063
+            }
+          },
+          "iq_demodulator.lo_in.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "lower_margin": {
+              "min": 10.0,
+              "max": 10.200000000000001
+            },
+            "upper_margin": {
+              "min": 1.799999999999999,
+              "max": 2.0
+            }
+          },
+          "iq_demodulator.rf_in.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": -3.4981513797600634,
+              "max": 5.701848620239929
+            },
+            "upper_margin": {
+              "min": 2.4981513797600705,
+              "max": 11.698151379760063
+            }
+          },
+          "iq_demodulator.I_out.configured": {
+            "passed": 1896,
+            "evaluated": 2048,
+            "value": {
+              "min": 0.38912795438953024,
+              "max": 1.2591933777445357
+            },
+            "upper_margin": {
+              "min": -0.25919337774453566,
+              "max": 0.6108720456104697
+            }
+          },
+          "iq_demodulator.Q_out.configured": {
+            "passed": 1896,
+            "evaluated": 2048,
+            "value": {
+              "min": 0.38912795438953024,
+              "max": 1.2591933777445357
+            },
+            "upper_margin": {
+              "min": -0.25919337774453566,
+              "max": 0.6108720456104697
+            }
+          },
+          "if_fda.I_out.configured": {
+            "passed": 220,
+            "evaluated": 2048,
+            "value": {
+              "min": 3.199576003857304,
+              "max": 12.164448693882607
+            },
+            "upper_margin": {
+              "min": -7.624448693882607,
+              "max": 1.3404239961426963
+            }
+          },
+          "if_fda.Q_out.configured": {
+            "passed": 220,
+            "evaluated": 2048,
+            "value": {
+              "min": 3.199576003857304,
+              "max": 12.164448693882607
+            },
+            "upper_margin": {
+              "min": -7.624448693882607,
+              "max": 1.3404239961426963
+            }
+          },
+          "adc.I_in.ADC threshold": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 1.9705045099275482,
+              "max": 7.844719750101611
+            },
+            "lower_margin": {
+              "min": 1.9702545099275481,
+              "max": 7.84446975010161
+            }
+          },
+          "adc.I_in.ADC full scale": {
+            "passed": 214,
+            "evaluated": 2048,
+            "value": {
+              "min": 2.786714202656888,
+              "max": 11.094109063609775
+            },
+            "upper_margin": {
+              "min": -6.998109063609775,
+              "max": 1.309285797343112
+            }
+          },
+          "adc.Q_in.ADC threshold": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 1.9705045099275482,
+              "max": 7.844719750101611
+            },
+            "lower_margin": {
+              "min": 1.9702545099275481,
+              "max": 7.84446975010161
+            }
+          },
+          "adc.Q_in.ADC full scale": {
+            "passed": 214,
+            "evaluated": 2048,
+            "value": {
+              "min": 2.786714202656888,
+              "max": 11.094109063609775
+            },
+            "upper_margin": {
+              "min": -6.998109063609775,
+              "max": 1.309285797343112
+            }
+          },
+          "lo_split_a.out1.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "lower_margin": {
+              "min": 10.0,
+              "max": 10.200000000000001
+            },
+            "upper_margin": {
+              "min": 1.799999999999999,
+              "max": 2.0
+            }
+          },
+          "lo_split_a.out2.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "lower_margin": {
+              "min": 10.0,
+              "max": 10.200000000000001
+            },
+            "upper_margin": {
+              "min": 1.799999999999999,
+              "max": 2.0
+            }
+          },
+          "lo_split_b.out1.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "lower_margin": {
+              "min": 10.0,
+              "max": 10.200000000000001
+            },
+            "upper_margin": {
+              "min": 1.799999999999999,
+              "max": 2.0
+            }
+          },
+          "lo_split_b.out2.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "lower_margin": {
+              "min": 10.0,
+              "max": 10.200000000000001
+            },
+            "upper_margin": {
+              "min": 1.799999999999999,
+              "max": 2.0
+            }
+          }
+        },
+        "detection": {
+          "passed": 198,
+          "evaluated": 2048
+        }
+      },
+      "warnings": [
+        "IF FDA I_out: above maximum (configured).",
+        "IF FDA Q_out: above maximum (configured).",
+        "ADC I_in: above maximum (ADC full scale).",
+        "ADC Q_in: above maximum (ADC full scale).",
+        "ADC: target-only ADC overload at a tolerance corner (-8.65 dB headroom); linear results are invalid there."
+      ]
+    },
+    {
+      "id": "far_plus10dbsm",
+      "label": "Far target, +10 dBsm",
+      "overrides": {
+        "target": {
+          "distance_m": 75.0,
+          "rcs_dbsm": 10.0
+        },
+        "tx_attenuator": {
+          "attenuation_db": 16.0
+        }
+      },
+      "metrics": {
+        "snr_threshold_db": 10.0,
+        "detectable": false,
+        "snr_limit_range_m": 164.8923901942209,
+        "adc_limit_range_m": 85.22390961410599,
+        "adc_margin_db": 2.2200076008883514,
+        "acquired_samples": 1024,
+        "range_bin_spacing_m": 3.4156041764322915,
+        "observed_bandwidth_hz": 43885714.28571428,
+        "window_coherent_gain": 0.49951171875,
+        "window_enbw_bins": 1.501466275659824,
+        "range_resolution_m": 3.415604176432292,
+        "max_range_m": 85.22390961410599,
+        "max_doppler_velocity_ms": 12.922088706896552,
+        "beat_freq_hz": 75051.9214195842,
+        "snr_db": 23.68557399868334,
+        "bandwidth_hz": 150000000.0,
+        "center_freq_hz": 5800000000.0,
+        "chirp_duration_s": 0.001
+      },
+      "fft_metrics": {
+        "range_fft": {
+          "snr_threshold_db": 10.0,
+          "detectable": false,
+          "snr_limit_range_m": 164.8923901942209,
+          "adc_limit_range_m": 85.22390961410599,
+          "adc_margin_db": 2.2200076008883514,
+          "acquired_samples": 1024,
+          "range_bin_spacing_m": 3.4156041764322915,
+          "observed_bandwidth_hz": 43885714.28571428,
+          "window_coherent_gain": 0.49951171875,
+          "window_enbw_bins": 1.501466275659824,
+          "range_resolution_m": 3.415604176432292,
+          "max_range_m": 85.22390961410599,
+          "max_doppler_velocity_ms": 12.922088706896552,
+          "beat_freq_hz": 75051.9214195842,
+          "snr_db": 23.68557399868334,
+          "bandwidth_hz": 150000000.0,
+          "center_freq_hz": 5800000000.0,
+          "chirp_duration_s": 0.001
+        }
+      },
+      "budget": [
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "pll_vco",
+          "block_type": "PLLChirpBlock",
+          "label": "PLL/VCO",
+          "part_number": "LMX2491 + HMC431",
+          "signal_level": 2.0,
+          "noise_level": -92.2142746036713,
+          "snr_db": 94.2142746036713,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "out1",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "source_divider",
+          "block_type": "WilkinsonDividerBlock",
+          "label": "TX/LO Split",
+          "part_number": "Planar Wilkinson",
+          "signal_level": -1.2999999999999998,
+          "noise_level": -92.2142746036713,
+          "snr_db": 90.9142746036713,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "tx_attenuator",
+          "block_type": "AttenuatorBlock",
+          "label": "TX Atten.",
+          "part_number": "PE43711B-Z",
+          "signal_level": -17.3,
+          "noise_level": -92.2142746036713,
+          "snr_db": 74.9142746036713,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "lo_level_trim",
+          "block_type": "AmplifierBlock",
+          "label": "LO Amplifier",
+          "part_number": "GALI-84+",
+          "signal_level": 10.7,
+          "noise_level": -77.2142746036713,
+          "snr_db": 87.9142746036713,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "tx_pa",
+          "block_type": "AmplifierBlock",
+          "label": "TX PA",
+          "part_number": "QPA9127",
+          "signal_level": 1.6999999999999993,
+          "noise_level": -71.8142746036713,
+          "snr_db": 73.5142746036713,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "out1",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "lo_split",
+          "block_type": "WilkinsonDividerBlock",
+          "label": "LO split 1:2",
+          "part_number": "Planar Wilkinson",
+          "signal_level": 7.3999999999999995,
+          "noise_level": -80.36073774669192,
+          "snr_db": 87.76073774669193,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "through",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "tx_coupler",
+          "block_type": "CouplerBlock",
+          "label": "TX Coupler",
+          "part_number": "",
+          "signal_level": 1.1999999999999993,
+          "noise_level": -72.30944436827312,
+          "snr_db": 73.50944436827312,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "out1",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "lo_split_a",
+          "block_type": "WilkinsonDividerBlock",
+          "label": "LO outputs 1/2",
+          "part_number": "Planar Wilkinson",
+          "signal_level": 4.1,
+          "noise_level": -83.34963044829638,
+          "snr_db": 87.44963044829638,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "out1",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "lo_split_b",
+          "block_type": "WilkinsonDividerBlock",
+          "label": "LO outputs 3/4",
+          "part_number": "Planar Wilkinson",
+          "signal_level": 4.1,
+          "noise_level": -83.34963044829638,
+          "snr_db": 87.44963044829638,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "tx_antenna",
+          "block_type": "AntennaBlock",
+          "label": "TX Ant.",
+          "part_number": "Custom Rev.A",
+          "signal_level": 13.2,
+          "noise_level": -60.30944436827312,
+          "snr_db": 73.50944436827312,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rx_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "target",
+          "block_type": "TargetBlock",
+          "label": "Target",
+          "part_number": "",
+          "signal_level": -110.51089226903107,
+          "noise_level": -184.02033663730418,
+          "snr_db": 73.50944436827311,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "tx_rx_leakage",
+          "block_type": "AttenuatorBlock",
+          "label": "TX-RX Leakage",
+          "part_number": "",
+          "signal_level": -11.8,
+          "noise_level": -84.50569833836241,
+          "snr_db": 72.70569833836241,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "rx_sum",
+          "block_type": "SumBlock",
+          "label": "RX Sum",
+          "part_number": "",
+          "signal_level": -11.799999999415622,
+          "noise_level": -84.50569833787677,
+          "snr_db": 72.70569833846115,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "rx_antenna",
+          "block_type": "AntennaBlock",
+          "label": "RX Ant.",
+          "part_number": "Custom Rev.A",
+          "signal_level": 0.20000000058437806,
+          "noise_level": -72.45950123064107,
+          "snr_db": 72.65950123122545,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "rf_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "rx_lna",
+          "block_type": "LNABlock",
+          "label": "RX LNA",
+          "part_number": "QPL9504",
+          "signal_level": 18.100000000584377,
+          "noise_level": -54.55196580807442,
+          "snr_db": 72.6519658086588,
+          "unit": "dBm",
+          "domain": "RF"
+        },
+        {
+          "port": "I_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "iq_demodulator",
+          "block_type": "MixerBlock",
+          "label": "I/Q Demod.",
+          "part_number": "ADL5380",
+          "signal_level": 10.889700043944563,
+          "noise_level": -61.73668826723651,
+          "snr_db": 72.62638831118107,
+          "unit": "dBV",
+          "domain": "IF"
+        },
+        {
+          "port": "I_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "if_filter_1",
+          "block_type": "IFFilterBlock",
+          "label": "IF Filter",
+          "part_number": "TBD",
+          "signal_level": 9.889700043944563,
+          "noise_level": -84.49760085779333,
+          "snr_db": 94.38730090173789,
+          "unit": "dBV",
+          "domain": "IF"
+        },
+        {
+          "port": "I_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "if_fda",
+          "block_type": "IQAmplifierBlock",
+          "label": "IF FDA",
+          "part_number": "THS4551",
+          "signal_level": 29.889700043944565,
+          "noise_level": -64.47706479473035,
+          "snr_db": 94.36676483867492,
+          "unit": "dBV",
+          "domain": "IF"
+        },
+        {
+          "port": "I_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "if_filter_2",
+          "block_type": "IFFilterBlock",
+          "label": "AA Filter",
+          "part_number": "TBD",
+          "signal_level": 28.889700043944565,
+          "noise_level": -65.47706479473035,
+          "snr_db": 94.36676483867492,
+          "unit": "dBV",
+          "domain": "IF"
+        },
+        {
+          "port": "I_out",
+          "headroom_db": -19.65280104122889,
+          "validity": "combined-signal overload",
+          "block_id": "adc",
+          "block_type": "ADCBlock",
+          "label": "ADC",
+          "part_number": "TBD",
+          "signal_level": 28.889700043944565,
+          "noise_level": -65.16892247778944,
+          "snr_db": 94.05862252173401,
+          "unit": "dBV",
+          "domain": "IF"
+        },
+        {
+          "port": "range_out",
+          "headroom_db": null,
+          "validity": "not hardware-qualified",
+          "block_id": "range_fft",
+          "block_type": "RangeFFTBlock",
+          "label": "Range FFT",
+          "part_number": "",
+          "signal_level": 31.900000000584377,
+          "noise_level": -90.49646626771442,
+          "snr_db": 122.39646626829881,
+          "unit": "dBV",
+          "domain": "IF"
+        }
+      ],
+      "lo_outputs": [],
+      "level_checks": [
+        {
+          "id": "tx_attenuator.rf_in.configured",
+          "block": "TX Atten.",
+          "port": "rf_in",
+          "unit": "dBm",
+          "value": -1.2999999999999998,
+          "minimum": null,
+          "maximum": 23.0,
+          "lower_margin": null,
+          "upper_margin": 24.3,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.psemi.com/pdf/datasheets/pe43711ds.pdf",
+          "conditions": "Recommended CW input, >48 MHz–6 GHz, 50 ohm; 5 V architecture rail.",
+          "evidence": "datasheet operating"
+        },
+        {
+          "id": "tx_pa.rf_out.configured",
+          "block": "TX PA",
+          "port": "rf_out",
+          "unit": "dBm",
+          "value": 1.6999999999999993,
+          "minimum": null,
+          "maximum": 17.0,
+          "lower_margin": null,
+          "upper_margin": 15.3,
+          "status": "pass",
+          "origin": "configured",
+          "source": "Notes/FunRad/Excalidraw/FunRadBlockDiagram.excalidraw.svg; https://www.mouser.com/pdfDocs/QPA9127DataSheet.pdf",
+          "conditions": "5 V architecture rail, 5.8 GHz. Diagram screening value; datasheet tabulated 19.5 dBm is at 3.5 GHz.",
+          "note": "5.8 GHz compression ceiling is not yet independently qualified; do not substitute the 3.5 GHz datasheet number.",
+          "evidence": "provisional architecture screening"
+        },
+        {
+          "id": "lo_level_trim.rf_out.configured",
+          "block": "LO Amplifier",
+          "port": "rf_out",
+          "unit": "dBm",
+          "value": 10.7,
+          "minimum": null,
+          "maximum": 15.5,
+          "lower_margin": null,
+          "upper_margin": 4.800000000000001,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.mouser.com/datasheet/3/3705/1/GALI_84_.pdf",
+          "conditions": "6 GHz typical OP1dB, 25 C, 100 mA device bias; device voltage 5.4–6.2 V.",
+          "note": "Diagram assigns 5 V upstream rail: insufficient for the specified 100 mA bias without another supply arrangement. Gain and this screening ceiling remain conditional.",
+          "evidence": "conditional typical screening"
+        },
+        {
+          "id": "rx_lna.rf_out.configured",
+          "block": "RX LNA",
+          "port": "rf_out",
+          "unit": "dBm",
+          "value": 18.100000000584377,
+          "minimum": null,
+          "maximum": 17.5,
+          "lower_margin": null,
+          "upper_margin": -0.6000000005843766,
+          "status": "above maximum",
+          "origin": "configured",
+          "source": "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/6309/QPL9504EVB-01.pdf",
+          "conditions": "5 V, 25 C, EVB-01 matching, 5–6 GHz. Lowest tabulated typical OP1dB across this band.",
+          "note": "Not a guaranteed worst-case ceiling; actual matching and temperature need qualification. Diagram 8.2 dBm is not used as LNA output P1dB.",
+          "evidence": "provisional typical screening"
+        },
+        {
+          "id": "iq_demodulator.lo_in.configured",
+          "block": "I/Q Demod.",
+          "port": "lo_in",
+          "unit": "dBm",
+          "value": 4.1,
+          "minimum": -6.0,
+          "maximum": 6.0,
+          "lower_margin": 10.1,
+          "upper_margin": 1.9000000000000004,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+          "evidence": "datasheet operating"
+        },
+        {
+          "id": "iq_demodulator.rf_in.configured",
+          "block": "I/Q Demod.",
+          "port": "rf_in",
+          "unit": "dBm",
+          "value": 18.100000000584377,
+          "minimum": null,
+          "maximum": 8.2,
+          "lower_margin": null,
+          "upper_margin": -9.900000000584377,
+          "status": "above maximum",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "5 V, 25 C, 5800 MHz, LO 0 dBm, ADJ open (~2.4 V), Table 1.",
+          "evidence": "typical compression screening"
+        },
+        {
+          "id": "iq_demodulator.I_out.configured",
+          "block": "I/Q Demod.",
+          "port": "I_out",
+          "unit": "V_peak",
+          "value": 4.954501908381236,
+          "minimum": null,
+          "maximum": 1.0,
+          "lower_margin": null,
+          "upper_margin": -3.9545019083812356,
+          "status": "above maximum",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "Differential I/Q output swing 2 Vpp into 200 ohm; 5 V, datasheet Table 1.",
+          "note": "Signal magnitude only; common mode and actual load remain separate interface checks.",
+          "evidence": "conditional typical swing"
+        },
+        {
+          "id": "iq_demodulator.Q_out.configured",
+          "block": "I/Q Demod.",
+          "port": "Q_out",
+          "unit": "V_peak",
+          "value": 4.954501908381236,
+          "minimum": null,
+          "maximum": 1.0,
+          "lower_margin": null,
+          "upper_margin": -3.9545019083812356,
+          "status": "above maximum",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "Differential I/Q output swing 2 Vpp into 200 ohm; 5 V, datasheet Table 1.",
+          "note": "Signal magnitude only; common mode and actual load remain separate interface checks.",
+          "evidence": "conditional typical swing"
+        },
+        {
+          "id": "if_fda.I_out.configured",
+          "block": "IF FDA",
+          "port": "I_out",
+          "unit": "V_peak",
+          "value": 44.15704473830209,
+          "minimum": null,
+          "maximum": 4.54,
+          "lower_margin": null,
+          "upper_margin": -39.61704473830209,
+          "status": "above maximum",
+          "origin": "configured",
+          "source": "https://www.ti.com/lit/ds/symlink/ths4551.pdf",
+          "conditions": "5 V architecture rail, provisional VOCM=2.5 V and differential RL=1 kohm, 25 C. Rail headroom 0.23 V per output (Table 7.5).",
+          "note": "Differential peak = 2*min(VOCM-0.23, 5-0.23-VOCM). Static swing screening; distortion, gain=10 circuit and filter loading require qualification.",
+          "evidence": "conditional datasheet swing"
+        },
+        {
+          "id": "if_fda.Q_out.configured",
+          "block": "IF FDA",
+          "port": "Q_out",
+          "unit": "V_peak",
+          "value": 44.15704473830209,
+          "minimum": null,
+          "maximum": 4.54,
+          "lower_margin": null,
+          "upper_margin": -39.61704473830209,
+          "status": "above maximum",
+          "origin": "configured",
+          "source": "https://www.ti.com/lit/ds/symlink/ths4551.pdf",
+          "conditions": "5 V architecture rail, provisional VOCM=2.5 V and differential RL=1 kohm, 25 C. Rail headroom 0.23 V per output (Table 7.5).",
+          "note": "Differential peak = 2*min(VOCM-0.23, 5-0.23-VOCM). Static swing screening; distortion, gain=10 circuit and filter loading require qualification.",
+          "evidence": "conditional datasheet swing"
+        },
+        {
+          "id": "adc.I_in.ADC threshold",
+          "block": "ADC",
+          "port": "I_in",
+          "unit": "V_rms",
+          "value": 27.828192710998017,
+          "minimum": 0.00025,
+          "maximum": null,
+          "lower_margin": 27.827942710998016,
+          "upper_margin": null,
+          "status": "pass",
+          "origin": "ADC threshold"
+        },
+        {
+          "id": "adc.I_in.ADC full scale",
+          "block": "ADC",
+          "port": "I_in",
+          "unit": "V_peak",
+          "value": 39.35500754822551,
+          "minimum": null,
+          "maximum": 4.096,
+          "lower_margin": null,
+          "upper_margin": -35.25900754822551,
+          "status": "above maximum",
+          "origin": "ADC full scale"
+        },
+        {
+          "id": "adc.Q_in.ADC threshold",
+          "block": "ADC",
+          "port": "Q_in",
+          "unit": "V_rms",
+          "value": 27.828192710998017,
+          "minimum": 0.00025,
+          "maximum": null,
+          "lower_margin": 27.827942710998016,
+          "upper_margin": null,
+          "status": "pass",
+          "origin": "ADC threshold"
+        },
+        {
+          "id": "adc.Q_in.ADC full scale",
+          "block": "ADC",
+          "port": "Q_in",
+          "unit": "V_peak",
+          "value": 39.35500754822551,
+          "minimum": null,
+          "maximum": 4.096,
+          "lower_margin": null,
+          "upper_margin": -35.25900754822551,
+          "status": "above maximum",
+          "origin": "ADC full scale"
+        },
+        {
+          "id": "lo_split_a.out1.configured",
+          "block": "LO outputs 1/2",
+          "port": "out1",
+          "unit": "dBm",
+          "value": 4.1,
+          "minimum": -6.0,
+          "maximum": 6.0,
+          "lower_margin": 10.1,
+          "upper_margin": 1.9000000000000004,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+          "evidence": "datasheet operating"
+        },
+        {
+          "id": "lo_split_a.out2.configured",
+          "block": "LO outputs 1/2",
+          "port": "out2",
+          "unit": "dBm",
+          "value": 4.1,
+          "minimum": -6.0,
+          "maximum": 6.0,
+          "lower_margin": 10.1,
+          "upper_margin": 1.9000000000000004,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+          "evidence": "datasheet operating"
+        },
+        {
+          "id": "lo_split_b.out1.configured",
+          "block": "LO outputs 3/4",
+          "port": "out1",
+          "unit": "dBm",
+          "value": 4.1,
+          "minimum": -6.0,
+          "maximum": 6.0,
+          "lower_margin": 10.1,
+          "upper_margin": 1.9000000000000004,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+          "evidence": "datasheet operating"
+        },
+        {
+          "id": "lo_split_b.out2.configured",
+          "block": "LO outputs 3/4",
+          "port": "out2",
+          "unit": "dBm",
+          "value": 4.1,
+          "minimum": -6.0,
+          "maximum": 6.0,
+          "lower_margin": 10.1,
+          "upper_margin": 1.9000000000000004,
+          "status": "pass",
+          "origin": "configured",
+          "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5380.pdf",
+          "conditions": "ADL5380 Table 1 LO drive requirement, differential/balun drive; receiver requirement applied at divider leaves.",
+          "evidence": "datasheet operating"
+        }
+      ],
+      "tolerance_envelope": {
+        "method": "exhaustive independent endpoint corners plus nominal",
+        "interpretation": "Model corner envelope; not a confidence interval or hardware guarantee. Interior extrema are not proven.",
+        "parameters": [
+          {
+            "block_id": "source_divider",
+            "parameter": "insertion_loss_db",
+            "nominal": 0.3,
+            "minus": 0.1,
+            "plus": 0.1,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "tx_attenuator",
+            "parameter": "attenuation_db",
+            "nominal": 16.0,
+            "minus": 0.5,
+            "plus": 0.5,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "tx_pa",
+            "parameter": "gain_db",
+            "nominal": 19.0,
+            "minus": 1.0,
+            "plus": 1.0,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "tx_coupler",
+            "parameter": "through_loss_db",
+            "nominal": 0.5,
+            "minus": 0.2,
+            "plus": 0.2,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "tx_antenna",
+            "parameter": "gain_dbi",
+            "nominal": 12.0,
+            "minus": 1.0,
+            "plus": 1.0,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "rx_antenna",
+            "parameter": "gain_dbi",
+            "nominal": 12.0,
+            "minus": 1.0,
+            "plus": 1.0,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "rx_lna",
+            "parameter": "gain_db",
+            "nominal": 17.9,
+            "minus": 0.8,
+            "plus": 0.8,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "iq_demodulator",
+            "parameter": "voltage_gain_db",
+            "nominal": 5.8,
+            "minus": 0.5,
+            "plus": 0.5,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "if_filter_1",
+            "parameter": "insertion_loss_db",
+            "nominal": 1.0,
+            "minus": 0.2,
+            "plus": 0.2,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "if_fda",
+            "parameter": "gain_db",
+            "nominal": 20.0,
+            "minus": 0.5,
+            "plus": 0.5,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          },
+          {
+            "block_id": "if_filter_2",
+            "parameter": "insertion_loss_db",
+            "nominal": 1.0,
+            "minus": 0.2,
+            "plus": 0.2,
+            "status": "provisional",
+            "source": "Engineering analysis assumption; see Obsidian Simulation Tolerances and Reporting. Not a datasheet limit."
+          }
+        ],
+        "corner_count": 2048,
+        "fft_metrics": {
+          "range_fft": {
+            "passed": 0,
+            "evaluated": 2048,
+            "snr_threshold_db": {
+              "min": 10.0,
+              "max": 10.0
+            },
+            "snr_limit_range_m": {
+              "min": 149.1282463222122,
+              "max": 176.35894764002344
+            },
+            "adc_limit_range_m": {
+              "min": 60.333907540041146,
+              "max": 120.38197202946093
+            },
+            "adc_margin_db": {
+              "min": -3.7799923991116486,
+              "max": 8.220007600888366
+            },
+            "acquired_samples": {
+              "min": 1024,
+              "max": 1024
+            },
+            "range_bin_spacing_m": {
+              "min": 3.4156041764322915,
+              "max": 3.4156041764322915
+            },
+            "observed_bandwidth_hz": {
+              "min": 43885714.28571428,
+              "max": 43885714.28571428
+            },
+            "window_coherent_gain": {
+              "min": 0.49951171875,
+              "max": 0.49951171875
+            },
+            "window_enbw_bins": {
+              "min": 1.501466275659824,
+              "max": 1.501466275659824
+            },
+            "range_resolution_m": {
+              "min": 3.415604176432292,
+              "max": 3.415604176432292
+            },
+            "max_range_m": {
+              "min": 60.333907540041146,
+              "max": 120.38197202946093
+            },
+            "max_doppler_velocity_ms": {
+              "min": 12.922088706896552,
+              "max": 12.922088706896552
+            },
+            "beat_freq_hz": {
+              "min": 75051.9214195842,
+              "max": 75051.9214195842
+            },
+            "snr_db": {
+              "min": 21.939945895954835,
+              "max": 24.853449410831274
+            },
+            "bandwidth_hz": {
+              "min": 150000000.0,
+              "max": 150000000.0
+            },
+            "center_freq_hz": {
+              "min": 5800000000.0,
+              "max": 5800000000.0
+            },
+            "chirp_duration_s": {
+              "min": 0.001,
+              "max": 0.001
+            }
+          }
+        },
+        "metrics": {
+          "snr_threshold_db": {
+            "min": 10.0,
+            "max": 10.0
+          },
+          "snr_limit_range_m": {
+            "min": 149.1282463222122,
+            "max": 176.35894764002344
+          },
+          "adc_limit_range_m": {
+            "min": 60.333907540041146,
+            "max": 120.38197202946093
+          },
+          "adc_margin_db": {
+            "min": -3.7799923991116486,
+            "max": 8.220007600888366
+          },
+          "acquired_samples": {
+            "min": 1024,
+            "max": 1024
+          },
+          "range_bin_spacing_m": {
+            "min": 3.4156041764322915,
+            "max": 3.4156041764322915
+          },
+          "observed_bandwidth_hz": {
+            "min": 43885714.28571428,
+            "max": 43885714.28571428
+          },
+          "window_coherent_gain": {
+            "min": 0.49951171875,
+            "max": 0.49951171875
+          },
+          "window_enbw_bins": {
+            "min": 1.501466275659824,
+            "max": 1.501466275659824
+          },
+          "range_resolution_m": {
+            "min": 3.415604176432292,
+            "max": 3.415604176432292
+          },
+          "max_range_m": {
+            "min": 60.333907540041146,
+            "max": 120.38197202946093
+          },
+          "max_doppler_velocity_ms": {
+            "min": 12.922088706896552,
+            "max": 12.922088706896552
+          },
+          "beat_freq_hz": {
+            "min": 75051.9214195842,
+            "max": 75051.9214195842
+          },
+          "snr_db": {
+            "min": 21.939945895954835,
+            "max": 24.853449410831274
+          },
+          "bandwidth_hz": {
+            "min": 150000000.0,
+            "max": 150000000.0
+          },
+          "center_freq_hz": {
+            "min": 5800000000.0,
+            "max": 5800000000.0
+          },
+          "chirp_duration_s": {
+            "min": 0.001,
+            "max": 0.001
+          }
+        },
+        "budget": {
+          "pll_vco": {
+            "signal_level": {
+              "min": 2.0,
+              "max": 2.0
+            },
+            "noise_level": {
+              "min": -92.2142746036713,
+              "max": -92.2142746036713
+            },
+            "snr_db": {
+              "min": 94.2142746036713,
+              "max": 94.2142746036713
+            }
+          },
+          "source_divider": {
+            "signal_level": {
+              "min": -1.4,
+              "max": -1.2000000000000002
+            },
+            "noise_level": {
+              "min": -92.2142746036713,
+              "max": -92.2142746036713
+            },
+            "snr_db": {
+              "min": 90.8142746036713,
+              "max": 91.0142746036713
+            }
+          },
+          "tx_attenuator": {
+            "signal_level": {
+              "min": -17.9,
+              "max": -16.7
+            },
+            "noise_level": {
+              "min": -92.2142746036713,
+              "max": -92.2142746036713
+            },
+            "snr_db": {
+              "min": 74.3142746036713,
+              "max": 75.5142746036713
+            }
+          },
+          "lo_level_trim": {
+            "signal_level": {
+              "min": 10.6,
+              "max": 10.8
+            },
+            "noise_level": {
+              "min": -77.2142746036713,
+              "max": -77.2142746036713
+            },
+            "snr_db": {
+              "min": 87.8142746036713,
+              "max": 88.0142746036713
+            }
+          },
+          "tx_pa": {
+            "signal_level": {
+              "min": 0.10000000000000142,
+              "max": 3.3000000000000007
+            },
+            "noise_level": {
+              "min": -72.8142746036713,
+              "max": -70.8142746036713
+            },
+            "snr_db": {
+              "min": 72.91427460367129,
+              "max": 74.11427460367129
+            }
+          },
+          "lo_split": {
+            "signal_level": {
+              "min": 7.3,
+              "max": 7.500000000000001
+            },
+            "noise_level": {
+              "min": -80.36073774669192,
+              "max": -80.36073774669192
+            },
+            "snr_db": {
+              "min": 87.66073774669192,
+              "max": 87.86073774669192
+            }
+          },
+          "tx_coupler": {
+            "signal_level": {
+              "min": -0.5999999999999985,
+              "max": 3.000000000000001
+            },
+            "noise_level": {
+              "min": -73.5055623128891,
+              "max": -71.11202505643998
+            },
+            "snr_db": {
+              "min": 72.9055623128891,
+              "max": 74.11202505643998
+            }
+          },
+          "lo_split_a": {
+            "signal_level": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "noise_level": {
+              "min": -83.34963044829638,
+              "max": -83.34963044829638
+            },
+            "snr_db": {
+              "min": 87.34963044829638,
+              "max": 87.54963044829638
+            }
+          },
+          "lo_split_b": {
+            "signal_level": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "noise_level": {
+              "min": -83.34963044829638,
+              "max": -83.34963044829638
+            },
+            "snr_db": {
+              "min": 87.34963044829638,
+              "max": 87.54963044829638
+            }
+          },
+          "tx_antenna": {
+            "signal_level": {
+              "min": 10.400000000000002,
+              "max": 16.0
+            },
+            "noise_level": {
+              "min": -62.5055623128891,
+              "max": -58.112025056439975
+            },
+            "snr_db": {
+              "min": 72.9055623128891,
+              "max": 74.11202505643998
+            }
+          },
+          "target": {
+            "signal_level": {
+              "min": -113.31089226903109,
+              "max": -107.71089226903108
+            },
+            "noise_level": {
+              "min": -186.21645458192017,
+              "max": -181.82291732547105
+            },
+            "snr_db": {
+              "min": 72.90556231288909,
+              "max": 74.11202505643998
+            }
+          },
+          "tx_rx_leakage": {
+            "signal_level": {
+              "min": -14.599999999999998,
+              "max": -9.0
+            },
+            "noise_level": {
+              "min": -86.2439373348312,
+              "max": -82.60987400721469
+            },
+            "snr_db": {
+              "min": 71.64393733483121,
+              "max": 73.60987400721469
+            }
+          },
+          "rx_sum": {
+            "signal_level": {
+              "min": -14.599999999415619,
+              "max": -8.99999999941562
+            },
+            "noise_level": {
+              "min": -86.24393733439416,
+              "max": -82.6098740066941
+            },
+            "snr_db": {
+              "min": 71.64393733497855,
+              "max": 73.60987400727848
+            }
+          },
+          "rx_antenna": {
+            "signal_level": {
+              "min": -3.599999999415619,
+              "max": 4.0000000005843805
+            },
+            "noise_level": {
+              "min": -75.15755512359587,
+              "max": -69.58609712673395
+            },
+            "snr_db": {
+              "min": 71.55755512418025,
+              "max": 73.58609712731833
+            }
+          },
+          "rx_lna": {
+            "signal_level": {
+              "min": 13.500000000584379,
+              "max": 22.70000000058438
+            },
+            "noise_level": {
+              "min": -58.04354025937191,
+              "max": -50.882207127532595
+            },
+            "snr_db": {
+              "min": 71.54354025995629,
+              "max": 73.58220712811698
+            }
+          },
+          "iq_demodulator": {
+            "signal_level": {
+              "min": 5.789700043944567,
+              "max": 15.98970004394457
+            },
+            "noise_level": {
+              "min": -65.69689664372581,
+              "max": -57.58150154581273
+            },
+            "snr_db": {
+              "min": 71.48659668767037,
+              "max": 73.57120158975731
+            }
+          },
+          "if_filter_1": {
+            "signal_level": {
+              "min": 4.589700043944567,
+              "max": 15.189700043944569
+            },
+            "noise_level": {
+              "min": -88.65780923428264,
+              "max": -80.14241413636954
+            },
+            "snr_db": {
+              "min": 93.24750927822718,
+              "max": 95.33211418031414
+            }
+          },
+          "if_fda": {
+            "signal_level": {
+              "min": 24.089700043944568,
+              "max": 35.68970004394457
+            },
+            "noise_level": {
+              "min": -69.09802692453917,
+              "max": -59.63568918057742
+            },
+            "snr_db": {
+              "min": 93.18772696848373,
+              "max": 95.325389224522
+            }
+          },
+          "if_filter_2": {
+            "signal_level": {
+              "min": 22.88970004394457,
+              "max": 34.88970004394457
+            },
+            "noise_level": {
+              "min": -70.29802692453916,
+              "max": -60.43568918057742
+            },
+            "snr_db": {
+              "min": 93.18772696848373,
+              "max": 95.325389224522
+            }
+          },
+          "adc": {
+            "signal_level": {
+              "min": 22.88970004394457,
+              "max": 34.88970004394457
+            },
+            "noise_level": {
+              "min": -69.42329437506098,
+              "max": -60.33679788993737
+            },
+            "snr_db": {
+              "min": 92.31299441900553,
+              "max": 95.22649793388194
+            },
+            "headroom_db": {
+              "min": -25.652801041228898,
+              "max": -13.652801041228892
+            }
+          },
+          "range_fft": {
+            "signal_level": {
+              "min": 25.90000000058438,
+              "max": 37.900000000584384
+            },
+            "noise_level": {
+              "min": -94.75083816498594,
+              "max": -85.66434167986235
+            },
+            "snr_db": {
+              "min": 120.65083816557032,
+              "max": 123.56434168044673
+            }
+          }
+        },
+        "level_checks": {
+          "tx_attenuator.rf_in.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": -1.4,
+              "max": -1.2000000000000002
+            },
+            "upper_margin": {
+              "min": 24.2,
+              "max": 24.4
+            }
+          },
+          "tx_pa.rf_out.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 0.10000000000000142,
+              "max": 3.3000000000000007
+            },
+            "upper_margin": {
+              "min": 13.7,
+              "max": 16.9
+            }
+          },
+          "lo_level_trim.rf_out.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 10.6,
+              "max": 10.8
+            },
+            "upper_margin": {
+              "min": 4.699999999999999,
+              "max": 4.9
+            }
+          },
+          "rx_lna.rf_out.configured": {
+            "passed": 736,
+            "evaluated": 2048,
+            "value": {
+              "min": 13.500000000584379,
+              "max": 22.70000000058438
+            },
+            "upper_margin": {
+              "min": -5.200000000584382,
+              "max": 3.9999999994156212
+            }
+          },
+          "iq_demodulator.lo_in.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "lower_margin": {
+              "min": 10.0,
+              "max": 10.200000000000001
+            },
+            "upper_margin": {
+              "min": 1.799999999999999,
+              "max": 2.0
+            }
+          },
+          "iq_demodulator.rf_in.configured": {
+            "passed": 0,
+            "evaluated": 2048,
+            "value": {
+              "min": 13.500000000584379,
+              "max": 22.70000000058438
+            },
+            "upper_margin": {
+              "min": -14.500000000584382,
+              "max": -5.3000000005843795
+            }
+          },
+          "iq_demodulator.I_out.configured": {
+            "passed": 0,
+            "evaluated": 2048,
+            "value": {
+              "min": 2.7542287035234687,
+              "max": 8.912509381937085
+            },
+            "upper_margin": {
+              "min": -7.912509381937085,
+              "max": -1.7542287035234687
+            }
+          },
+          "iq_demodulator.Q_out.configured": {
+            "passed": 0,
+            "evaluated": 2048,
+            "value": {
+              "min": 2.7542287035234687,
+              "max": 8.912509381937085
+            },
+            "upper_margin": {
+              "min": -7.912509381937085,
+              "max": -1.7542287035234687
+            }
+          },
+          "if_fda.I_out.configured": {
+            "passed": 0,
+            "evaluated": 2048,
+            "value": {
+              "min": 22.646443077454233,
+              "max": 86.0993752242528
+            },
+            "upper_margin": {
+              "min": -81.55937522425279,
+              "max": -18.106443077454234
+            }
+          },
+          "if_fda.Q_out.configured": {
+            "passed": 0,
+            "evaluated": 2048,
+            "value": {
+              "min": 22.646443077454233,
+              "max": 86.0993752242528
+            },
+            "upper_margin": {
+              "min": -81.55937522425279,
+              "max": -18.106443077454234
+            }
+          },
+          "adc.I_in.ADC threshold": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 13.947134921671724,
+              "max": 55.524544209946065
+            },
+            "lower_margin": {
+              "min": 13.946884921671725,
+              "max": 55.52429420994606
+            }
+          },
+          "adc.I_in.ADC full scale": {
+            "passed": 0,
+            "evaluated": 2048,
+            "value": {
+              "min": 19.724227362475567,
+              "max": 78.52356346629024
+            },
+            "upper_margin": {
+              "min": -74.42756346629024,
+              "max": -15.628227362475567
+            }
+          },
+          "adc.Q_in.ADC threshold": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 13.947134921671724,
+              "max": 55.524544209946065
+            },
+            "lower_margin": {
+              "min": 13.946884921671725,
+              "max": 55.52429420994606
+            }
+          },
+          "adc.Q_in.ADC full scale": {
+            "passed": 0,
+            "evaluated": 2048,
+            "value": {
+              "min": 19.724227362475567,
+              "max": 78.52356346629024
+            },
+            "upper_margin": {
+              "min": -74.42756346629024,
+              "max": -15.628227362475567
+            }
+          },
+          "lo_split_a.out1.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "lower_margin": {
+              "min": 10.0,
+              "max": 10.200000000000001
+            },
+            "upper_margin": {
+              "min": 1.799999999999999,
+              "max": 2.0
+            }
+          },
+          "lo_split_a.out2.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "lower_margin": {
+              "min": 10.0,
+              "max": 10.200000000000001
+            },
+            "upper_margin": {
+              "min": 1.799999999999999,
+              "max": 2.0
+            }
+          },
+          "lo_split_b.out1.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "lower_margin": {
+              "min": 10.0,
+              "max": 10.200000000000001
+            },
+            "upper_margin": {
+              "min": 1.799999999999999,
+              "max": 2.0
+            }
+          },
+          "lo_split_b.out2.configured": {
+            "passed": 2048,
+            "evaluated": 2048,
+            "value": {
+              "min": 4.0,
+              "max": 4.200000000000001
+            },
+            "lower_margin": {
+              "min": 10.0,
+              "max": 10.200000000000001
+            },
+            "upper_margin": {
+              "min": 1.799999999999999,
+              "max": 2.0
+            }
+          }
+        },
+        "detection": {
+          "passed": 0,
+          "evaluated": 2048
+        }
+      },
+      "warnings": [
+        "RX LNA rf_out: above maximum (configured).",
+        "I/Q Demod. rf_in: above maximum (configured).",
+        "I/Q Demod. I_out: above maximum (configured).",
+        "I/Q Demod. Q_out: above maximum (configured).",
+        "IF FDA I_out: above maximum (configured).",
+        "IF FDA Q_out: above maximum (configured).",
+        "ADC I_in: above maximum (ADC full scale).",
+        "ADC Q_in: above maximum (ADC full scale).",
+        "ADC: target-only ADC overload at a tolerance corner (-25.65 dB headroom); linear results are invalid there."
+      ]
+    }
+  ]
+}

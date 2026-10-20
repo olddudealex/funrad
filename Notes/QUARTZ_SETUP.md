@@ -23,12 +23,14 @@ generate_static_site.bat
 
 This will:
 1. Clear `quartz/content/`
-2. Copy the `FunRad/` Obsidian vault into `quartz/content/`
+2. Copy tracked and nonignored files from the `FunRad/` Obsidian vault into `quartz/content/` using `copy_quartz_content.mjs`; ignored browser profiles and temporary previews are excluded.
 3. Run `prepare_quartz_content.mjs` to translate relative Markdown links into vault-root paths in the copied content. The original notes keep their Obsidian-compatible relative links.
 4. Build the static site with `npx quartz build`
 5. Copy the result to the repository's `docs/` folder for GitHub Pages
 
 Notes live under `Antenna/` and `Frontend/`, with coupler notes in `Frontend/Coupler/`. Specification and project checklists stay at the vault root. Moved notes have `permalink` metadata so Quartz emits redirects from their previous public URLs.
+
+Published simulation snapshots in `FunRad/Generated/` are eligible for Git tracking (Markdown, JSON, PNG, and interactive HTML); see its README for naming rules. Link preparation gives copied interactive HTML an `.interactive.html` suffix when necessary to avoid overwriting a Markdown page with the same basename.
 
 ## Quartz configuration
 

@@ -15,7 +15,17 @@ function prepare(directory) {
     if (entry.isDirectory()) {
       prepare(file);
     } else if (entry.isFile() && entry.name.endsWith(".md")) {
-      const original = fs.readFileSync(file, "utf8");
+      let original = fs.readFileSync(file, "utf8");
+      // Report.md and Report.html would both emit Report.html in Quartz.
+      // Rename only the copied interactive asset and its report link.
+      const sibling = file.slice(0, -3) + ".html";
+      if (fs.existsSync(sibling)) {
+        const interactive = file.slice(0, -3) + ".interactive.html";
+        fs.renameSync(sibling, interactive);
+        for (const name of [path.basename(sibling), encodeURI(path.basename(sibling))]) {
+          original = original.replaceAll(`](${name})`, `](${encodeURI(path.basename(interactive))})`);
+        }
+      }
       const updated = original.replace(/\]\(([^\n)]+)\)/g, (match, url) => {
         if (/^[a-z][\w+.-]*:/i.test(url) || url.startsWith("/") || url.startsWith("#")) return match;
         const [rawPath, ...fragment] = url.split("#");
@@ -25,7 +35,7 @@ function prepare(directory) {
         rewritten++;
         return `](${relative.split(path.sep).join("/").replaceAll(" ", "%20")}${fragment.length ? "#" + fragment.join("#") : ""})`;
       });
-      if (updated !== original) fs.writeFileSync(file, updated, "utf8");
+      if (updated !== fs.readFileSync(file, "utf8")) fs.writeFileSync(file, updated, "utf8");
     }
   }
 }
