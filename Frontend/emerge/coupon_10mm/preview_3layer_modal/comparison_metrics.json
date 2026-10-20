@@ -1,0 +1,13 @@
+{
+  "frequencies": 20,
+  "tetrahedra": 341191,
+  "modal_Z0_real_range": [
+    22.77939190715697,
+    22.925933851712266
+  ],
+  "max_reciprocity_error": 5.09784531396592e-08,
+  "max_symmetry_error": 0.0034081715067934954,
+  "max_singular_value": 0.9706706676690651,
+  "max_S21_dB_difference_vs_lumped": 0.6421682601535565,
+  "max_S11_complex_difference_vs_lumped": 0.041898721901213805
+}

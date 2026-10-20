@@ -1,0 +1,35 @@
+{
+  "status": "completed",
+  "new_geometries": 1,
+  "new_frequency_solves": 11,
+  "control_stem": "result_coax_open_2.8x4.8mm_5p3to6p3GHz_mesh_finer",
+  "trial_stem": "result_coax_open_2.8x4.8mm_l3_open_5p3to6p3GHz_mesh_finer",
+  "control": {
+    "worst_loss_dB": 0.5780400516908646,
+    "transmission_ripple_dB": 0.03002421095702046,
+    "worst_reflection": 0.15522135207379376,
+    "worst_S11_dB": -16.180970758206243,
+    "reflection_ripple": 0.1331882185915015,
+    "S11_dB_range": 16.957503931283256,
+    "score": 1.220856460187413,
+    "max_reciprocity_error": 2.493807207162668e-13,
+    "max_symmetry_error": 0.0009723961741875226,
+    "max_singular_value": 0.9588241964056164
+  },
+  "trial": {
+    "worst_loss_dB": 0.6444867312756724,
+    "transmission_ripple_dB": 0.07306406698392998,
+    "worst_reflection": 0.19691208007529604,
+    "worst_S11_dB": -14.114552802771957,
+    "reflection_ripple": 0.16689983595928493,
+    "S11_dB_range": 16.339477791388678,
+    "score": 1.5610996239454782,
+    "max_reciprocity_error": 2.7291849610451923e-13,
+    "max_symmetry_error": 0.0025815825548900994,
+    "max_singular_value": 0.9594760303960745
+  },
+  "max_S21_change_dB": 0.06644667958480777,
+  "max_reflection_amplitude_change": 0.043357402973908235,
+  "verdict": "Retaining L3 is better in all four nominal comparison metrics.",
+  "fixed_score_winner": "L2 windows with L3 intact"
+}

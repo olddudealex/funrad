@@ -1,0 +1,128 @@
+{
+  "state": "completed",
+  "frequencies_GHz": [
+    5.3,
+    5.4,
+    5.5,
+    5.6,
+    5.7,
+    5.8,
+    5.9,
+    6.0,
+    6.1,
+    6.2,
+    6.3
+  ],
+  "cases": [
+    {
+      "id": "F01",
+      "width_mm": 2.8,
+      "length_mm": 4.2,
+      "result_stem": "result_coax_open_2.8x4.2mm_5p3to6p3GHz",
+      "state": "completed",
+      "command": [
+        "C:\\Fun\\ToyRadar\\Frontend\\emerge\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coupon_10mm.connector_model",
+        "--l2-opening",
+        "2.8",
+        "4.2",
+        "--frequency-grid",
+        "flatness",
+        "--solve"
+      ]
+    },
+    {
+      "id": "F02",
+      "width_mm": 2.8,
+      "length_mm": 4.8,
+      "result_stem": "result_coax_open_2.8x4.8mm_5p3to6p3GHz",
+      "state": "completed",
+      "command": [
+        "C:\\Fun\\ToyRadar\\Frontend\\emerge\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coupon_10mm.connector_model",
+        "--l2-opening",
+        "2.8",
+        "4.8",
+        "--frequency-grid",
+        "flatness",
+        "--solve"
+      ]
+    },
+    {
+      "id": "F03",
+      "width_mm": 3.5,
+      "length_mm": 4.2,
+      "result_stem": "result_coax_open_3.5x4.2mm_5p3to6p3GHz",
+      "state": "completed",
+      "command": [
+        "C:\\Fun\\ToyRadar\\Frontend\\emerge\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coupon_10mm.connector_model",
+        "--l2-opening",
+        "3.5",
+        "4.2",
+        "--frequency-grid",
+        "flatness",
+        "--solve"
+      ]
+    },
+    {
+      "id": "F04",
+      "width_mm": 3.5,
+      "length_mm": 4.8,
+      "result_stem": "result_coax_open_3.5x4.8mm_5p3to6p3GHz",
+      "state": "completed",
+      "command": [
+        "C:\\Fun\\ToyRadar\\Frontend\\emerge\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coupon_10mm.connector_model",
+        "--l2-opening",
+        "3.5",
+        "4.8",
+        "--frequency-grid",
+        "flatness",
+        "--solve"
+      ]
+    },
+    {
+      "id": "F05",
+      "width_mm": 4.2,
+      "length_mm": 4.2,
+      "result_stem": "result_coax_open_4.2x4.2mm_5p3to6p3GHz",
+      "state": "completed",
+      "command": [
+        "C:\\Fun\\ToyRadar\\Frontend\\emerge\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coupon_10mm.connector_model",
+        "--l2-opening",
+        "4.2",
+        "4.2",
+        "--frequency-grid",
+        "flatness",
+        "--solve"
+      ]
+    },
+    {
+      "id": "F06",
+      "width_mm": 4.2,
+      "length_mm": 4.8,
+      "result_stem": "result_coax_open_4.2x4.8mm_5p3to6p3GHz",
+      "state": "completed",
+      "command": [
+        "C:\\Fun\\ToyRadar\\Frontend\\emerge\\.venv\\Scripts\\python.exe",
+        "-m",
+        "coupon_10mm.connector_model",
+        "--l2-opening",
+        "4.2",
+        "4.8",
+        "--frequency-grid",
+        "flatness",
+        "--solve",
+        "--reuse-mesh"
+      ]
+    }
+  ],
+  "updated_utc": "2026-10-18T18:15:00.687685+00:00"
+}

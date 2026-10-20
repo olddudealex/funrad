@@ -1,0 +1,216 @@
+{
+  "connector": "BWSMA-KE-P001",
+  "status": "completed",
+  "solver_started": true,
+  "units": "mm",
+  "drawing": "https://www.es.co.th/Schemetic/PDF/BWSMA-KE-P001_EN.PDF",
+  "source_board_sha256": "3ba350c1c6aad231a5e7823e1dddab60c90445c49e33a89f6d0dd30495e28443",
+  "connector_parameters_mm": {
+    "flange_width": 6.5,
+    "flange_length": 1.5,
+    "barrel_radius": 2.65,
+    "exposed_pin_radius": 0.45,
+    "leg_width": 0.9,
+    "leg_length": 4.0,
+    "ground_y": 2.55,
+    "ground_z_spacing": 2.5,
+    "rear_gap": 0.1,
+    "axis_z": 0.485,
+    "coax_length": 8.0,
+    "ptfe_er": 2.1,
+    "bore_radius": 2.0,
+    "pin_taper_length": 1.0
+  },
+  "assumed_uniform_inner_radius_mm": 0.5978188195442461,
+  "analytic_uniform_coax_Z0_ohm": 49.99999999999999,
+  "pcb_layers": [
+    "F.Cu",
+    "In1.Cu",
+    "In2.Cu",
+    "B.Cu"
+  ],
+  "board_mm": [
+    20.16,
+    16,
+    1.5862
+  ],
+  "port_x_mm": [
+    -8.1,
+    28.26
+  ],
+  "air_box_mm": [
+    [
+      -8.1,
+      28.259999999999998
+    ],
+    [
+      -13,
+      13
+    ],
+    [
+      -7,
+      9
+    ]
+  ],
+  "mesh_targets_mm": {
+    "substrate": 0.75,
+    "signal_surface": 0.15,
+    "signal_edge": 0.045,
+    "connector_surface": 0.375,
+    "coax_port": 0.18
+  },
+  "l2_opening_mm": [
+    2.8,
+    4.8
+  ],
+  "result_stem": "result_coax_open_2.8x4.8mm_5p3to6p3GHz_mesh_refined",
+  "frequencies_GHz": [
+    5.3,
+    5.4,
+    5.5,
+    5.6,
+    5.7,
+    5.8,
+    5.9,
+    6.0,
+    6.1,
+    6.2,
+    6.3
+  ],
+  "launch_transition": "taper",
+  "signal_outline_mm": [
+    [
+      5.079999999999998,
+      0.5990100000000069
+    ],
+    [
+      5.083283999999999,
+      0.5988650000000035
+    ],
+    [
+      6.272123999999998,
+      0.1877240000000029
+    ],
+    [
+      6.2751949999999965,
+      0.18500000000000227
+    ],
+    [
+      13.883522999999997,
+      0.18500000000000227
+    ],
+    [
+      13.887875000000001,
+      0.1877240000000029
+    ],
+    [
+      15.076715,
+      0.5988650000000035
+    ],
+    [
+      15.079999999999998,
+      0.5990100000000069
+    ],
+    [
+      15.079999999999998,
+      0.5999999999999943
+    ],
+    [
+      19.880000000000003,
+      0.5999999999999943
+    ],
+    [
+      19.880000000000003,
+      -0.5999999999999943
+    ],
+    [
+      15.079999999999998,
+      -0.5999999999999943
+    ],
+    [
+      15.079999999999998,
+      -0.5990079999999978
+    ],
+    [
+      15.076712,
+      -0.5988629999999944
+    ],
+    [
+      13.887875999999999,
+      -0.1877230000000054
+    ],
+    [
+      13.884805999999998,
+      -0.18500000000000227
+    ],
+    [
+      6.276476000000002,
+      -0.18500000000000227
+    ],
+    [
+      6.272123999999998,
+      -0.1877230000000054
+    ],
+    [
+      5.083286999999999,
+      -0.5988629999999944
+    ],
+    [
+      5.079999999999998,
+      -0.5990070000000003
+    ],
+    [
+      5.079999999999998,
+      -0.5999999999999943
+    ],
+    [
+      0.28000000000000114,
+      -0.5999999999999943
+    ],
+    [
+      0.28000000000000114,
+      0.5999999999999943
+    ],
+    [
+      5.079999999999998,
+      0.5999999999999943
+    ]
+  ],
+  "assumptions": [
+    "Symmetric L2 cutouts beneath signal pads; L3, bottom ground and connectors unchanged.",
+    "Full original PCB stack retained for the lower connector ground contacts.",
+    "Drawing/STEP: 6.5 mm flange, 5.3 mm barrel, 4 mm tails, 0.9 mm pin/legs.",
+    "Placement: rear face 0.1 mm outside board; upper tails rest on top copper.",
+    "Assumed PTFE er=2.1, bore radius 2 mm, ideal 50-ohm centre radius; 1 mm internal taper.",
+    "Coax truncated inside the barrel: mating socket, threads and cable plug omitted.",
+    "Ideal solid contact bridges; actual solder geometry and connector plating omitted.",
+    "FR4 er=4.5, loss tangent 0.02; copper conductivity 5.8e7 S/m; no solder mask.",
+    "Port planes are on coax PTFE annuli; solve status is recorded separately."
+  ],
+  "cad_checks": {
+    "continuous_metal_networks": 2,
+    "signal_ground_separate": true,
+    "port_areas_mm2": [
+      11.443605169383574,
+      11.443605169383572
+    ],
+    "expected_annulus_area_mm2": 11.443605169383574
+  },
+  "opening_checks": {
+    "L2_empty_at_centres": true,
+    "L3_present_at_centres": true,
+    "L2_present_under_ground_tabs": true,
+    "L2_present_under_pin_inner_edges": true,
+    "L2_transition_occupancy_matches_windows": true,
+    "L2_empty_near_inner_window_edges": true,
+    "L2_present_past_inner_window_edges": true,
+    "L2_present_beside_windows": true
+  },
+  "mesh_profile": "refined",
+  "nodes": 81279,
+  "tetrahedra": 480870,
+  "element_order": 1,
+  "frequency_group_size": 1,
+  "reference_planes": "coax annuli x=-8.10 and 28.26 mm; connectors included",
+  "solve_seconds": 200.70326570002362
+}

@@ -1,0 +1,87 @@
+{
+  "solver_started": false,
+  "source": "Frontend\\kicad\\FrontendPCBCoupon\\FrontendPCBCoupon.kicad_pcb",
+  "source_sha256": "3ba350c1c6aad231a5e7823e1dddab60c90445c49e33a89f6d0dd30495e28443",
+  "geometry_seconds": 2.0764048099517822,
+  "units": "mm in source; metres in BREP/MSH",
+  "layers": [
+    "F.Cu",
+    "In1.Cu"
+  ],
+  "board_mm": [
+    20.16,
+    16,
+    0.2606
+  ],
+  "signal_pad_mm": [
+    4.8,
+    1.2
+  ],
+  "trace_width_mm": 0.37,
+  "frequencies_GHz": [
+    0.5,
+    1,
+    1.5,
+    2,
+    2.2,
+    2.3,
+    2.4,
+    2.45,
+    2.5,
+    2.55,
+    2.6,
+    2.65,
+    2.7,
+    2.8,
+    3,
+    3.5,
+    4,
+    5,
+    5.8,
+    6
+  ],
+  "port_x_mm": [
+    0.4,
+    19.76
+  ],
+  "port_width_mm": 1.2,
+  "port_height_mm": 0.2104,
+  "er": 4.5,
+  "tand": 0.02,
+  "copper_conductivity_S_per_m": 58000000.0,
+  "air_box_mm": [
+    [
+      -5,
+      25.16
+    ],
+    [
+      -13,
+      13
+    ],
+    [
+      -6.5512,
+      5.035
+    ]
+  ],
+  "notes": [
+    "Pure PCB: connector bodies, pins, solder and panel break-off tabs omitted.",
+    "Saved KiCad copper zones include the existing tapers/teardrops.",
+    "Consecutive polygon corner points closer than 5 um are coalesced for OCC meshing.",
+    "Only F.Cu, top dielectric and L2 retained; original layer thicknesses. No core, L3 or B.Cu.",
+    "Ground barrels terminate at the bottom of L2; via wall assumed 25 um.",
+    "Ideal internal lumped ports connect pads to L2; a connector launch is not being simulated.",
+    "No soldermask; copper conductivity and FR4 loss included.",
+    "CAD er=4.5 is used; earlier coupler models used er=4.4.",
+    "First-order absorbing outer boundary; air-box and mesh convergence remain to be checked."
+  ],
+  "mesh_seconds": 18.189393043518066,
+  "nodes": 37185,
+  "tetrahedra": 218732,
+  "mesh_settings_mm": {
+    "substrate": 0.9,
+    "signal_surface": 0.18,
+    "signal_edge": 0.06,
+    "ports": 0.08
+  },
+  "mesh_name": "Mesh 60 \u00b5m"
+}

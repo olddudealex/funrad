@@ -1,0 +1,13 @@
+{
+  "status": "completed",
+  "nominal_er": 4.5,
+  "corners": [
+    4.2,
+    4.8
+  ],
+  "completed": [
+    4.2,
+    4.8
+  ],
+  "current_er": null
+}

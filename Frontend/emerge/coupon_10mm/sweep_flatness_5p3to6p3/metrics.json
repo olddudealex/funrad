@@ -1,0 +1,198 @@
+{
+  "status": "completed",
+  "planned_geometries": 6,
+  "completed_geometries": 6,
+  "frequencies_GHz": [
+    5.3,
+    5.4,
+    5.5,
+    5.6,
+    5.7,
+    5.8,
+    5.9,
+    6.0,
+    6.1,
+    6.2,
+    6.3
+  ],
+  "score_scales": {
+    "worst_loss_dB": 1.0,
+    "transmission_ripple_dB": 0.5,
+    "worst_reflection": 0.1778279410038923,
+    "reflection_ripple": 0.1
+  },
+  "ripple_weight": 0.25,
+  "ranking": [
+    "F02",
+    "F04",
+    "F06",
+    "F05",
+    "F03",
+    "F01"
+  ],
+  "records": [
+    {
+      "id": "F01",
+      "width_mm": 2.8,
+      "length_mm": 4.2,
+      "worst_loss_dB": 1.253584470840698,
+      "transmission_ripple_dB": 0.6977872740034505,
+      "worst_reflection": 0.3370332659416689,
+      "worst_S11_dB": -9.446544623410476,
+      "reflection_ripple": 0.3024726921875792,
+      "S11_dB_range": 19.781836501281845,
+      "score": 3.0003527014993674,
+      "max_reciprocity_error": 2.4658543249845304e-13,
+      "max_symmetry_error": 0.004261099899080336,
+      "max_singular_value": 0.9605842949653319,
+      "result_stem": "result_coax_open_2.8x4.2mm_5p3to6p3GHz",
+      "nodes": 62032,
+      "tetrahedra": 364163,
+      "solve_minutes": 2.450469171666191,
+      "modal_Z0_range": [
+        49.25345184604878,
+        49.2536214796504
+      ],
+      "S21_5p8_dB": -0.764029433974605,
+      "S11_5p8_dB": -15.184648253453224,
+      "pareto": false
+    },
+    {
+      "id": "F02",
+      "width_mm": 2.8,
+      "length_mm": 4.8,
+      "worst_loss_dB": 0.6267339848029031,
+      "transmission_ripple_dB": 0.03477300363123914,
+      "worst_reflection": 0.16498286541812243,
+      "worst_S11_dB": -15.651223157027129,
+      "reflection_ripple": 0.13630373846644575,
+      "S11_dB_range": 15.19745831438285,
+      "score": 1.2859126797110136,
+      "max_reciprocity_error": 2.352668872937781e-13,
+      "max_symmetry_error": 0.0044643340166599845,
+      "max_singular_value": 0.9565635722131656,
+      "result_stem": "result_coax_open_2.8x4.8mm_5p3to6p3GHz",
+      "nodes": 61803,
+      "tetrahedra": 362870,
+      "solve_minutes": 2.460854363333783,
+      "modal_Z0_range": [
+        49.25345184604883,
+        49.25362147965072
+      ],
+      "S21_5p8_dB": -0.595369754139929,
+      "S11_5p8_dB": -20.013734709380223,
+      "pareto": true
+    },
+    {
+      "id": "F03",
+      "width_mm": 3.5,
+      "length_mm": 4.2,
+      "worst_loss_dB": 1.1312144292964652,
+      "transmission_ripple_dB": 0.5624320661685451,
+      "worst_reflection": 0.29264368585999195,
+      "worst_S11_dB": -10.673216837505246,
+      "reflection_ripple": 0.2692908314744744,
+      "S11_dB_range": 21.959983735872726,
+      "score": 2.6000994929214194,
+      "max_reciprocity_error": 2.794359895520413e-13,
+      "max_symmetry_error": 0.004682974155196582,
+      "max_singular_value": 0.9610517999300706,
+      "result_stem": "result_coax_open_3.5x4.2mm_5p3to6p3GHz",
+      "nodes": 61902,
+      "tetrahedra": 363356,
+      "solve_minutes": 1.9866315866665294,
+      "modal_Z0_range": [
+        49.25345184604878,
+        49.25362147965036
+      ],
+      "S21_5p8_dB": -0.685099394490617,
+      "S11_5p8_dB": -19.480471258944796,
+      "pareto": false
+    },
+    {
+      "id": "F04",
+      "width_mm": 3.5,
+      "length_mm": 4.8,
+      "worst_loss_dB": 0.805992866901067,
+      "transmission_ripple_dB": 0.14756633512305461,
+      "worst_reflection": 0.25022672179755484,
+      "worst_S11_dB": -12.033326274183338,
+      "reflection_ripple": 0.171808295850738,
+      "S11_dB_range": 10.0783113122285,
+      "score": 1.9104321705251102,
+      "max_reciprocity_error": 2.77367953906609e-13,
+      "max_symmetry_error": 0.0027629935905951024,
+      "max_singular_value": 0.956573870875643,
+      "result_stem": "result_coax_open_3.5x4.8mm_5p3to6p3GHz",
+      "nodes": 61731,
+      "tetrahedra": 362375,
+      "solve_minutes": 1.9143934000002143,
+      "modal_Z0_range": [
+        49.25345184604878,
+        49.25362147965042
+      ],
+      "S21_5p8_dB": -0.7290439097918388,
+      "S11_5p8_dB": -14.38796677402161,
+      "pareto": false
+    },
+    {
+      "id": "F05",
+      "width_mm": 4.2,
+      "length_mm": 4.2,
+      "worst_loss_dB": 1.1061286318838814,
+      "transmission_ripple_dB": 0.5143809552793556,
+      "worst_reflection": 0.27820101768469135,
+      "worst_S11_dB": -11.112825713044984,
+      "reflection_ripple": 0.25200264981226267,
+      "S11_dB_range": 20.521689564435654,
+      "score": 2.451636391711465,
+      "max_reciprocity_error": 2.740407595738772e-13,
+      "max_symmetry_error": 0.0026202981392855563,
+      "max_singular_value": 0.9607260663042639,
+      "result_stem": "result_coax_open_4.2x4.2mm_5p3to6p3GHz",
+      "nodes": 61880,
+      "tetrahedra": 363229,
+      "solve_minutes": 1.923367778333098,
+      "modal_Z0_range": [
+        49.2534518460488,
+        49.25362147965033
+      ],
+      "S21_5p8_dB": -0.6740117210382218,
+      "S11_5p8_dB": -21.710417147266448,
+      "pareto": false
+    },
+    {
+      "id": "F06",
+      "width_mm": 4.2,
+      "length_mm": 4.8,
+      "worst_loss_dB": 0.8993843235632898,
+      "transmission_ripple_dB": 0.1956031246678398,
+      "worst_reflection": 0.28162910503441946,
+      "worst_S11_dB": -11.006449298647418,
+      "reflection_ripple": 0.16864320063710647,
+      "S11_dB_range": 7.933065375808827,
+      "score": 2.10312640529896,
+      "max_reciprocity_error": 2.2734771409534146e-13,
+      "max_symmetry_error": 0.0030365777979444205,
+      "max_singular_value": 0.9555172967234383,
+      "result_stem": "result_coax_open_4.2x4.8mm_5p3to6p3GHz",
+      "nodes": 61620,
+      "tetrahedra": 361630,
+      "solve_minutes": 2.0260763766661207,
+      "modal_Z0_range": [
+        49.253451846048186,
+        49.253621479650086
+      ],
+      "S21_5p8_dB": -0.8118244304668781,
+      "S11_5p8_dB": -12.88296308101099,
+      "pareto": false
+    }
+  ],
+  "reference_repeat_check": {
+    "common_frequencies_GHz": [
+      5.8,
+      6.0
+    ],
+    "max_complex_S_difference": 3.123755820082867e-13
+  }
+}

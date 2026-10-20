@@ -3288,7 +3288,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5ab127d1-c097-48e9-aa98-2755061f686d")
-		(property "Reference" "J5"
+		(property "Reference" "J4"
 			(at 222.25 137.4531 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3352,7 +3352,7 @@
 		(instances
 			(project "Frontend"
 				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f"
-					(reference "J5")
+					(reference "J4")
 					(unit 1)
 				)
 			)
@@ -3370,7 +3370,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5fc8e116-7407-4e5a-9a9c-8a42c92cd90f")
-		(property "Reference" "J4"
+		(property "Reference" "J3"
 			(at 222.25 120.9431 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3434,7 +3434,7 @@
 		(instances
 			(project "Frontend"
 				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f"
-					(reference "J4")
+					(reference "J3")
 					(unit 1)
 				)
 			)
@@ -3452,7 +3452,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7a353b91-9df5-44fb-82ce-b8ef0cabdd22")
-		(property "Reference" "J6"
+		(property "Reference" "J5"
 			(at 222.25 152.6931 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3516,7 +3516,7 @@
 		(instances
 			(project "Frontend"
 				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f"
-					(reference "J6")
+					(reference "J5")
 					(unit 1)
 				)
 			)
@@ -3534,7 +3534,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a59eb775-8c06-4596-aa10-019ef98b1060")
-		(property "Reference" "J3"
+		(property "Reference" "J2"
 			(at 222.25 106.9731 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3598,7 +3598,7 @@
 		(instances
 			(project "Frontend"
 				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f"
-					(reference "J3")
+					(reference "J2")
 					(unit 1)
 				)
 			)
@@ -3699,7 +3699,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bd126350-f045-4eae-ae90-ba297da97eaa")
-		(property "Reference" "J2"
+		(property "Reference" "J6"
 			(at 245.11 65.0631 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3763,7 +3763,7 @@
 		(instances
 			(project "Frontend"
 				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f"
-					(reference "J2")
+					(reference "J6")
 					(unit 1)
 				)
 			)

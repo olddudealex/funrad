@@ -10,7 +10,7 @@
 	(title_block
 		(title "FunRad Frontend PCB Coupon")
 		(date "2026-09-30")
-		(rev "A")
+		(rev "B")
 	)
 	(layers
 		(0 "F.Cu" signal)
@@ -411,13 +411,13 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "14a8c891-7f1b-4d1f-9de5-1de7b0c392d3")
 		(at 64.94 120)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J2"
 			(at -3.96 -3 90)
 			(layer "F.SilkS")
@@ -907,6 +907,37 @@
 			)
 			(uuid "62e57235-326c-475f-b41d-265c22bcbc50")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "a33a03e9-2ac4-4628-a551-73f1f8e8abf7")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 62.54 118.6) (xy 67.34 118.6) (xy 67.34 121.4) (xy 62.54 121.4)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -1372,13 +1403,13 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "343617b0-ee36-4f12-b3db-03e68911d08c")
 		(at 108.11 48)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J9"
 			(at -3.96 -3 90)
 			(layer "F.SilkS")
@@ -1868,6 +1899,37 @@
 			)
 			(uuid "c77ff053-f618-4c46-b83c-43094f6784c9")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "148b6595-1ccc-48f6-9f58-79bcfc4d883a")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 105.71 46.6) (xy 110.51 46.6) (xy 110.51 49.4) (xy 105.71 49.4)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -2333,15 +2395,15 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "3dd13b30-3d5f-4281-87d4-8fd436131cf8")
 		(at 171 27.06 90)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J17"
-			(at -3.96 -3 0)
+			(at -3.96 -3 180)
 			(layer "F.SilkS")
 			(uuid "01922f33-77a1-46b6-8fad-c2018d462253")
 			(effects
@@ -2829,6 +2891,37 @@
 			)
 			(uuid "c7f3f595-2dd4-4695-94e0-646ece02d69c")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "a6bb2b3f-7f0f-462b-8c4a-167e531a3217")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 169.6 29.46) (xy 169.6 24.66) (xy 172.4 24.66) (xy 172.4 29.46)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -2842,13 +2935,13 @@
 			)
 		)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "44e6a5ea-5847-43f6-a24f-7221253154fa")
 		(at 108.11 66)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J10"
 			(at -3.96 -3 90)
 			(layer "F.SilkS")
@@ -3338,6 +3431,37 @@
 			)
 			(uuid "8f761d6f-1e8c-4aa6-ae5d-05a380284c64")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "0b34e31c-7ce3-46ad-a76f-8b1f90b471d2")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 105.71 64.6) (xy 110.51 64.6) (xy 110.51 67.4) (xy 105.71 67.4)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -3351,15 +3475,15 @@
 			)
 		)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "48b93c39-3771-4740-9066-39b3a571989a")
 		(at 153 63.89 90)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J14"
-			(at -3.96 -3 0)
+			(at -3.96 -3 180)
 			(layer "F.SilkS")
 			(uuid "c934b2c4-c82f-4ff5-ac32-9bf6108eac98")
 			(effects
@@ -3847,6 +3971,37 @@
 			)
 			(uuid "27245156-e437-4d06-ba6b-35ad9b0eb705")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "0f0cd75d-253b-4613-b23f-f3baa9963a44")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 151.6 66.29) (xy 151.6 61.49) (xy 154.4 61.49) (xy 154.4 66.29)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -3944,15 +4099,15 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "5068b28e-a8b3-4cbb-a799-f7f208599564")
 		(at 50.14 30 180)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J5"
-			(at -3.96 -3 90)
+			(at -3.96 -3 270)
 			(layer "F.SilkS")
 			(uuid "3b212ffe-2588-40a5-90db-a55feb1bb543")
 			(effects
@@ -3963,7 +4118,7 @@
 			)
 		)
 		(property "Value" "BWSMA-KE-P001"
-			(at 5 6 0)
+			(at 5 6 180)
 			(layer "F.Fab")
 			(uuid "484ba7d3-fb63-4cc6-92bc-87f81b96dd7c")
 			(effects
@@ -4440,6 +4595,37 @@
 			)
 			(uuid "edf0bb8c-5c2d-477f-b468-549e34ed01ee")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "22adae36-ca24-492f-a248-c3892c5c211c")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 52.54 31.4) (xy 47.74 31.4) (xy 47.74 28.6) (xy 52.54 28.6)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -4453,13 +4639,13 @@
 			)
 		)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "5e46cf72-9c6f-4910-a146-db5cacb69672")
 		(at 171 121.86 -90)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J18"
 			(at -3.96 -3 0)
 			(layer "F.SilkS")
@@ -4472,7 +4658,7 @@
 			)
 		)
 		(property "Value" "BWSMA-KE-P001"
-			(at 5 6 90)
+			(at 5 6 270)
 			(layer "F.Fab")
 			(uuid "370f9b62-ec51-4ac1-84c4-8fada940d812")
 			(effects
@@ -4949,6 +5135,37 @@
 			)
 			(uuid "c05fe49c-81e6-490f-853b-12ccbbfe4bd0")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "1e4d8a04-28e2-465f-95e0-38a7ea18cbc6")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 172.4 119.46) (xy 172.4 124.26) (xy 169.6 124.26) (xy 169.6 119.46)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -4962,13 +5179,13 @@
 			)
 		)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "64df2955-27aa-4f12-aa26-b93189b359b3")
 		(at 153 121.86 -90)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J12"
 			(at -3.96 -3 0)
 			(layer "F.SilkS")
@@ -4981,7 +5198,7 @@
 			)
 		)
 		(property "Value" "BWSMA-KE-P001"
-			(at 5 6 90)
+			(at 5 6 270)
 			(layer "F.Fab")
 			(uuid "f7a7d7a0-9b6e-4ef4-988c-1d6a250cf260")
 			(effects
@@ -5458,6 +5675,37 @@
 			)
 			(uuid "2de49e45-efb1-4028-a546-1db9246f5e6f")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "5e2e6d0d-7ff1-41fc-84b8-6b61b2847689")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 154.4 119.46) (xy 154.4 124.26) (xy 151.6 124.26) (xy 151.6 119.46)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -5471,15 +5719,15 @@
 			)
 		)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "7245ff1d-d67d-4c7f-bfe2-2fd03ec3f09c")
 		(at 50.14 66 180)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J8"
-			(at -3.96 -3 90)
+			(at -3.96 -3 270)
 			(layer "F.SilkS")
 			(uuid "e48a2a57-dbe8-4c78-8e4c-5eb1f465f43a")
 			(effects
@@ -5490,7 +5738,7 @@
 			)
 		)
 		(property "Value" "BWSMA-KE-P001"
-			(at 5 6 0)
+			(at 5 6 180)
 			(layer "F.Fab")
 			(uuid "2e3814a4-84f1-44ab-a5df-03634d570ced")
 			(effects
@@ -5967,6 +6215,37 @@
 			)
 			(uuid "b2e772dc-9ce0-43a4-b965-fc4b6d8d9044")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "15318480-ae52-45d2-8ec9-ac446c8ed0e5")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 52.54 67.4) (xy 47.74 67.4) (xy 47.74 64.6) (xy 52.54 64.6)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -5980,13 +6259,13 @@
 			)
 		)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "743b6319-3e78-48c8-b22c-57e2cb4925a7")
 		(at 144.94 30)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J6"
 			(at -3.96 -3 90)
 			(layer "F.SilkS")
@@ -5999,7 +6278,7 @@
 			)
 		)
 		(property "Value" "BWSMA-KE-P001"
-			(at 5 8 0)
+			(at 5 6 0)
 			(layer "F.Fab")
 			(uuid "2762bbbe-39a2-4fc9-859d-4e8b38a6f3ad")
 			(effects
@@ -6476,6 +6755,37 @@
 			)
 			(uuid "652db214-14ef-4e70-b6bc-074b22c353c4")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "121c7d1c-8dba-45fa-b1ea-618e4c98101d")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 142.54 28.6) (xy 147.34 28.6) (xy 147.34 31.4) (xy 142.54 31.4)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -6573,13 +6883,13 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "93b2b710-6c04-4007-9d0c-68ac28854ffa")
 		(at 94.94 84)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J4"
 			(at -3.96 -3 90)
 			(layer "F.SilkS")
@@ -7069,6 +7379,37 @@
 			)
 			(uuid "53f77ccc-be15-41f2-8688-bdc448845711")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "e6fa895c-699b-427e-9092-d5ee02ee2e36")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 92.54 82.6) (xy 97.34 82.6) (xy 97.34 85.4) (xy 92.54 85.4)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -7334,15 +7675,15 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "b508d800-78f1-4cc2-95c4-8425727d93be")
 		(at 50.14 120 180)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J1"
-			(at -3.96 -3 90)
+			(at -3.96 -3 270)
 			(layer "F.SilkS")
 			(uuid "0d7028ff-f9c2-4b0d-b8fa-b38e9c497e4e")
 			(effects
@@ -7353,7 +7694,7 @@
 			)
 		)
 		(property "Value" "BWSMA-KE-P001"
-			(at 5 6 0)
+			(at 5 6 180)
 			(layer "F.Fab")
 			(uuid "cf0f14e2-1509-43f4-b11b-1702319865be")
 			(effects
@@ -7830,6 +8171,37 @@
 			)
 			(uuid "c6b0d15d-d1f6-42df-b927-9b64cd5ddd68")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "67ec3b14-dc1d-4269-956a-d199ab7126c7")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 52.54 121.4) (xy 47.74 121.4) (xy 47.74 118.6) (xy 52.54 118.6)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -7927,15 +8299,15 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "c15c2f1b-89b1-4646-b2f3-c76c41cb43cf")
 		(at 50.14 48 180)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J7"
-			(at -3.96 -3 90)
+			(at -3.96 -3 270)
 			(layer "F.SilkS")
 			(uuid "52fbb83b-e2ce-4355-8b3b-be5f03928ac2")
 			(effects
@@ -7946,7 +8318,7 @@
 			)
 		)
 		(property "Value" "BWSMA-KE-P001"
-			(at 5 6 0)
+			(at 5 6 180)
 			(layer "F.Fab")
 			(uuid "f1e86ab7-ee02-4ba9-bb5c-224be184f65a")
 			(effects
@@ -8423,6 +8795,37 @@
 			)
 			(uuid "00b65a87-9b11-48ea-b5b0-754398e1a392")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "d6f606de-99cb-4a9b-815c-3e41c9d50d58")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 52.54 49.4) (xy 47.74 49.4) (xy 47.74 46.6) (xy 52.54 46.6)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -8436,15 +8839,15 @@
 			)
 		)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "cabb497a-2802-40c3-9221-219041f8c06d")
 		(at 135 63.89 90)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J13"
-			(at -3.96 -3 0)
+			(at -3.96 -3 180)
 			(layer "F.SilkS")
 			(uuid "9691f765-ed0b-48e4-b4f2-b898d94dbe69")
 			(effects
@@ -8932,6 +9335,37 @@
 			)
 			(uuid "2c922945-d99a-4d8a-a8af-8ad9241247ed")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "39c8c775-6584-4e29-90af-6ffef1dc9df3")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 133.6 66.29) (xy 133.6 61.49) (xy 136.4 61.49) (xy 136.4 66.29)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -9029,13 +9463,13 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "d82c0c35-456d-4836-b6b2-a1b7b4f1f681")
 		(at 94.94 102)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J16"
 			(at -3.96 -3 90)
 			(layer "F.SilkS")
@@ -9525,6 +9959,37 @@
 			)
 			(uuid "c4c6f2a5-88f2-4956-b537-15aceca09bd7")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "38a6c7d5-4c04-4c5c-b5d7-247438109bc1")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 92.54 100.6) (xy 97.34 100.6) (xy 97.34 103.4) (xy 92.54 103.4)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -9538,15 +10003,15 @@
 			)
 		)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "e00e2b57-520f-48ee-ba26-de6b2bb214f3")
 		(at 50.14 102 180)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J15"
-			(at -3.96 -3 90)
+			(at -3.96 -3 270)
 			(layer "F.SilkS")
 			(uuid "3ef421b3-e60f-470a-892e-121bee5274c9")
 			(effects
@@ -9557,7 +10022,7 @@
 			)
 		)
 		(property "Value" "BWSMA-KE-P001"
-			(at 5 6 0)
+			(at 5 6 180)
 			(layer "F.Fab")
 			(uuid "34477f23-eabe-43be-a4ed-39ef91713c5b")
 			(effects
@@ -10034,6 +10499,37 @@
 			)
 			(uuid "27127fbd-c138-4dbd-a03c-34dc470847d2")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "73b55e7b-1f86-45f0-bbb7-ab40740bb7cd")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 52.54 103.4) (xy 47.74 103.4) (xy 47.74 100.6) (xy 52.54 100.6)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -10047,15 +10543,15 @@
 			)
 		)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "f8a9932e-311d-4beb-9408-7b4639db69c2")
 		(at 50.14 84 180)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J3"
-			(at -3.96 -3 90)
+			(at -3.96 -3 270)
 			(layer "F.SilkS")
 			(uuid "6310b59f-1e1e-4f41-9640-df1033b7e3be")
 			(effects
@@ -10066,7 +10562,7 @@
 			)
 		)
 		(property "Value" "BWSMA-KE-P001"
-			(at 5 6 0)
+			(at 5 6 180)
 			(layer "F.Fab")
 			(uuid "f8bca54b-783d-492b-884c-e2e53248ca73")
 			(effects
@@ -10543,6 +11039,37 @@
 			)
 			(uuid "5ebe7ed1-1aa0-4b33-8bc9-41ec611fdbca")
 		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "fbf03f42-46fd-4663-852b-e14a729ead1f")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 52.54 85.4) (xy 47.74 85.4) (xy 47.74 82.6) (xy 52.54 82.6)
+				)
+			)
+		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
 			(offset
@@ -10724,13 +11251,13 @@
 		)
 		(embedded_fonts no)
 	)
-	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount"
+	(footprint "Frontend:SMA_BWSMA-KE-P001_EdgeMount_L2Cutout_2.8x4.8mm"
 		(locked yes)
 		(layer "F.Cu")
 		(uuid "ff7f6c15-30c9-4ed5-8f3f-7f94c2286276")
 		(at 135 121.86 -90)
-		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu.")
-		(tags "SMA RF coaxial edge mount straddle BWSMA C496550")
+		(descr "BAT Wireless BWSMA-KE-P001 SMA jack, edge/straddle mount for 1.6 mm board, 0-6 GHz, LCSC C496550. Board edge at x=2.70 mm. Pad 1 signal on F.Cu; pad 2 ground on F.Cu and B.Cu. Rev.B launch: centered 4.8 x 2.8 mm In1.Cu (L2) copper clearance beneath pad 1. Keep original board taper; L3 and Bottom intact.")
+		(tags "SMA RF coaxial edge mount straddle BWSMA C496550 L2 cutout RevB")
 		(property "Reference" "J11"
 			(at -3.96 -3 0)
 			(layer "F.SilkS")
@@ -10743,7 +11270,7 @@
 			)
 		)
 		(property "Value" "BWSMA-KE-P001"
-			(at 5 6 90)
+			(at 5 6 270)
 			(layer "F.Fab")
 			(uuid "0bb9ca72-a369-4747-abe2-b475ba225985")
 			(effects
@@ -11219,6 +11746,37 @@
 				(prefer_zone_connections yes)
 			)
 			(uuid "dc2d7e74-ac1a-4815-b36b-2b37e1b0b9bf")
+		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "b0ac19e6-21c1-4235-b878-8fa62e9530f1")
+			(name "L2_signal_pad_clearance_4.8x2.8mm")
+			(hatch edge 0.5)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.01)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.3)
+				(thermal_bridge_width 0.3)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 136.4 119.46) (xy 136.4 124.26) (xy 133.6 124.26) (xy 133.6 119.46)
+				)
+			)
 		)
 		(embedded_fonts no)
 		(model "${KIPRJMOD}/../library/FunRad.3dshapes/SMA_BWSMA-KE-P001_EdgeMount.wrl"
@@ -12839,7 +13397,7 @@
 			)
 		)
 	)
-	(gr_text "FunRad PCB Coupon Rev. A (JLC04161H-7628 OSP Horizontal)\n"
+	(gr_text "FunRad PCB Coupon Rev. B (JLC04161H-7628 ENIG Horizontal)\n"
 		(at 87 25 0)
 		(layer "F.SilkS")
 		(uuid "831c1960-b350-444f-82f8-f6707972a78b")
@@ -12861,17 +13419,6 @@
 			)
 		)
 	)
-	(gr_text "JLCJLCJLCJLC"
-		(at 125 25 0)
-		(layer "F.SilkS")
-		(uuid "7915abef-89f5-4ad1-9219-9e5887ae8c34")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
 	(gr_text "COUPLER L=5.1 W=0.37 G=0.13 N=3 \nO=0.48 Y=1.05 J=1.2 f/s=0.1/0.1"
 		(at 130 92 90)
 		(layer "F.SilkS")
@@ -12883,7 +13430,7 @@
 			)
 		)
 	)
-	(gr_text "FunRad PCB Coupon Rev. A (JLC04161H-7628 OSP Vertical)"
+	(gr_text "FunRad PCB Coupon Rev. B (JLC04161H-7628 ENIG Vertical)"
 		(at 162 92 90)
 		(layer "F.SilkS")
 		(uuid "dceae604-59a5-4fa6-903a-0619121ab26b")
@@ -12905,7 +13452,7 @@
 			)
 		)
 	)
-	(gr_text "PCB FABRICATION REQUIREMENTS\n1. Manufacturer: JLCPCB (or equivalent)\n2. Base Material: JLC04161H-7628\n3. Surface Finish: OSP (Organic Solderability Preservative)\n4. Solder Mask: green\n5. Silkscreen: As per Gerber, top side only unless noted\n6. All dimensions are in millimeters\n7. Dimensions are for reference only - do not scale from drawing\n8. Fabricate strictly to data provided - Gerber files take precedence\n   over drawings\n9. No material or process substitutions without written approval\n10. Panelization is provided"
+	(gr_text "PCB FABRICATION REQUIREMENTS\n1. Manufacturer: JLCPCB (or equivalent)\n2. Base Material: JLC04161H-7628\n3. Surface Finish: ENIG\n4. Solder Mask: green\n5. Silkscreen: As per Gerber, top side only unless noted\n6. All dimensions are in millimeters\n7. Dimensions are for reference only - do not scale from drawing\n8. Fabricate strictly to data provided - Gerber files take precedence\n   over drawings\n9. No material or process substitutions without written approval\n10. Panelization is provided"
 		(at 250 200 0)
 		(layer "Dwgs.User")
 		(uuid "f72c83c4-42ce-4a1b-be89-b0af33151ae4")
@@ -13187,7 +13734,7 @@
 					(justify left)
 				)
 			)
-			(table_cell "OSP"
+			(table_cell "ENIG"
 				(start 289.978931 66.660451)
 				(end 327.757602 70.857839)
 				(margins 1.0025 1.0025 1.0025 1.0025)
@@ -16473,18 +17020,67 @@
 			(layer "In1.Cu")
 			(pts
 				(xy 147.213106 22.305023) (xy 147.228104 22.309427) (xy 147.286855 22.347172) (xy 147.288042 22.348541)
-				(xy 147.315518 22.403402) (xy 147.317163 22.41096) (xy 147.32 22.437331) (xy 147.32 37.55817) (xy 147.314975 37.593114)
+				(xy 147.315518 22.403402) (xy 147.317163 22.41096) (xy 147.32 22.437331) (xy 147.32 28.45817) (xy 147.314975 28.493114)
+				(xy 147.31057 28.508112) (xy 147.272827 28.566855) (xy 147.271458 28.568042) (xy 147.216597 28.595518)
+				(xy 147.209039 28.597163) (xy 147.182668 28.6) (xy 142.54 28.6) (xy 142.54 31.4) (xy 147.17817 31.4)
+				(xy 147.213106 31.405023) (xy 147.228104 31.409427) (xy 147.286855 31.447172) (xy 147.288042 31.448541)
+				(xy 147.315518 31.503402) (xy 147.317163 31.51096) (xy 147.32 31.537331) (xy 147.32 37.55817) (xy 147.314975 37.593114)
 				(xy 147.31057 37.608112) (xy 147.272827 37.666855) (xy 147.271458 37.668042) (xy 147.216597 37.695518)
-				(xy 147.209039 37.697163) (xy 147.182668 37.7) (xy 110.49 37.7) (xy 110.49 73.55817) (xy 110.484975 73.593114)
+				(xy 147.209039 37.697163) (xy 147.182668 37.7) (xy 110.49 37.7) (xy 110.49 46.45817) (xy 110.484975 46.493114)
+				(xy 110.48057 46.508112) (xy 110.442827 46.566855) (xy 110.441458 46.568042) (xy 110.386597 46.595518)
+				(xy 110.379039 46.597163) (xy 110.352668 46.6) (xy 105.71 46.6) (xy 105.71 49.4) (xy 110.34817 49.4)
+				(xy 110.383106 49.405023) (xy 110.398104 49.409427) (xy 110.456855 49.447172) (xy 110.458042 49.448541)
+				(xy 110.485518 49.503402) (xy 110.487163 49.51096) (xy 110.49 49.537331) (xy 110.49 64.45817) (xy 110.484975 64.493114)
+				(xy 110.48057 64.508112) (xy 110.442827 64.566855) (xy 110.441458 64.568042) (xy 110.386597 64.595518)
+				(xy 110.379039 64.597163) (xy 110.352668 64.6) (xy 105.71 64.6) (xy 105.71 67.4) (xy 110.34817 67.4)
+				(xy 110.383106 67.405023) (xy 110.398104 67.409427) (xy 110.456855 67.447172) (xy 110.458042 67.448541)
+				(xy 110.485518 67.503402) (xy 110.487163 67.51096) (xy 110.49 67.537331) (xy 110.49 73.55817) (xy 110.484975 73.593114)
 				(xy 110.48057 73.608112) (xy 110.442827 73.666855) (xy 110.441458 73.668042) (xy 110.386597 73.695518)
-				(xy 110.379039 73.697163) (xy 110.352668 73.7) (xy 97.32 73.7) (xy 97.32 109.55817) (xy 97.314975 109.593114)
+				(xy 110.379039 73.697163) (xy 110.352668 73.7) (xy 97.32 73.7) (xy 97.32 82.45817) (xy 97.314975 82.493114)
+				(xy 97.31057 82.508112) (xy 97.272827 82.566855) (xy 97.271458 82.568042) (xy 97.216597 82.595518)
+				(xy 97.209039 82.597163) (xy 97.182668 82.6) (xy 92.54 82.6) (xy 92.54 85.4) (xy 97.17817 85.4)
+				(xy 97.213106 85.405023) (xy 97.228104 85.409427) (xy 97.286855 85.447172) (xy 97.288042 85.448541)
+				(xy 97.315518 85.503402) (xy 97.317163 85.51096) (xy 97.32 85.537331) (xy 97.32 100.45817) (xy 97.314975 100.493114)
+				(xy 97.31057 100.508112) (xy 97.272827 100.566855) (xy 97.271458 100.568042) (xy 97.216597 100.595518)
+				(xy 97.209039 100.597163) (xy 97.182668 100.6) (xy 92.54 100.6) (xy 92.54 103.4) (xy 97.17817 103.4)
+				(xy 97.213106 103.405023) (xy 97.228104 103.409427) (xy 97.286855 103.447172) (xy 97.288042 103.448541)
+				(xy 97.315518 103.503402) (xy 97.317163 103.51096) (xy 97.32 103.537331) (xy 97.32 109.55817) (xy 97.314975 109.593114)
 				(xy 97.31057 109.608112) (xy 97.272827 109.666855) (xy 97.271458 109.668042) (xy 97.216597 109.695518)
-				(xy 97.209039 109.697163) (xy 97.182668 109.7) (xy 67.32 109.7) (xy 67.32 127.55817) (xy 67.314975 127.593114)
+				(xy 97.209039 109.697163) (xy 97.182668 109.7) (xy 67.32 109.7) (xy 67.32 118.45817) (xy 67.314975 118.493114)
+				(xy 67.31057 118.508112) (xy 67.272827 118.566855) (xy 67.271458 118.568042) (xy 67.216597 118.595518)
+				(xy 67.209039 118.597163) (xy 67.182668 118.6) (xy 62.54 118.6) (xy 62.54 121.4) (xy 67.17817 121.4)
+				(xy 67.213106 121.405023) (xy 67.228104 121.409427) (xy 67.286855 121.447172) (xy 67.288042 121.448541)
+				(xy 67.315518 121.503402) (xy 67.317163 121.51096) (xy 67.32 121.537331) (xy 67.32 127.55817) (xy 67.314975 127.593114)
 				(xy 67.31057 127.608112) (xy 67.272827 127.666855) (xy 67.271458 127.668042) (xy 67.216597 127.695518)
 				(xy 67.209039 127.697163) (xy 67.182668 127.7) (xy 47.90183 127.7) (xy 47.866889 127.694975) (xy 47.85189 127.69057)
 				(xy 47.793144 127.652827) (xy 47.791957 127.651458) (xy 47.764477 127.596583) (xy 47.762832 127.589021)
-				(xy 47.76 127.562668) (xy 47.76 22.441829) (xy 47.765023 22.406893) (xy 47.769427 22.391895) (xy 47.807172 22.333144)
-				(xy 47.808541 22.331957) (xy 47.86342 22.304477) (xy 47.870979 22.302833) (xy 47.897332 22.3) (xy 147.17817 22.3)
+				(xy 47.76 127.562668) (xy 47.76 121.541829) (xy 47.765023 121.506893) (xy 47.769427 121.491895)
+				(xy 47.807172 121.433144) (xy 47.808541 121.431957) (xy 47.86342 121.404477) (xy 47.870979 121.402833)
+				(xy 47.897332 121.4) (xy 52.54 121.4) (xy 52.54 118.6) (xy 47.90183 118.6) (xy 47.866889 118.594975)
+				(xy 47.85189 118.59057) (xy 47.793144 118.552827) (xy 47.791957 118.551458) (xy 47.764477 118.496583)
+				(xy 47.762832 118.489021) (xy 47.76 118.462668) (xy 47.76 103.541829) (xy 47.765023 103.506893)
+				(xy 47.769427 103.491895) (xy 47.807172 103.433144) (xy 47.808541 103.431957) (xy 47.86342 103.404477)
+				(xy 47.870979 103.402833) (xy 47.897332 103.4) (xy 52.54 103.4) (xy 52.54 100.6) (xy 47.90183 100.6)
+				(xy 47.866889 100.594975) (xy 47.85189 100.59057) (xy 47.793144 100.552827) (xy 47.791957 100.551458)
+				(xy 47.764477 100.496583) (xy 47.762832 100.489021) (xy 47.76 100.462668) (xy 47.76 85.541829) (xy 47.765023 85.506893)
+				(xy 47.769427 85.491895) (xy 47.807172 85.433144) (xy 47.808541 85.431957) (xy 47.86342 85.404477)
+				(xy 47.870979 85.402833) (xy 47.897332 85.4) (xy 52.54 85.4) (xy 52.54 82.6) (xy 47.90183 82.6)
+				(xy 47.866889 82.594975) (xy 47.85189 82.59057) (xy 47.793144 82.552827) (xy 47.791957 82.551458)
+				(xy 47.764477 82.496583) (xy 47.762832 82.489021) (xy 47.76 82.462668) (xy 47.76 67.541829) (xy 47.765023 67.506893)
+				(xy 47.769427 67.491895) (xy 47.807172 67.433144) (xy 47.808541 67.431957) (xy 47.86342 67.404477)
+				(xy 47.870979 67.402833) (xy 47.897332 67.4) (xy 52.54 67.4) (xy 52.54 64.6) (xy 47.90183 64.6)
+				(xy 47.866889 64.594975) (xy 47.85189 64.59057) (xy 47.793144 64.552827) (xy 47.791957 64.551458)
+				(xy 47.764477 64.496583) (xy 47.762832 64.489021) (xy 47.76 64.462668) (xy 47.76 49.541829) (xy 47.765023 49.506893)
+				(xy 47.769427 49.491895) (xy 47.807172 49.433144) (xy 47.808541 49.431957) (xy 47.86342 49.404477)
+				(xy 47.870979 49.402833) (xy 47.897332 49.4) (xy 52.54 49.4) (xy 52.54 46.6) (xy 47.90183 46.6)
+				(xy 47.866889 46.594975) (xy 47.85189 46.59057) (xy 47.793144 46.552827) (xy 47.791957 46.551458)
+				(xy 47.764477 46.496583) (xy 47.762832 46.489021) (xy 47.76 46.462668) (xy 47.76 31.541829) (xy 47.765023 31.506893)
+				(xy 47.769427 31.491895) (xy 47.807172 31.433144) (xy 47.808541 31.431957) (xy 47.86342 31.404477)
+				(xy 47.870979 31.402833) (xy 47.897332 31.4) (xy 52.54 31.4) (xy 52.54 28.6) (xy 47.90183 28.6)
+				(xy 47.866889 28.594975) (xy 47.85189 28.59057) (xy 47.793144 28.552827) (xy 47.791957 28.551458)
+				(xy 47.764477 28.496583) (xy 47.762832 28.489021) (xy 47.76 28.462668) (xy 47.76 22.441829) (xy 47.765023 22.406893)
+				(xy 47.769427 22.391895) (xy 47.807172 22.333144) (xy 47.808541 22.331957) (xy 47.86342 22.304477)
+				(xy 47.870979 22.302833) (xy 47.897332 22.3) (xy 147.17817 22.3)
 			)
 		)
 	)
@@ -16512,11 +17108,23 @@
 		(filled_polygon
 			(layer "In1.Cu")
 			(pts
+				(xy 169.543039 24.699685) (xy 169.588794 24.752489) (xy 169.6 24.804) (xy 169.6 29.46) (xy 172.4 29.46)
+				(xy 172.4 24.804) (xy 172.419685 24.736961) (xy 172.472489 24.691206) (xy 172.524 24.68) (xy 178.576 24.68)
 				(xy 178.643039 24.699685) (xy 178.688794 24.752489) (xy 178.7 24.804) (xy 178.7 124.116) (xy 178.680315 124.183039)
-				(xy 178.627511 124.228794) (xy 178.576 124.24) (xy 127.424 124.24) (xy 127.356961 124.220315) (xy 127.311206 124.167511)
+				(xy 178.627511 124.228794) (xy 178.576 124.24) (xy 172.524 124.24) (xy 172.456961 124.220315) (xy 172.411206 124.167511)
+				(xy 172.4 124.116) (xy 172.4 119.46) (xy 169.6 119.46) (xy 169.6 124.116) (xy 169.580315 124.183039)
+				(xy 169.527511 124.228794) (xy 169.476 124.24) (xy 154.524 124.24) (xy 154.456961 124.220315) (xy 154.411206 124.167511)
+				(xy 154.4 124.116) (xy 154.4 119.46) (xy 151.6 119.46) (xy 151.6 124.116) (xy 151.580315 124.183039)
+				(xy 151.527511 124.228794) (xy 151.476 124.24) (xy 136.524 124.24) (xy 136.456961 124.220315) (xy 136.411206 124.167511)
+				(xy 136.4 124.116) (xy 136.4 119.46) (xy 133.6 119.46) (xy 133.6 124.116) (xy 133.580315 124.183039)
+				(xy 133.527511 124.228794) (xy 133.476 124.24) (xy 127.424 124.24) (xy 127.356961 124.220315) (xy 127.311206 124.167511)
 				(xy 127.3 124.116) (xy 127.3 61.634) (xy 127.319685 61.566961) (xy 127.372489 61.521206) (xy 127.424 61.51)
+				(xy 133.476 61.51) (xy 133.543039 61.529685) (xy 133.588794 61.582489) (xy 133.6 61.634) (xy 133.6 66.29)
+				(xy 136.4 66.29) (xy 136.4 61.634) (xy 136.419685 61.566961) (xy 136.472489 61.521206) (xy 136.524 61.51)
+				(xy 151.476 61.51) (xy 151.543039 61.529685) (xy 151.588794 61.582489) (xy 151.6 61.634) (xy 151.6 66.29)
+				(xy 154.4 66.29) (xy 154.4 61.634) (xy 154.419685 61.566961) (xy 154.472489 61.521206) (xy 154.524 61.51)
 				(xy 163.3 61.51) (xy 163.3 24.804) (xy 163.319685 24.736961) (xy 163.372489 24.691206) (xy 163.424 24.68)
-				(xy 178.576 24.68)
+				(xy 169.476 24.68)
 			)
 		)
 	)

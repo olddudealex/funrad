@@ -331,7 +331,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2a628c9d-4988-43ac-8893-1106c98d74f0")
-		(property "Reference" "PD2"
+		(property "Reference" "PD3"
 			(at 132.08 69.85 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -402,7 +402,7 @@
 		(instances
 			(project "Frontend"
 				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/19485c42-2085-40fc-abd0-fa0f60614813"
-					(reference "PD2")
+					(reference "PD3")
 					(unit 1)
 				)
 			)
@@ -420,7 +420,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "754a3e24-9165-4326-bfc7-c9127b161506")
-		(property "Reference" "U6"
+		(property "Reference" "U7"
 			(at 107.95 74.2882 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -488,7 +488,7 @@
 		(instances
 			(project "Frontend"
 				(path "/fdfdb172-77bf-4caf-97d1-cb395630431f/19485c42-2085-40fc-abd0-fa0f60614813"
-					(reference "U6")
+					(reference "U7")
 					(unit 1)
 				)
 			)
