@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
     <channel>
       <title>FunRad</title>
@@ -6,65 +6,65 @@
       <description>Last 10 notes on FunRad</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>FunRad Rev.A Results</title>
+    <link>https://quartz.jzhao.xyz/Generated/FunRad-Rev.A-Results</link>
+    <guid>https://quartz.jzhao.xyz/Generated/FunRad-Rev.A-Results</guid>
+    <description><![CDATA[ FunRad Rev.A — Generated Results Generated file Do not edit this page manually. Regenerate it from the executable .toyradar configuration. ]]></description>
+    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
+  </item><item>
     <title>index</title>
     <link>https://quartz.jzhao.xyz/Frontend/Coupon/</link>
     <guid>https://quartz.jzhao.xyz/Frontend/Coupon/</guid>
-    <description> PCB coupon: launches, measurements and EM studies Status: revision B ordered. </description>
-    <pubDate>Tue, 20 Oct 2026 19:02:58 GMT</pubDate>
+    <description><![CDATA[ PCB coupon: launches, measurements and EM studies Status: revision B measured. ]]></description>
+    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
   </item><item>
-    <title>07_BROADBAND_CHECK</title>
-    <link>https://quartz.jzhao.xyz/Frontend/Coupon/07_BROADBAND_CHECK</link>
-    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/07_BROADBAND_CHECK</guid>
-    <description> Broadband verification: 2.8 × 4.8 mm L2 cutout Completed: one geometry, 31 directly solved frequencies over 0.5–6.5 GHz. </description>
-    <pubDate>Tue, 20 Oct 2026 19:02:58 GMT</pubDate>
+    <title>12_LINE_PARAMETERS_AND_MASK</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupon/12_LINE_PARAMETERS_AND_MASK</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/12_LINE_PARAMETERS_AND_MASK</guid>
+    <description><![CDATA[ Line parameters and solder mask: revision B Result: unmasked effective permittivity is approximately 3.34–3.45. ]]></description>
+    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
   </item><item>
-    <title>08_MESH_REFINEMENT</title>
-    <link>https://quartz.jzhao.xyz/Frontend/Coupon/08_MESH_REFINEMENT</link>
-    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/08_MESH_REFINEMENT</guid>
-    <description> Mesh refinement: selected L2 cutout The last refinement is within both working comparison limits. </description>
-    <pubDate>Tue, 20 Oct 2026 19:02:58 GMT</pubDate>
-  </item><item>
-    <title>09_L3_CUTOUT_RESULTS</title>
-    <link>https://quartz.jzhao.xyz/Frontend/Coupon/09_L3_CUTOUT_RESULTS</link>
-    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/09_L3_CUTOUT_RESULTS</guid>
-    <description> L3 cutout experiment Retaining L3 is better in all four nominal comparison metrics. One new geometry, 11 new frequency solves over 5.3–6.3 GHz. </description>
-    <pubDate>Tue, 20 Oct 2026 19:02:58 GMT</pubDate>
-  </item><item>
-    <title>10_DIELECTRIC_SENSITIVITY</title>
-    <link>https://quartz.jzhao.xyz/Frontend/Coupon/10_DIELECTRIC_SENSITIVITY</link>
-    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/10_DIELECTRIC_SENSITIVITY</guid>
-    <description> Dielectric sensitivity of the selected L2 cutout Two new material sweeps, 22 new frequency solves. </description>
-    <pubDate>Tue, 20 Oct 2026 19:02:58 GMT</pubDate>
+    <title>11_REVB_MEASUREMENT_COMPARISON</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupon/11_REVB_MEASUREMENT_COMPARISON</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/11_REVB_MEASUREMENT_COMPARISON</guid>
+    <description><![CDATA[ Revision B coupon: simulation versus measurement Initial measurement set (17:49–18:35 on 2026-11-01), preserved under the renamed _0 files. ]]></description>
+    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
   </item><item>
     <title>06_L2_CUTOUT_FLATNESS_SWEEP</title>
     <link>https://quartz.jzhao.xyz/Frontend/Coupon/06_L2_CUTOUT_FLATNESS_SWEEP</link>
     <guid>https://quartz.jzhao.xyz/Frontend/Coupon/06_L2_CUTOUT_FLATNESS_SWEEP</guid>
-    <description> L2 cutout flatness study: 5.3–6.3 GHz Phase 1: 6 of 6 geometries completed; 66 directly solved frequency cases. </description>
-    <pubDate>Tue, 20 Oct 2026 19:02:58 GMT</pubDate>
+    <description><![CDATA[ L2 cutout flatness study: 5.3–6.3 GHz Phase 1: 6 of 6 geometries completed; 66 directly solved frequency cases. ]]></description>
+    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
   </item><item>
-    <title>Coupler Simulation Catalogue</title>
-    <link>https://quartz.jzhao.xyz/Frontend/Coupler/Coupler-Simulation-Catalogue</link>
-    <guid>https://quartz.jzhao.xyz/Frontend/Coupler/Coupler-Simulation-Catalogue</guid>
-    <description> Coupler simulation catalogue The design argument is in TX Coupler EM Method. </description>
-    <pubDate>Tue, 20 Oct 2026 19:02:57 GMT</pubDate>
+    <title>07_BROADBAND_CHECK</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupon/07_BROADBAND_CHECK</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/07_BROADBAND_CHECK</guid>
+    <description><![CDATA[ Broadband verification: 2.8 × 4.8 mm L2 cutout Completed: one geometry, 31 directly solved frequencies over 0.5–6.5 GHz. ]]></description>
+    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
   </item><item>
-    <title>Quasi-static 2-D Solver</title>
-    <link>https://quartz.jzhao.xyz/Frontend/Coupler/Quasi-static-2-D-Solver</link>
-    <guid>https://quartz.jzhao.xyz/Frontend/Coupler/Quasi-static-2-D-Solver</guid>
-    <description> Quasi-static 2-D solver The solver turns a uniform microstrip cross-section into even/odd impedances and phase velocities. </description>
-    <pubDate>Tue, 20 Oct 2026 19:02:57 GMT</pubDate>
+    <title>08_MESH_REFINEMENT</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupon/08_MESH_REFINEMENT</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/08_MESH_REFINEMENT</guid>
+    <description><![CDATA[ Mesh refinement: selected L2 cutout The last refinement is within both working comparison limits. ]]></description>
+    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
   </item><item>
-    <title>TX Coupler EM Method</title>
-    <link>https://quartz.jzhao.xyz/Frontend/Coupler/TX-Coupler-EM-Method</link>
-    <guid>https://quartz.jzhao.xyz/Frontend/Coupler/TX-Coupler-EM-Method</guid>
-    <description> TX Coupler EM Method 5.8 GHz symmetric TX monitoring coupler · prototype candidate, not production released. </description>
-    <pubDate>Tue, 20 Oct 2026 19:02:57 GMT</pubDate>
+    <title>09_L3_CUTOUT_RESULTS</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupon/09_L3_CUTOUT_RESULTS</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/09_L3_CUTOUT_RESULTS</guid>
+    <description><![CDATA[ L3 cutout experiment Retaining L3 is better in all four nominal comparison metrics. One new geometry, 11 new frequency solves over 5.3–6.3 GHz. ]]></description>
+    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
   </item><item>
-    <title>01_PCB_ONLY_RESULTS</title>
-    <link>https://quartz.jzhao.xyz/Frontend/Coupon/01_PCB_ONLY_RESULTS</link>
-    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/01_PCB_ONLY_RESULTS</guid>
-    <description> 10 mm coupon: top/L2 simulation Which simulations produced these results? Two completed EM sweeps: Mesh 40 µm at 8 frequencies, and Mesh 60 µm at 20 frequencies. </description>
-    <pubDate>Tue, 20 Oct 2026 19:02:57 GMT</pubDate>
+    <title>10_DIELECTRIC_SENSITIVITY</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupon/10_DIELECTRIC_SENSITIVITY</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/10_DIELECTRIC_SENSITIVITY</guid>
+    <description><![CDATA[ Dielectric sensitivity of the selected L2 cutout Two new material sweeps, 22 new frequency solves. ]]></description>
+    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
+  </item><item>
+    <title>05_L2_CUTOUT_RESULTS</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupon/05_L2_CUTOUT_RESULTS</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/05_L2_CUTOUT_RESULTS</guid>
+    <description><![CDATA[ L2 cutouts beneath the launch pads: first trial One new completed sweep: two 1.6 × 4.8 mm L2 cutouts, 20 frequencies. ]]></description>
+    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
   </item>
     </channel>
   </rss>

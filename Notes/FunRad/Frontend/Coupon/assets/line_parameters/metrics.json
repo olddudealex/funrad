@@ -1,0 +1,79 @@
+{
+  "10 mm": {
+    "S21_median_dB": -0.7959085632130815,
+    "S21_min_dB": -1.5065825649478228,
+    "S21_max_dB": 0.0021441246784786134,
+    "S11_worst_dB": -22.200717069670844,
+    "Zin_R_min_ohm": 45.51421417312845,
+    "Zin_R_max_ohm": 58.35727717693524,
+    "Zin_X_min_ohm": -2.122222467863824,
+    "Zin_X_max_ohm": 2.3071456904071144
+  },
+  "40 mm": {
+    "S21_median_dB": -2.127972384680276,
+    "S21_min_dB": -3.0847623208976165,
+    "S21_max_dB": -0.9976778746875842,
+    "S11_worst_dB": -11.911543389438785,
+    "Zin_R_min_ohm": 33.8340203289887,
+    "Zin_R_max_ohm": 54.157342286846124,
+    "Zin_X_min_ohm": -3.176073914095126,
+    "Zin_X_max_ohm": 16.630763273479563,
+    "phase_extraction": {
+      "eps_phase_median": 3.336458373839767,
+      "eps_phase_min": 3.2662241937021483,
+      "eps_phase_max": 3.520521928311523,
+      "differential_delay_ps": 191.00597412408473,
+      "eps_group": 3.6432820856232353,
+      "phase_fit_rms_deg": 2.8089598295322826,
+      "phase_turns_subtracted": 1
+    }
+  },
+  "90 mm": {
+    "S21_median_dB": -3.483311317879524,
+    "S21_min_dB": -4.228435063250723,
+    "S21_max_dB": -2.504222229414145,
+    "S11_worst_dB": -14.879339611371698,
+    "Zin_R_min_ohm": 38.67412511644768,
+    "Zin_R_max_ohm": 53.15582706870768,
+    "Zin_X_min_ohm": 1.5669431458704717,
+    "Zin_X_max_ohm": 14.646979784266362,
+    "phase_extraction": {
+      "eps_phase_median": 3.44755948986645,
+      "eps_phase_min": 3.4195553140625097,
+      "eps_phase_max": 3.4865150500523567,
+      "differential_delay_ps": 485.62594614239487,
+      "eps_group": 3.3118083472707376,
+      "phase_fit_rms_deg": 1.7339842392929827,
+      "phase_turns_subtracted": 3
+    }
+  },
+  "40 mm masked": {
+    "S21_median_dB": -2.0676309745784063,
+    "S21_min_dB": -2.9914920852666684,
+    "S21_max_dB": -0.7856789577905844,
+    "S11_worst_dB": -12.356654024292347,
+    "Zin_R_min_ohm": 35.15404705052114,
+    "Zin_R_max_ohm": 49.28311525862935,
+    "Zin_X_min_ohm": -1.9148376280873893,
+    "Zin_X_max_ohm": 21.219282088461235
+  },
+  "mask": {
+    "added_phase_at_5p8GHz_deg": -19.89136570996401,
+    "eps_phase_at_5p8GHz": 3.7177875737151225,
+    "bare_eps_phase_at_5p8GHz": 3.4475468534627134,
+    "extra_loss_median_dB": -0.14373616923608892,
+    "extra_loss_min_dB": -0.5948802518532694,
+    "extra_loss_max_dB": 0.28279944061803775
+  },
+  "thin_strip_Zc_estimate_ohm": 51.492649338147736,
+  "source_sha256": {
+    "coupon_revB_7628_horizontal_10mm_100Mhz_6.5GHz_nanoVNA.s2p": "3abb1ce5038432aa91b434cd1653066886d1b74862dcd681f0277304f54c4aa3",
+    "coupon_revB_7628_horizontal_10mm_5.3_6.3GHz_nanoVNA_terminated.s1p": "568db0852a7f813481fefc90608f8c4c6ded11657327cee98d5812cb483dac17",
+    "coupon_revB_7628_horizontal_40mm_5.3_6.3GHz_nanoVNA.s2p": "490571e07805f9d2083e6577c7f865cc88264663d147fa4ca8e38720dda0860b",
+    "coupon_revB_7628_horizontal_40mm_5.3_6.3GHz_nanoVNA_terminated.s1p": "94e22337b920998c83fc9692e0040f2e06760b4be64530bf91df210eafba2567",
+    "coupon_revB_7628_horizontal_90mm_5.3_6.3GHz_nanoVNA.s2p": "51876261edf6ab9d70ef9c4b9eb1948152ff1a2a1358cfb5680c26f72863e44c",
+    "coupon_revB_7628_horizontal_90mm_5.3_6.3GHz_nanoVNA_terminated.s1p": "d155fc3e540b10666be66387fbed9908001f24b787659a7e7a97bec3f0e675c6",
+    "coupon_revB_7628_horizontal_40mm_masked_5.3_6.3GHz_nanoVNA.s2p": "492e9431a6cb64fa81fae7237c216d610e111e7a73c5e3dfbd3b4c4217d101bf",
+    "coupon_revB_7628_horizontal_40mm_masked_5.3_6.3GHz_nanoVNA_terminated.s1p": "00b21329397250631f6d28a11a625f1b75955307bb7dd7f4cceec89753806b31"
+  }
+}

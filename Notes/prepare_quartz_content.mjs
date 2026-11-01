@@ -20,7 +20,8 @@ function prepare(directory) {
       // Rename only the copied interactive asset and its report link.
       const sibling = file.slice(0, -3) + ".html";
       if (fs.existsSync(sibling)) {
-        const interactive = file.slice(0, -3) + ".interactive.html";
+        // Quartz strips .html from asset names; .htm retains an HTML MIME type.
+        const interactive = file.slice(0, -3) + ".interactive.htm";
         fs.renameSync(sibling, interactive);
         for (const name of [path.basename(sibling), encodeURI(path.basename(sibling))]) {
           original = original.replaceAll(`](${name})`, `](${encodeURI(path.basename(interactive))})`);

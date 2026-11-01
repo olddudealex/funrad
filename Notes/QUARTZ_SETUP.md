@@ -30,7 +30,7 @@ This will:
 
 Notes live under `Antenna/` and `Frontend/`, with coupler notes in `Frontend/Coupler/`. Specification and project checklists stay at the vault root. Moved notes have `permalink` metadata so Quartz emits redirects from their previous public URLs.
 
-Published simulation snapshots in `FunRad/Generated/` are eligible for Git tracking (Markdown, JSON, PNG, and interactive HTML); see its README for naming rules. Link preparation gives copied interactive HTML an `.interactive.html` suffix when necessary to avoid overwriting a Markdown page with the same basename.
+Published simulation snapshots in `FunRad/Generated/` are eligible for Git tracking (Markdown, JSON, PNG, and interactive HTML); see its README for naming rules. Link preparation gives copied interactive HTML an `.interactive.htm` suffix to avoid overwriting a Markdown page with the same basename and preserve an HTML extension through Quartz's asset processing.
 
 ## Quartz configuration
 

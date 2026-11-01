@@ -6,4 +6,4 @@ These are snapshots: regenerate them deliberately when publishing simulation res
 
 Browser profiles, experimental HTML pages, and UI screenshots in this folder remain ignored. They are not report inputs.
 
-The static-site build copies tracked and nonignored vault files. In the copied Quartz content only, a standalone HTML report sharing a Markdown basename receives an `.interactive.html` suffix, and its report link is updated. This keeps the rendered Markdown page and interactive report separate. The original Obsidian files retain their names.
+The static-site build copies tracked and nonignored vault files. In the copied Quartz content only, a standalone HTML report sharing a Markdown basename receives an `.interactive.htm` suffix, and its report link is updated. This keeps the rendered Markdown page and interactive report separate and preserves an HTML extension through Quartz's asset processing. The original Obsidian files retain their names.

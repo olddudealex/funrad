@@ -1,0 +1,48 @@
+{
+  "Measured S21, broad sweep (provisional)": {
+    "points": 919,
+    "S21_median_dB": -0.48732015042822213,
+    "S21_min_dB": -1.3514723407242029,
+    "S21_max_dB": 0.10734481636785288
+  },
+  "Measured S11, external termination / broad sweep": {
+    "points": 938,
+    "S11_worst_dB": -14.914779930151719
+  },
+  "FEM, standard mesh": {
+    "points": 31,
+    "S11_worst_dB": -12.853244867662255,
+    "S21_median_dB": -0.5099790293653723,
+    "S21_min_dB": -0.913030957186028,
+    "S21_max_dB": -0.11942363080742435
+  },
+  "Measured S11, external termination / broad sweep overlap": {
+    "points": 156,
+    "S11_worst_dB": -19.01559112486641
+  },
+  "Measured S21, narrow sweep (provisional)": {
+    "points": 1001,
+    "S21_median_dB": -0.7528157867669089,
+    "S21_min_dB": -1.5168478459825079,
+    "S21_max_dB": 0.0608643835662322
+  },
+  "Measured S11, external termination": {
+    "points": 1001,
+    "S11_worst_dB": -21.58664795626169
+  },
+  "FEM, finer mesh": {
+    "points": 11,
+    "S11_worst_dB": -16.18097075820532,
+    "S21_median_dB": -0.5590005800624904,
+    "S21_min_dB": -0.5780400516923704,
+    "S21_max_dB": -0.548015840735087
+  },
+  "source_sha256": {
+    "coupon_revB_7628_horizontal_10mm_100Mhz_6.5GHz_nanoVNA_0.s2p": "37fd4ff5f8f7ff635a8bcc7a885b16a4d8d5a65bafda66e2869592b323ac1ce8",
+    "coupon_revB_7628_horizontal_10mm_5.3_6.3GHz_nanoVNA_0.s2p": "5051e3d862d692754355e2cf4d2a7559cba8dff00812c9f0d5b783adb5c0f3eb",
+    "coupon_revB_7628_horizontal_10mm_5.3_6.3GHz_nanoVNA_terminated_0.s1p": "312ca41bbde35d307638a225b6a50861d01a285983e2608ffc26be5240a331ff",
+    "coupon_revB_7628_horizontal_10mm_100MHz_6.5GHz_nanoVNA_terminated_0.s1p": "4467d5aad45f8e5e3e87c88d293eb2988d614cbc2d928c0c6f4205022fa9844b",
+    "result_coax_open_2.8x4.8mm_0p5to6p5GHz.s2p": "3222e695d1c09f021e9eb3d17a13d9e2f307104bfa296ce5a1a89af84956d7f8",
+    "result_coax_open_2.8x4.8mm_5p3to6p3GHz_mesh_finer.s2p": "1c4904d0497c05f51110f550cefe8a273ca5cc9cfeb121bad1eed5d9bf9bb912"
+  }
+}
