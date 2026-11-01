@@ -30,6 +30,8 @@ Design notes, simulations and measurements for FunRad. The list below follows th
     - [[Frontend/Coupon/08_MESH_REFINEMENT|08 — Mesh refinement]]
     - [[Frontend/Coupon/09_L3_CUTOUT_RESULTS|09 — L3 cutout experiment]]
     - [[Frontend/Coupon/10_DIELECTRIC_SENSITIVITY|10 — Dielectric sensitivity]]
+    - [[Frontend/Coupon/11_REVB_MEASUREMENT_COMPARISON|11 — Revision B: simulation versus measurement]]
+    - [[Frontend/Coupon/12_LINE_PARAMETERS_AND_MASK|12 — Line parameters and solder mask]]
 - **Antenna/**
   - [[Antenna/Antenna Rev.A|Antenna Rev.A]]
   - [[Antenna/Antenna Rev.A S11 parameters|Antenna Rev.A S11 parameters]]
