@@ -10,3 +10,4 @@ catalogue/gif_*.png
 *.msh
 *.vtk
 *.pyc
+results_redesign/*/pardiso_ooc/

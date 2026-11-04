@@ -8,6 +8,8 @@ permalink: TX-Coupler-EM-Method
 
 ## Selected design
 
+Measured hardware: [[Coupler Measurement Comparison|horizontal revision B — comparison, feed loss and load sensitivity]].
+
 ![Selected symmetric copper geometry](../../images/redesign/02_geometry.png)
 
 | Dimension | Value, mm |
@@ -36,7 +38,19 @@ Both fan-outs use clean 45° diagonals; the tiny vertical remnants are removed. 
 | Coupling range, 5.7–5.9 GHz | −14.97 to −14.89 dB | −15.27 to −15.02 dB | **−15.419 to −15.166 dB** |
 | Direct EM frequency samples | 3 | 5 | 9 |
 
-**Latest prediction: R058, finite copper.** Directivity remains above 30 dB, but coupling misses the −15.3 dB band limit by 0.119 dB at 5.9 GHz. The geometry remains the selected prototype candidate; it is not an all-requirements pass. Meeting the strict uncalibrated coupling window would require a small retune, or an explicit system decision to calibrate that offset.
+**Nominal-band reference: R058, finite copper.** Directivity remains above 30 dB, but coupling misses the −15.3 dB band limit by 0.119 dB at 5.9 GHz. The geometry remains the selected prototype candidate; it is not an all-requirements pass. Meeting the strict uncalibrated coupling window would require a small retune, or an explicit system decision to calibrate that offset.
+
+### Predicted S11, S21, S31 and S41 over 1 GHz
+
+![Predicted final coupler S-parameters over 5.3–6.3 GHz](../../images/coupler/final_prediction_sparams_1GHz.png)
+
+The wider sweep uses the **same selected geometry, copper and dielectric loss, and second-order basis**, with all ports referenced to 50 Ω. Port 1 is input; ports 2, 3 and 4 are through, coupled and isolated. Dots mark **11 directly solved frequencies from 5.3 to 6.3 GHz**, spaced by 100 MHz; lines join them. The shaded region is the original **5.7–5.9 GHz design band**. Grey dashed curves show the earlier, more densely sampled R058 result inside that band.
+
+**The frequency dependence is visible:** coupling changes from **−14.80 dB at 5.3 GHz to −16.08 dB at 6.3 GHz**. Directivity ranges from **25.48 to 36.27 dB** at the sampled frequencies, with its best sampled value at **6.0 GHz**. Through loss stays close to **0.65 dB**.
+
+At **5.8 GHz**: **S11 = −32.59 dB, S21 = −0.652 dB, S31 = −15.286 dB, S41 = −47.71 dB**, giving **32.42 dB directivity**. At the three shared frequencies, 5.7/5.8/5.9 GHz, all four plotted magnitudes agree with R058 within **0.003 dB**. These predictions include the modelled fan-outs, but exclude SMA connectors and the coupon's extra feed-line lengths.
+
+[Saved samples and comparison checks](../../images/coupler/final_prediction_sparams_1GHz.json) · [Original R058 S-matrix](https://github.com/olddudealex/funrad/blob/main/Frontend/emerge/results_redesign/final51_copper9_e61849bc8c/raw.npz). From Frontend/emerge, use the project venv to run python -m simulation.run redesign_configs/final51_copper_5p3to6p3GHz.json, then python -m reports.coupler_prediction. Completed EM results are reused.
 
 The bare control was added after selection: it demonstrates the comb's effect but did not guide the original search. Both cases use the same requested mesh settings, including 0.04 mm edge refinement.
 

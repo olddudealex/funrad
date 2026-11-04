@@ -76,7 +76,19 @@ def run(config, preview=False):
     (dest/'mesh.json').write_text(json.dumps(mesh,indent=2))
     # 4. Port boundary conditions and directly sampled frequency solve.
     for i, port in enumerate(ports): model.mw.bc.ModalPort(port,i+1,modetype='TEM')
-    sol = model.mw.run_sweep(parallel=False)
+    # Assemble smaller batches when the sweep would otherwise retain many
+    # large second-order matrices at once. This does not change the EM model.
+    sweep_options = {}
+    if 'frequency_group_size' in config:
+        sweep_options['frequency_groups'] = int(config['frequency_group_size'])
+    disk_backend = None
+    if config.get('pardiso_ooc_mb'):
+        assert config.get('pardiso_numeric_phase', 22) == 22
+        from simulation.memory import configure_pardiso_ooc
+        disk_backend = configure_pardiso_ooc(model.mw.solveroutine, dest/'pardiso_ooc',
+                                             config['pardiso_ooc_mb'])
+        print('PARDISO disk-backed factors; memory budget MB:', config['pardiso_ooc_mb'], flush=True)
+    sol = model.mw.run_sweep(parallel=False, **sweep_options)
     grid = sol.scalar.grid
     f, s, z = np.asarray(grid.freq), grid.Smat, np.asarray(grid.Z0)
     if not np.all(np.isfinite(z)) or np.min(z.real)<35 or np.max(z.real)>65:
@@ -92,6 +104,8 @@ def run(config, preview=False):
         result.update(S31=db(s50[:,2,0]).tolist(), S41=db(s50[:,3,0]).tolist(),
                       directivity=(db(s50[:,2,0])-db(s50[:,3,0])).tolist())
     (dest/'metrics.json').write_text(json.dumps(result,indent=2))
+    if disk_backend is not None:
+        disk_backend.reset()
     print('RESULT',ident,json.dumps(result),flush=True)
 
 

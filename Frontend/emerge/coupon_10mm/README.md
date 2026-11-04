@@ -436,3 +436,23 @@ revised physical coupon; L3 and Bottom remain intact.
 receive an `_er...` suffix. `sweep_dielectric.py` runs the two corners sequentially
 on the saved finer mesh. The coax mode search now uses the analytical PTFE TEM
 index; port Z0 and propagation agree with the saved nominal reference.
+
+## Measured line parameters versus simulation
+
+[Report 12](../../../Notes/FunRad/Frontend/Coupon/12_LINE_PARAMETERS_AND_MASK.md)
+compares measured phase-derived effective permittivity with the existing
+`simulation.coupled_2d.single` capacitance solver, and the remeasured 10 mm
+coupon's complex input impedance with its saved finer-mesh 3-D S11.
+The 2-D solver includes copper thickness; no analytical width-based impedance
+estimate is substituted. The 3-D result is reused without another EM sweep.
+
+From `Frontend/emerge`, using the project venv:
+
+```powershell
+.\.venv\Scripts\python.exe -m coupon_10mm.line_cross_section
+.\.venv\Scripts\python.exe -m coupon_10mm.report_line_parameters
+```
+
+The first command saves `result_line_cross_section.json` with four grid/box
+checks. The second reads it and publishes the report and figures into Notes.
+Coax modal port Z0/beta in the 3-D NPZ describe PTFE coax, not the microstrip.

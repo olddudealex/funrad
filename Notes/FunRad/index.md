@@ -18,6 +18,7 @@ Design notes, simulations and measurements for FunRad. The list below follows th
     - [[Frontend/Coupler/TX Coupler EM Method|TX Coupler EM Method]]
     - [[Frontend/Coupler/Quasi-static 2-D Solver|Quasi-static 2-D Solver]]
     - [[Frontend/Coupler/Coupler Simulation Catalogue|Coupler Simulation Catalogue]]
+    - [[Frontend/Coupler/Coupler Measurement Comparison|Coupler — measurements versus simulation]]
   - **Coupon/**
     - [[Frontend/Coupon/index|PCB coupon overview]]
     - [[Frontend/Coupon/01_PCB_ONLY_RESULTS|01 — PCB-only model]]

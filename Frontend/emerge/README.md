@@ -9,7 +9,7 @@ emerge/
   tests/               Geometry/mesh regression, clearance, 2-D and KiCad checks
   exports/             KiCad footprint generation from saved copper outlines
   redesign_configs/    Inputs for the recorded experiments
-  results_redesign/    Raw evidence for 58 attempts, including 54 coupler runs
+  results_redesign/    Original 58 attempts plus later bandwidth checks
   results/             Historical matrices used by the design explanation
   catalogue/           Generated indexes/database and saved diagnostic results
   setup.*              Environment installation
@@ -63,6 +63,8 @@ Dimensions are **mm**, unless stated otherwise. Original JSON keys remain unchan
 | `trace_mesh`, `port_mesh`, `edge_mesh` | Local sizes in mm; zero edge size disables only explicit edge refinement |
 | `port_width` | Width of each modal-port face |
 | `fmin`, `fmax`, `nf` | Frequency limits in GHz and number of directly solved points |
+| `frequency_group_size` | Optional number of frequency matrices assembled at once; 1 limits RAM use |
+| `pardiso_ooc_mb` | Optional PARDISO disk-backed factor storage with this RAM budget in MB; total process memory also includes assembly and fields |
 | `lower_stack`, `relief` | Lower-stack control and L2 aperture width |
 | `straight`, `legacy_ground` | Numerical-control switches; normally false |
 | `tolerance` | Permit the smaller feature limits used by the etch-sensitivity controls |
@@ -76,6 +78,14 @@ Fixed settings in `simulation/domain.py`: roof 2.5 mm above substrate, 2 mm late
 ```
 
 Completed runs are reused. Start from that JSON and give a new experiment a new `name`. Changing Python code alone does not invalidate a cached result. `--preview` builds the geometry without meshing/solving for a new config; saved outlines are already available in each completed run's `layout.png` and `layout.json`.
+
+The 1 GHz response check uses `redesign_configs/final51_copper_5p3to6p3GHz.json`:
+11 direct points over 5.3–6.3 GHz, with the selected geometry, copper loss and
+second-order basis retained. It assembles one frequency at a time and enables
+PARDISO disk-backed factors for the 32 GB workstation. Only storage/batching
+changes; the EM model and numerical precision do not. Temporary factor files
+are ignored. `python -m reports.coupler_prediction` plots this sweep and overlays
+the original narrow-band R058 result for comparison.
 
 Use the existing environment, or `setup.ps1`, `setup.bat` or `setup.sh`. The saved runs used EMerge 2.8.9; `environment_versions.json` records versions. `requirements.txt` is an installation range, not an exact platform lock.
 
@@ -102,7 +112,7 @@ These commands rebuild artifacts without EM solves. `tests/cross_section.py` rec
 
 ## Saved results and regression
 
-- `results_redesign/`: 58 attempts with configs, actual outlines, raw matrices, mesh counts and available driver snapshots. Of these, 54 are completed four-port simulations.
+- `results_redesign/`: the original 58 attempts (54 completed four-port simulations), plus later bandwidth checks. Configs, outlines, raw matrices, mesh counts and driver snapshots are retained. Interrupted attempts have no `raw.npz` and are not predictions.
 - `results/*.npz`: 51 historical matrices still used by the complete catalogue and capacitor-compensation explanation. Duplicate Touchstone/viewer exports are removed.
 - `catalogue/`: stable IDs, original timestamps, diagnostics and generated indexes. The ~78 MB SQLite file is local and can be rebuilt; it is excluded from Git.
 - `results_redesign/*/driver_snapshot.py`: historical evidence, **not entry points**. Recover their dependencies from commit `6c4012c` when investigating the old implementation. New runs snapshot the complete `simulation/` package under `source/simulation/`, plus a driver snapshot.
@@ -157,6 +167,17 @@ Caveats: the coating is modelled as conformal over and beside the strip, with
 no meniscus and no thinning at the trace shoulder; real LPI is thicker in the
 gaps than over copper. Mask er is a literature range, not a measured value for
 JLC's ink - which is exactly what the masked/bare pair on the coupon measures.
+
+## Coupler hardware comparison
+
+Run `python -m reports.coupler_measurements` to compare the saved 5.3–6.3 GHz
+coupler FEM with horizontal revision-B measurements. It writes the report and
+seven figures under `Notes/FunRad/Frontend/Coupler`, using the straight-line
+coupon measurements for external-loss and electrical-length diagnostics.
+No new EM solve is performed. `reports/coupler_loads.py` adds load matching and
+a conditional terminated-network calculation; load a was the calibration LOAD
+standard, so its absolute match is not independently verified. The report
+records the assumptions and remaining measurement gaps.
 
 ## Shield can (lid) height
 

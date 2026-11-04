@@ -29,7 +29,7 @@ The first three rows are connector-inclusive model results. Revision B measureme
 | 09 | [L3 cutout experiment](09_L3_CUTOUT_RESULTS.md) | Test matching L3 windows beneath the selected L2 openings; retain Bottom. |
 | 10 | [Dielectric sensitivity](10_DIELECTRIC_SENSITIVITY.md) | Test εr=4.2 / 4.5 / 4.8 with fixed geometry, loss tangent and mesh. |
 | 11 | [Revision B: simulation versus measurement](11_REVB_MEASUREMENT_COMPARISON.md) | Compare broad- and narrow-band S11/S21 with the selected simulations and revision A. |
-| 12 | [Line parameters and solder mask](12_LINE_PARAMETERS_AND_MASK.md) | Same-session 10/40/90 mm measurements; phase-derived effective Dk, input impedance and mask comparison. |
+| 12 | [Line parameters and solder mask](12_LINE_PARAMETERS_AND_MASK.md) | Same-session line/mask measurements; compare εeff with the existing 2-D solver and 10 mm input impedance with saved 3-D FEM. |
 
 ## Original measurements
 

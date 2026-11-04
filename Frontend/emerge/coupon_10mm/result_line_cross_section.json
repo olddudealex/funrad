@@ -1,0 +1,68 @@
+{
+  "purpose": "Coupon single-microstrip cross-section; existing solver reused",
+  "created_utc": "2026-11-02T21:18:21.107013+00:00",
+  "parameters": {
+    "W_um": 370.0,
+    "t_um": 35.0,
+    "er": 4.5,
+    "h_um": 210.4,
+    "mask_um": 0.0
+  },
+  "solver": "simulation.coupled_2d.single",
+  "solver_sha256": "4dba23339a7327d627be0a514b1023456ff5e1a599f44eca117030b59b3ddaa1",
+  "geometry_source_sha256": "be1f8208758520dcfaee34e63b57ba3264c77b9170e2f7bb68fa015e63ac2cc8",
+  "selected": "fine_wider_box",
+  "rows": [
+    {
+      "label": "coarse",
+      "grid_um": 10.0,
+      "side_padding_um": 1500.0,
+      "air_height_um": 2500.0,
+      "Zc_ohm": 48.784502241455634,
+      "eps_eff": 3.2260883569494707,
+      "represented_width_um": 370.0,
+      "represented_copper_um": 40.0,
+      "represented_dielectric_um": 210.0
+    },
+    {
+      "label": "fine",
+      "grid_um": 5.0,
+      "side_padding_um": 1500.0,
+      "air_height_um": 2500.0,
+      "Zc_ohm": 49.18045860580988,
+      "eps_eff": 3.2318912118010514,
+      "represented_width_um": 370.0,
+      "represented_copper_um": 35.0,
+      "represented_dielectric_um": 210.0
+    },
+    {
+      "label": "coarse_wider_box",
+      "grid_um": 10.0,
+      "side_padding_um": 2500.0,
+      "air_height_um": 4000.0,
+      "Zc_ohm": 48.982395718308254,
+      "eps_eff": 3.244033241088436,
+      "represented_width_um": 370.0,
+      "represented_copper_um": 40.0,
+      "represented_dielectric_um": 210.0
+    },
+    {
+      "label": "fine_wider_box",
+      "grid_um": 5.0,
+      "side_padding_um": 2500.0,
+      "air_height_um": 4000.0,
+      "Zc_ohm": 49.37516178718046,
+      "eps_eff": 3.2494795177182696,
+      "represented_width_um": 370.0,
+      "represented_copper_um": 35.0,
+      "represented_dielectric_um": 210.0
+    }
+  ],
+  "assumptions": [
+    "Uniform bare strip over continuous L2; no top ground beside its centre.",
+    "Finite copper thickness, perfect-conductor equipotentials; lossless real epsilon.",
+    "Grounded outer box is a numerical boundary, not a modelled shielding cap.",
+    "Quasi-static: no frequency dispersion; L2 pad cutouts and launches excluded.",
+    "Dielectric er=4.5 matches nominal saved 10 mm connector-inclusive FEM."
+  ]
+}

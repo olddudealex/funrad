@@ -25,7 +25,16 @@
       "differential_delay_ps": 191.00597412408473,
       "eps_group": 3.6432820856232353,
       "phase_fit_rms_deg": 2.8089598295322826,
-      "phase_turns_subtracted": 1
+      "phase_branch_choice": {
+        "turns": 1,
+        "prior_wavelength_mm": 31.378915624998193,
+        "extra_length_mm": 30.0,
+        "expected_phase_deg": -344.18015361232295,
+        "short_S21_phase_deg": 97.80806766892559,
+        "long_S21_phase_deg": 111.22523214413692,
+        "initial_wrapped_phase_deg": 13.417164475211349,
+        "corrected_phase_deg": -346.5828355247886
+      }
     }
   },
   "90 mm": {
@@ -44,7 +53,16 @@
       "differential_delay_ps": 485.62594614239487,
       "eps_group": 3.3118083472707376,
       "phase_fit_rms_deg": 1.7339842392929827,
-      "phase_turns_subtracted": 3
+      "phase_branch_choice": {
+        "turns": 3,
+        "prior_wavelength_mm": 31.378915624998193,
+        "extra_length_mm": 80.0,
+        "expected_phase_deg": -917.8137429661947,
+        "short_S21_phase_deg": 97.80806766892559,
+        "long_S21_phase_deg": -128.53622972515774,
+        "initial_wrapped_phase_deg": 133.6557026059167,
+        "corrected_phase_deg": -946.3442973940834
+      }
     }
   },
   "40 mm masked": {
@@ -65,15 +83,104 @@
     "extra_loss_min_dB": -0.5948802518532694,
     "extra_loss_max_dB": 0.28279944061803775
   },
-  "thin_strip_Zc_estimate_ohm": 51.492649338147736,
+  "simulation_comparison": {
+    "cross_section_2d": {
+      "purpose": "Coupon single-microstrip cross-section; existing solver reused",
+      "created_utc": "2026-11-02T21:18:21.107013+00:00",
+      "parameters": {
+        "W_um": 370.0,
+        "t_um": 35.0,
+        "er": 4.5,
+        "h_um": 210.4,
+        "mask_um": 0.0
+      },
+      "solver": "simulation.coupled_2d.single",
+      "solver_sha256": "4dba23339a7327d627be0a514b1023456ff5e1a599f44eca117030b59b3ddaa1",
+      "geometry_source_sha256": "be1f8208758520dcfaee34e63b57ba3264c77b9170e2f7bb68fa015e63ac2cc8",
+      "selected": "fine_wider_box",
+      "rows": [
+        {
+          "label": "coarse",
+          "grid_um": 10.0,
+          "side_padding_um": 1500.0,
+          "air_height_um": 2500.0,
+          "Zc_ohm": 48.784502241455634,
+          "eps_eff": 3.2260883569494707,
+          "represented_width_um": 370.0,
+          "represented_copper_um": 40.0,
+          "represented_dielectric_um": 210.0
+        },
+        {
+          "label": "fine",
+          "grid_um": 5.0,
+          "side_padding_um": 1500.0,
+          "air_height_um": 2500.0,
+          "Zc_ohm": 49.18045860580988,
+          "eps_eff": 3.2318912118010514,
+          "represented_width_um": 370.0,
+          "represented_copper_um": 35.0,
+          "represented_dielectric_um": 210.0
+        },
+        {
+          "label": "coarse_wider_box",
+          "grid_um": 10.0,
+          "side_padding_um": 2500.0,
+          "air_height_um": 4000.0,
+          "Zc_ohm": 48.982395718308254,
+          "eps_eff": 3.244033241088436,
+          "represented_width_um": 370.0,
+          "represented_copper_um": 40.0,
+          "represented_dielectric_um": 210.0
+        },
+        {
+          "label": "fine_wider_box",
+          "grid_um": 5.0,
+          "side_padding_um": 2500.0,
+          "air_height_um": 4000.0,
+          "Zc_ohm": 49.37516178718046,
+          "eps_eff": 3.2494795177182696,
+          "represented_width_um": 370.0,
+          "represented_copper_um": 35.0,
+          "represented_dielectric_um": 210.0
+        }
+      ],
+      "assumptions": [
+        "Uniform bare strip over continuous L2; no top ground beside its centre.",
+        "Finite copper thickness, perfect-conductor equipotentials; lossless real epsilon.",
+        "Grounded outer box is a numerical boundary, not a modelled shielding cap.",
+        "Quasi-static: no frequency dispersion; L2 pad cutouts and launches excluded.",
+        "Dielectric er=4.5 matches nominal saved 10 mm connector-inclusive FEM."
+      ]
+    },
+    "coupon_3d_file": "result_coax_open_2.8x4.8mm_5p3to6p3GHz_mesh_finer.s2p",
+    "measured_90_10_eps_difference_percent": 6.095744597499997,
+    "measured_Zin_5p8GHz_ohm": [
+      51.344732426743334,
+      -1.1528911344263153
+    ],
+    "simulated_Zin_5p8GHz_ohm": [
+      42.71264416502337,
+      -3.489422623521861
+    ],
+    "simulated_Zin_R_range_ohm": [
+      40.750375363338385,
+      50.99446338861864
+    ],
+    "simulated_Zin_X_range_ohm": [
+      -11.134819054650164,
+      -1.673419283301669
+    ]
+  },
   "source_sha256": {
-    "coupon_revB_7628_horizontal_10mm_100Mhz_6.5GHz_nanoVNA.s2p": "3abb1ce5038432aa91b434cd1653066886d1b74862dcd681f0277304f54c4aa3",
+    "coupon_revB_7628_horizontal_10mm_5.3_6.3GHz_nanoVNA.s2p": "3abb1ce5038432aa91b434cd1653066886d1b74862dcd681f0277304f54c4aa3",
     "coupon_revB_7628_horizontal_10mm_5.3_6.3GHz_nanoVNA_terminated.s1p": "568db0852a7f813481fefc90608f8c4c6ded11657327cee98d5812cb483dac17",
     "coupon_revB_7628_horizontal_40mm_5.3_6.3GHz_nanoVNA.s2p": "490571e07805f9d2083e6577c7f865cc88264663d147fa4ca8e38720dda0860b",
     "coupon_revB_7628_horizontal_40mm_5.3_6.3GHz_nanoVNA_terminated.s1p": "94e22337b920998c83fc9692e0040f2e06760b4be64530bf91df210eafba2567",
     "coupon_revB_7628_horizontal_90mm_5.3_6.3GHz_nanoVNA.s2p": "51876261edf6ab9d70ef9c4b9eb1948152ff1a2a1358cfb5680c26f72863e44c",
     "coupon_revB_7628_horizontal_90mm_5.3_6.3GHz_nanoVNA_terminated.s1p": "d155fc3e540b10666be66387fbed9908001f24b787659a7e7a97bec3f0e675c6",
     "coupon_revB_7628_horizontal_40mm_masked_5.3_6.3GHz_nanoVNA.s2p": "492e9431a6cb64fa81fae7237c216d610e111e7a73c5e3dfbd3b4c4217d101bf",
-    "coupon_revB_7628_horizontal_40mm_masked_5.3_6.3GHz_nanoVNA_terminated.s1p": "00b21329397250631f6d28a11a625f1b75955307bb7dd7f4cceec89753806b31"
+    "coupon_revB_7628_horizontal_40mm_masked_5.3_6.3GHz_nanoVNA_terminated.s1p": "00b21329397250631f6d28a11a625f1b75955307bb7dd7f4cceec89753806b31",
+    "result_line_cross_section.json": "3169f07a7e27e938604891e54be2f2ab2ee48b5fd5f9cb773a1ceb6f493a8ced",
+    "result_coax_open_2.8x4.8mm_5p3to6p3GHz_mesh_finer.s2p": "1c4904d0497c05f51110f550cefe8a273ca5cc9cfeb121bad1eed5d9bf9bb912"
   }
 }

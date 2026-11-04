@@ -6,22 +6,34 @@
       <description>Last 10 notes on FunRad</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
-    <title>FunRad Rev.A Results</title>
-    <link>https://quartz.jzhao.xyz/Generated/FunRad-Rev.A-Results</link>
-    <guid>https://quartz.jzhao.xyz/Generated/FunRad-Rev.A-Results</guid>
-    <description><![CDATA[ FunRad Rev.A — Generated Results Generated file Do not edit this page manually. Regenerate it from the executable .toyradar configuration. ]]></description>
-    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
+    <title>Coupler — measured versus simulated</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupler/Coupler-Measurement-Comparison</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupler/Coupler-Measurement-Comparison</guid>
+    <description><![CDATA[ Coupler — measured versus simulated Horizontal revision B, 5.3–6.3 GHz. ]]></description>
+    <pubDate>Wed, 04 Nov 2026 21:54:17 GMT</pubDate>
+  </item><item>
+    <title>TX Coupler EM Method</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupler/TX-Coupler-EM-Method</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupler/TX-Coupler-EM-Method</guid>
+    <description><![CDATA[ TX Coupler EM Method 5.8 GHz symmetric TX monitoring coupler · prototype candidate, not production released. ]]></description>
+    <pubDate>Wed, 04 Nov 2026 21:52:17 GMT</pubDate>
+  </item><item>
+    <title>12_LINE_PARAMETERS_AND_MASK</title>
+    <link>https://quartz.jzhao.xyz/Frontend/Coupon/12_LINE_PARAMETERS_AND_MASK</link>
+    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/12_LINE_PARAMETERS_AND_MASK</guid>
+    <description><![CDATA[ Line parameters and solder mask: revision B The measured wave travels slightly slower than our 2-D model predicts. ]]></description>
+    <pubDate>Mon, 02 Nov 2026 22:05:15 GMT</pubDate>
   </item><item>
     <title>index</title>
     <link>https://quartz.jzhao.xyz/Frontend/Coupon/</link>
     <guid>https://quartz.jzhao.xyz/Frontend/Coupon/</guid>
     <description><![CDATA[ PCB coupon: launches, measurements and EM studies Status: revision B measured. ]]></description>
-    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
+    <pubDate>Mon, 02 Nov 2026 21:32:47 GMT</pubDate>
   </item><item>
-    <title>12_LINE_PARAMETERS_AND_MASK</title>
-    <link>https://quartz.jzhao.xyz/Frontend/Coupon/12_LINE_PARAMETERS_AND_MASK</link>
-    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/12_LINE_PARAMETERS_AND_MASK</guid>
-    <description><![CDATA[ Line parameters and solder mask: revision B Result: unmasked effective permittivity is approximately 3.34–3.45. ]]></description>
+    <title>FunRad Rev.A Results</title>
+    <link>https://quartz.jzhao.xyz/Generated/FunRad-Rev.A-Results</link>
+    <guid>https://quartz.jzhao.xyz/Generated/FunRad-Rev.A-Results</guid>
+    <description><![CDATA[ FunRad Rev.A — Generated Results Generated file Do not edit this page manually. Regenerate it from the executable .toyradar configuration. ]]></description>
     <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
   </item><item>
     <title>11_REVB_MEASUREMENT_COMPARISON</title>
@@ -52,18 +64,6 @@
     <link>https://quartz.jzhao.xyz/Frontend/Coupon/09_L3_CUTOUT_RESULTS</link>
     <guid>https://quartz.jzhao.xyz/Frontend/Coupon/09_L3_CUTOUT_RESULTS</guid>
     <description><![CDATA[ L3 cutout experiment Retaining L3 is better in all four nominal comparison metrics. One new geometry, 11 new frequency solves over 5.3–6.3 GHz. ]]></description>
-    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
-  </item><item>
-    <title>10_DIELECTRIC_SENSITIVITY</title>
-    <link>https://quartz.jzhao.xyz/Frontend/Coupon/10_DIELECTRIC_SENSITIVITY</link>
-    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/10_DIELECTRIC_SENSITIVITY</guid>
-    <description><![CDATA[ Dielectric sensitivity of the selected L2 cutout Two new material sweeps, 22 new frequency solves. ]]></description>
-    <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
-  </item><item>
-    <title>05_L2_CUTOUT_RESULTS</title>
-    <link>https://quartz.jzhao.xyz/Frontend/Coupon/05_L2_CUTOUT_RESULTS</link>
-    <guid>https://quartz.jzhao.xyz/Frontend/Coupon/05_L2_CUTOUT_RESULTS</guid>
-    <description><![CDATA[ L2 cutouts beneath the launch pads: first trial One new completed sweep: two 1.6 × 4.8 mm L2 cutouts, 20 frequencies. ]]></description>
     <pubDate>Sun, 01 Nov 2026 22:26:56 GMT</pubDate>
   </item>
     </channel>
